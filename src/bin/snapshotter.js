@@ -3,10 +3,14 @@ import fs from 'fs';
 import logger from '../logger';
 
 export default class SnapShotter {
-  constructor({ gridUrl, width = 700, height = 1024 }) {
+  constructor({ gridUrl, width = 700, height = 1024, browser = 'chrome' }) {
+    const browserCapability = browser.includes('chrome')
+      ? webdriver.Capabilities.chrome
+      : webdriver.Capabilities.firefox;
+
     this.driver = new webdriver.Builder()
       .usingServer(gridUrl)
-      .withCapabilities(webdriver.Capabilities.chrome())
+      .withCapabilities(browserCapability())
       .build();
 
     this.driver

@@ -10,7 +10,11 @@ setupLogger();
 program
   .version('0.0.1')
   .command('snap')
-  .action(async () => {
+  .option(
+    '-b, --browser [browser]',
+    'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
+  )
+  .action(async options => {
     const config = {
       gridUrl: 'http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub',
       scenarios: [
@@ -28,8 +32,8 @@ program
       ]
     };
 
+    config.browser = options.browser;
     logger.info('run', 'Getting snapshots... 📸 ');
-
     await getScreenshots(SnapShotter, config);
   });
 
