@@ -1,0 +1,35 @@
+extends:
+  - airbnb-base
+  - eslint:recommended
+  - prettier
+
+plugins:
+  - import
+  - prettier
+
+env:
+  mocha: true
+
+globals:
+  should: false
+
+rules:
+  comma-dangle: 0
+  no-console: 0
+  import/extensions: 0
+  import/no-unresolved: 2
+  import/named: 2
+  import/namespace: 2
+  import/default: 2
+  import/prefer-default-export: 0
+  import/export: 2
+  prefer-arrow-callback: 2
+  prefer-const: 2
+  indent: 2
+  eol-last: 2
+  quotes:
+    - 2
+    - single
+  prettier/prettier:
+    - 2
+    - singleQuote: true

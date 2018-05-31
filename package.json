@@ -1,0 +1,53 @@
+{
+  "name": "aye-spy",
+  "version": "1.0.0",
+  "description": "A visual regression tool",
+  "main": "lib/bin/run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/ --fix",
+    "lint-staged": "lint-staged",
+    "build": "babel src --out-dir lib",
+    "prepare": "yarn build",
+    "pre-commit": "yarn lint"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "./node_modules/.bin/eslint src/* --fix",
+      "git add"
+    ]
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "bin": {
+    "ayespy": "lib/bin/run.js"
+  },
+  "repository": "git+https://github.com/L0wry/Aye-Spy.git",
+  "keywords": [
+    "visual-regression",
+    "testing",
+    "test"
+  ],
+  "author": "L0wry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/L0wry/Aye-Spy/issues"
+  },
+  "homepage": "https://github.com/L0wry/Aye-Spy#readme",
+  "dependencies": {
+    "commander": "^2.15.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+   "eslint-config-airbnb-base": "^12.1.0",
+   "eslint-config-prettier": "^2.9.0",
+   "eslint-plugin-import": "^2.11.0",
+   "eslint-plugin-prettier": "^2.6.0",
+    "lint-staged": "7.1.2",
+    "pre-commit": "1.2.2",
+    "prettier": "^1.13.3"
+  }
+}
