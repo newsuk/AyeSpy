@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 import program from 'commander';
+import logger, { setupLogger } from '../logger';
 import SnapShotter from './snapshotter';
 import getScreenshots from '../get-screenshots';
+
+setupLogger();
 
 program
   .version('0.0.1')
@@ -22,7 +25,9 @@ program
       ]
     };
 
-    getScreenshots(SnapShotter, config);
+    logger.info('run', 'Getting snapshots... 📸 ');
+
+    await getScreenshots(SnapShotter, config);
   });
 
 program.parse(process.argv);
