@@ -2,11 +2,13 @@ export default (SnapShotter, config) =>
   Promise.all(
     config.scenarios.map(scenario => {
       const snap = new SnapShotter({
-        gridUrl: 'http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub'
+        gridUrl: config.gridUrl,
+        height: scenario.height,
+        width: scenario.width
       });
 
       const promises = [];
-      promises.push(snap.takeSnap(scenario.url, scenario.label));
+      promises.push(snap.takeSnap(scenario));
       return Promise.all(promises);
     })
   );

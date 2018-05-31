@@ -12,10 +12,13 @@ program
   .command('snap')
   .action(async () => {
     const config = {
+      gridUrl: 'http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub',
       scenarios: [
         {
           url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
-          label: 'homepage'
+          label: 'homepage',
+          height: 2000,
+          width: 500
         },
         {
           url:

@@ -15,11 +15,11 @@ export default class SnapShotter {
       .setRect({ width, height });
   }
 
-  async takeSnap(url, label) {
-    logger.info(`Scenario: ${label}`, `Url: ${url}`);
-    await this.driver.get(url);
+  async takeSnap(scenario) {
+    logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
+    await this.driver.get(scenario.url);
     const screenShot = await this.driver.takeScreenshot();
-    fs.writeFileSync(`./newsnaps/${label}.png`, screenShot, 'base64');
+    fs.writeFileSync(`./newsnaps/${scenario.label}.png`, screenShot, 'base64');
     await this.driver.quit();
   }
 }
