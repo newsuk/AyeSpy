@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
 import program from 'commander';
+import logger, { setupLogger } from '../logger';
+
+setupLogger();
 
 program
   .version('0.0.1')
   .command('update')
   .action(() => {
-    console.error('we have done no work yet');
+    logger.info('run', 'we have done no work yet');
   });
 
 program.parse(process.argv);
