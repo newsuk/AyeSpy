@@ -1,0 +1,15 @@
+{
+    "gridUrl": "http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub",
+    "scenarios": [
+      {
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
+        "label": "homepage",
+        "height": 2000,
+        "width": 500
+      },
+      {
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/profile/fiona-hamilton",
+        "label": "author-profile"
+      }
+    ]
+  }
