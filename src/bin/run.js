@@ -35,7 +35,7 @@ program
   .option('c, --config [config]', 'Path to your config')
   .action(async options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
-    let comparisonData = comparisonDataConstructor(config);
+    let comparisonData = await comparisonDataConstructor(config);
 
     comparisonData = await getComparisons(comparer, comparisonData);
     await getDiffImages(createDiffs, comparisonData);
