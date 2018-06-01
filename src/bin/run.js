@@ -5,7 +5,7 @@ import path from 'path';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
-import isDifferent from '../comparer';
+import isEqual from '../comparer';
 import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 
@@ -37,9 +37,12 @@ program
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
     const comparisonData = await comparisonDataConstructor(config);
 
-    const failedScenarios = comparisonData.filter(
-      async scenario => await isDifferent(scenario)
-    );
+    const failedScenarios = [];
+
+    for (let i = 0; i < comparisonData.length; i++) {
+      const equal = await isEqual(comparisonData[i]);
+      if (!equal) failedScenarios.push(comparisonData[i]);
+    }
 
     failedScenarios.forEach(async scenario => await createDiffImage(scenario));
   });

@@ -13,6 +13,21 @@
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/profile/fiona-hamilton",
         "label": "author-profile"
+      },{
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
+        "label": "1homepage",
+        "height": 2000,
+        "width": 500
+      },{
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
+        "label": "2homepage",
+        "height": 2000,
+        "width": 500
+      },{
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
+        "label": "3homepage",
+        "height": 2000,
+        "width": 500
       }
     ]
   }
