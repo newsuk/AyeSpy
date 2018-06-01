@@ -1,6 +1,6 @@
 import looksSame from 'looks-same';
 import path from 'path';
-import logger from '../logger';
+import logger from './logger';
 
 const createDiffImage = imageData =>
   new Promise((resolve, reject) => {

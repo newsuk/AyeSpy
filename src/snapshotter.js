@@ -1,6 +1,6 @@
 import webdriver from 'selenium-webdriver';
 import fs from 'fs';
-import logger from '../logger';
+import logger from './logger';
 
 export default class SnapShotter {
   constructor({

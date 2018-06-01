@@ -3,10 +3,10 @@
 import program from 'commander';
 import path from 'path';
 import logger, { setupLogger } from '../logger';
-import SnapShotter from './snapshotter';
+import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
-import isDifferent from './comparer';
-import createDiffImage from './createDiffs';
+import isDifferent from '../comparer';
+import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 
 setupLogger();

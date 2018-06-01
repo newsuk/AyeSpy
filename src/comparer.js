@@ -1,5 +1,5 @@
 import looksSame from 'looks-same';
-import logger from '../logger';
+import logger from './logger';
 
 const isDifferent = imageData =>
   new Promise((resolve, reject) => {
