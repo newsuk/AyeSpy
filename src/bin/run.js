@@ -5,7 +5,11 @@ import path from 'path';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from './snapshotter';
 import getScreenshots from '../get-screenshots';
-import { compare, createDiffImage } from './comparer';
+import getComparisons from '../get-comparisons';
+import getDiffImages from '../get-diffImages';
+import comparer from './comparer';
+import createDiffs from './createDiffs';
+import comparisonDataConstructor from '../comparisonDataConstructor';
 
 setupLogger();
 
@@ -22,23 +26,19 @@ program
 
     config.browser = options.browser;
 
-    console.log(config);
     logger.info('run', 'Getting snapshots... 📸 ');
     await getScreenshots(SnapShotter, config);
   });
 
-program.command('compare').action(async () => {
-  var imageData = {
-    label: 'homepage',
-    baseline: './baseline/homepage.png',
-    latest: './latest/homepage.png',
-    tolerance: 5,
-    diffDirectory: './generatedDiffs/'
-  };
+program
+  .command('compare')
+  .option('c, --config [config]', 'Path to your config')
+  .action(async options => {
+    const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    let comparisonData = comparisonDataConstructor(config);
 
-  imageData = await compare(imageData);
-
-  await createDiffImage(imageData);
-});
+    comparisonData = await getComparisons(comparer, comparisonData);
+    await getDiffImages(createDiffs, comparisonData);
+  });
 
 program.parse(process.argv);

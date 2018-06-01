@@ -3,7 +3,14 @@ import fs from 'fs';
 import logger from '../logger';
 
 export default class SnapShotter {
-  constructor({ gridUrl, width = 700, height = 1024, browser = 'chrome' }) {
+  constructor({
+    latest,
+    gridUrl,
+    width = 700,
+    height = 1024,
+    browser = 'chrome'
+  }) {
+    this.latest = latest;
     const browserCapability = browser.includes('chrome')
       ? webdriver.Capabilities.chrome
       : webdriver.Capabilities.firefox;
@@ -23,7 +30,11 @@ export default class SnapShotter {
     logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
     await this.driver.get(scenario.url);
     const screenShot = await this.driver.takeScreenshot();
-    fs.writeFileSync(`./newsnaps/${scenario.label}.png`, screenShot, 'base64');
+    fs.writeFileSync(
+      `${this.latest}/${scenario.label}.png`,
+      screenShot,
+      'base64'
+    );
     await this.driver.quit();
   }
 }
