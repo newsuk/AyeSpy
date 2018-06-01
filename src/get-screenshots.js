@@ -2,6 +2,7 @@ export default (SnapShotter, config) =>
   Promise.all(
     config.scenarios.map(scenario => {
       const snap = new SnapShotter({
+        latest: config.latest,
         browser: config.browser,
         gridUrl: config.gridUrl,
         height: scenario.height,

@@ -3,9 +3,11 @@
 import program from 'commander';
 import path from 'path';
 import logger, { setupLogger } from '../logger';
-import SnapShotter from './snapshotter';
+import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
-import { compare, createDiffImage } from './comparer';
+import isEqual from '../comparer';
+import createDiffImage from '../createDiffs';
+import comparisonDataConstructor from '../comparisonDataConstructor';
 
 setupLogger();
 
@@ -22,23 +24,27 @@ program
 
     config.browser = options.browser;
 
-    console.log(config);
+    //TODO: check and create dirs
+
     logger.info('run', 'Getting snapshots... 📸 ');
     await getScreenshots(SnapShotter, config);
   });
 
-program.command('compare').action(async () => {
-  var imageData = {
-    label: 'homepage',
-    baseline: './baseline/homepage.png',
-    latest: './latest/homepage.png',
-    tolerance: 5,
-    diffDirectory: './generatedDiffs/'
-  };
+program
+  .command('compare')
+  .option('c, --config [config]', 'Path to your config')
+  .action(async options => {
+    const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    const comparisonData = await comparisonDataConstructor(config);
 
-  imageData = await compare(imageData);
+    const failedScenarios = [];
 
-  await createDiffImage(imageData);
-});
+    for (let i = 0; i < comparisonData.length; i++) {
+      const equal = await isEqual(comparisonData[i]);
+      if (!equal) failedScenarios.push(comparisonData[i]);
+    }
+
+    failedScenarios.forEach(async scenario => await createDiffImage(scenario));
+  });
 
 program.parse(process.argv);
