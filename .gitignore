@@ -13,4 +13,6 @@ yarn-error.log
 # babeled stuff
 lib/**
 
-newsnaps/
+latest/
+baseline/
+generatedDiffs

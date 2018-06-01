@@ -5,6 +5,7 @@ import path from 'path';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from './snapshotter';
 import getScreenshots from '../get-screenshots';
+import { compare, createDiffImage } from './comparer';
 
 setupLogger();
 
@@ -25,5 +26,19 @@ program
     logger.info('run', 'Getting snapshots... 📸 ');
     await getScreenshots(SnapShotter, config);
   });
+
+program.command('compare').action(async () => {
+  var imageData = {
+    label: 'homepage',
+    baseline: './baseline/homepage.png',
+    latest: './latest/homepage.png',
+    tolerance: 5,
+    diffDirectory: './generatedDiffs/'
+  };
+
+  imageData = await compare(imageData);
+
+  await createDiffImage(imageData);
+});
 
 program.parse(process.argv);
