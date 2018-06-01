@@ -1,8 +1,8 @@
 {
     "gridUrl": "http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub",
-    "baseline": "./baseline",
-    "latest": "./latest",
-    "generatedDiffs": "./generatedDiffs",
+    "baseline": "./e2eTests/baseline",
+    "latest": "./e2eTests/latest",
+    "generatedDiffs": "./e2eTests/generatedDiffs",
     "scenarios": [
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",

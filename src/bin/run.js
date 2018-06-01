@@ -26,6 +26,8 @@ program
 
     config.browser = options.browser;
 
+    //TODO: check and create dirs
+
     logger.info('run', 'Getting snapshots... 📸 ');
     await getScreenshots(SnapShotter, config);
   });
@@ -37,8 +39,10 @@ program
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
     let comparisonData = await comparisonDataConstructor(config);
 
-    comparisonData = await getComparisons(comparer, comparisonData);
-    await getDiffImages(createDiffs, comparisonData);
+
+    console.log(comparisonData)
+    // comparisonData = await getComparisons(comparer, comparisonData);
+    // await getDiffImages(createDiffs, comparisonData);
   });
 
 program.parse(process.argv);

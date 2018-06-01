@@ -1,9 +1,9 @@
 import fs from 'fs';
 import logger from './logger';
 
-const validateScenarioData = async comparisonData =>
+const validateScenarioData = comparisonData =>
   new Promise(resolve => {
-    comparisonData.map(imageData => {
+    comparisonData.forEach(imageData => {
       if (!fs.existsSync(imageData.baseline)) {
         logger.error(
           'comparison data construction',
@@ -19,25 +19,27 @@ const validateScenarioData = async comparisonData =>
         );
         process.exit(1);
       }
-      resolve(comparisonData);
     });
+    resolve();
   });
 
-const createImageObject = async scenarioData =>
+const comparisonDataConstructor = config =>
   new Promise(async resolve => {
     const comparisonData = [];
-    scenarioData.scenarios.map(scenario => {
+    config.scenarios.map(scenario => {
       const data = {
         label: scenario.label,
-        baseline: `${scenarioData.baseline}/${scenario.label}.png`,
-        latest: `${scenarioData.latest}/${scenario.label}.png`,
-        generatedDiffs: `${scenarioData.generatedDiffs}/${scenario.label}.png`,
+        baseline: `${config.baseline}/${scenario.label}.png`,
+        latest: `${config.latest}/${scenario.label}.png`,
+        generatedDiffs: `${config.generatedDiffs}/${scenario.label}.png`,
         tolerance: scenario.tolerance ? scenario.tolerance : 0
       };
 
       comparisonData.push(data);
     });
-    resolve(await validateScenarioData(comparisonData));
+
+    await validateScenarioData(comparisonData);
+    resolve(comparisonData);
   });
 
-export default createImageObject;
+export default comparisonDataConstructor;
