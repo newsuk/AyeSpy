@@ -13,6 +13,11 @@ yarn-error.log
 # babeled stuff
 lib/**
 
+
+# jest 
+coverage/*
+
 latest/
 baseline/
 generatedDiffs
+
