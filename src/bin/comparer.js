@@ -1,7 +1,7 @@
 import looksSame from 'looks-same';
 import logger from '../logger';
 
-const compare = imageData =>
+const isDifferent = imageData =>
   new Promise((resolve, reject) => {
     looksSame(
       imageData.baseline,
@@ -20,10 +20,10 @@ const compare = imageData =>
           'comparer',
           `${imageData.label} comparison status is: ${equal}`
         );
-        imageData.equal = equal;
-        resolve(imageData);
+
+        resolve(equal);
       }
     );
   });
 
-export default compare;
+export default isDifferent;

@@ -5,10 +5,8 @@ import path from 'path';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from './snapshotter';
 import getScreenshots from '../get-screenshots';
-import getComparisons from '../get-comparisons';
-import getDiffImages from '../get-diffImages';
-import comparer from './comparer';
-import createDiffs from './createDiffs';
+import isDifferent from './comparer';
+import createDiffImage from './createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 
 setupLogger();
@@ -37,12 +35,13 @@ program
   .option('c, --config [config]', 'Path to your config')
   .action(async options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
-    let comparisonData = await comparisonDataConstructor(config);
+    const comparisonData = await comparisonDataConstructor(config);
 
+    const failedScenarios = comparisonData.filter(
+      async scenario => await isDifferent(scenario)
+    );
 
-    console.log(comparisonData)
-    // comparisonData = await getComparisons(comparer, comparisonData);
-    // await getDiffImages(createDiffs, comparisonData);
+    failedScenarios.forEach(async scenario => await createDiffImage(scenario));
   });
 
 program.parse(process.argv);
