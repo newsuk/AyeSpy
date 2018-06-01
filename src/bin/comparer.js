@@ -18,7 +18,7 @@ const isDifferent = imageData =>
         }
         logger.info(
           'comparer',
-          `${imageData.label} comparison status is: ${equal}`
+          `Comparison result for: ${imageData.label} is ${equal}`
         );
 
         resolve(equal);
