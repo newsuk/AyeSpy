@@ -8,6 +8,7 @@ import getScreenshots from '../get-screenshots';
 import isEqual from '../comparer';
 import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
+import updateBaselineShots from '../update-baseline-shots';
 
 setupLogger();
 
@@ -28,6 +29,17 @@ program
 
     logger.info('run', 'Getting snapshots... 📸 ');
     await getScreenshots(SnapShotter, config);
+  });
+
+program
+  .command('update-baseline')
+  .option('c, --config [config]', 'Path to your config')
+  .action(async options => {
+    const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+
+    await updateBaselineShots(config).catch(error => {
+      logger.error('run', error);
+    });
   });
 
 program
