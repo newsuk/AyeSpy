@@ -7,6 +7,8 @@ import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
 import isEqual from '../comparer';
+
+import createDirectories from '../create-directories';
 import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 import updateBaselineShots from '../update-baseline-shots';
@@ -26,7 +28,8 @@ program
 
     config.browser = options.browser;
     logger.info('run', 'Getting snapshots... 📸 ');
-    await getScreenshots(fs, SnapShotter, config);
+    createDirectories(fs, config);
+    await getScreenshots(SnapShotter, config);
   });
 
 program
@@ -35,6 +38,7 @@ program
   .action(async options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
+    createDirectories(fs, config);
     await updateBaselineShots(fs, config).catch(error => {
       logger.error('run', error);
     });
@@ -45,6 +49,7 @@ program
   .option('c, --config [config]', 'Path to your config')
   .action(async options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    createDirectories(fs, config);
     const comparisonData = await comparisonDataConstructor(config);
 
     const failedScenarios = [];
@@ -55,6 +60,8 @@ program
     }
 
     failedScenarios.forEach(async scenario => await createDiffImage(scenario));
+
+    //TODO: write logger to fail builds
   });
 
 program.parse(process.argv);
