@@ -20,10 +20,6 @@ export default (fs, config) =>
       const src = path.resolve(dirPath, latestSnaps[i]);
       const destination = path.resolve(config.baseline, latestSnaps[i]);
 
-      fs.access(config.baseline, err => {
-        if (err) fs.mkdirSync(destination);
-      });
-
       fs.copyFileSync(src, destination);
     }
 
