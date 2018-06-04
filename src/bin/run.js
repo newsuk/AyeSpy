@@ -2,6 +2,7 @@
 
 import program from 'commander';
 import path from 'path';
+import fs from 'fs';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
@@ -37,7 +38,7 @@ program
   .action(async options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
-    await updateBaselineShots(config).catch(error => {
+    await updateBaselineShots(fs, config).catch(error => {
       logger.error('run', error);
     });
   });
