@@ -2,6 +2,7 @@
 
 import program from 'commander';
 import path from 'path';
+import fs from 'fs';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
@@ -24,11 +25,8 @@ program
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
     config.browser = options.browser;
-
-    //TODO: check and create dirs
-
     logger.info('run', 'Getting snapshots... 📸 ');
-    await getScreenshots(SnapShotter, config);
+    await getScreenshots(fs, SnapShotter, config);
   });
 
 program
