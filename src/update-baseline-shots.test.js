@@ -1,6 +1,5 @@
 /* globals jest describe it expect */
 
-import path from 'path';
 import updateBaselineShots from './update-baseline-shots';
 
 describe('update baseline shots', () => {
@@ -55,27 +54,5 @@ describe('update baseline shots', () => {
     await updateBaselineShots(mockFs, config).catch(err => {
       expect(err).toContain(config.latest);
     });
-  });
-
-  it('checks and creates the destination directory', async () => {
-    const config = {
-      baseline: 'baseline',
-      latest: 'latest'
-    };
-    mockFs.readdirSync = () => ['1'];
-    mockFs.mkdirSync = jest.fn();
-    mockFs.access = (destination, callback) => callback('err');
-
-    await updateBaselineShots(mockFs, config).catch(err => {
-      console.log(err);
-    });
-
-    const fileName = path.resolve(
-      __dirname,
-      config.baseline,
-      mockFs.readdirSync()[0]
-    );
-
-    expect(mockFs.mkdirSync.mock.calls).toBe([[fileName]]);
   });
 });
