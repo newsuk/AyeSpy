@@ -41,16 +41,15 @@ export default class SnapShotter {
   }
 
   async takeSnap(scenario) {
+    const timeout = 10000;
     logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
     await this.driver.get(scenario.url);
 
     if (scenario.cookies) {
       for (let i = 0; i < scenario.cookies.length; i++) {
-        const cookie = scenario.cookies[i];
+        const { name, value } = scenario.cookies[i];
 
-        await this.driver
-          .manage()
-          .addCookie({ name: cookie.name, value: cookie.value });
+        await this.driver.manage().addCookie({ name, value });
       }
 
       await this.driver.get(scenario.url);
@@ -64,7 +63,7 @@ export default class SnapShotter {
       const element = await this.driver.findElement(
         By.css(scenario.waitForSelector)
       );
-      await this.driver.wait(until.elementIsVisible(element), 10000);
+      await this.driver.wait(until.elementIsVisible(element), timeout);
     }
 
     const screenShot = await this._driver.takeScreenshot();
