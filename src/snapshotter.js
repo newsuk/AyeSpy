@@ -63,7 +63,14 @@ export default class SnapShotter {
       const element = await this.driver.findElement(
         By.css(scenario.waitForSelector)
       );
-      await this.driver.wait(until.elementIsVisible(element), timeout);
+      await this.driver
+        .wait(until.elementIsVisible(element), timeout)
+        .catch(error => {
+          logger.error(
+            'snapshotter',
+            `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+          );
+        });
     }
 
     const screenShot = await this._driver.takeScreenshot();
