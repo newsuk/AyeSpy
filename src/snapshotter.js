@@ -30,9 +30,24 @@ export default class SnapShotter {
     return this._driver;
   }
 
+  async removeSelectors(selectors) {
+    for (let i = 0; i < selectors.length; i++) {
+      const script = `$('${
+        selectors[i]
+      }').forEach(element => element.style.display = "none")`;
+
+      await this._driver.executeScript(script);
+    }
+  }
+
   async takeSnap(scenario) {
     logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
     await this.driver.get(scenario.url);
+
+    if (scenario.removeSelectors) {
+      await this.removeSelectors(scenario.removeSelectors);
+    }
+
     const screenShot = await this._driver.takeScreenshot();
     fs.writeFileSync(
       `${this.latest}/${scenario.label}.png`,
