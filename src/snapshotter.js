@@ -1,4 +1,4 @@
-import webdriver from 'selenium-webdriver';
+import webdriver, { By, until } from 'selenium-webdriver';
 import fs from 'fs';
 import logger from './logger';
 
@@ -46,6 +46,13 @@ export default class SnapShotter {
 
     if (scenario.removeSelectors) {
       await this.removeSelectors(scenario.removeSelectors);
+    }
+
+    if (scenario.waitForSelector) {
+      const element = await this.driver.findElement(
+        By.css(scenario.waitForSelector)
+      );
+      await this.driver.wait(until.elementIsVisible(element), 10000);
     }
 
     const screenShot = await this._driver.takeScreenshot();
