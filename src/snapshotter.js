@@ -44,6 +44,18 @@ export default class SnapShotter {
     logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
     await this.driver.get(scenario.url);
 
+    if (scenario.cookies) {
+      for (let i = 0; i < scenario.cookies.length; i++) {
+        const cookie = scenario.cookies[i];
+
+        await this.driver
+          .manage()
+          .addCookie({ name: cookie.name, value: cookie.value });
+      }
+
+      await this.driver.get(scenario.url);
+    }
+
     if (scenario.removeSelectors) {
       await this.removeSelectors(scenario.removeSelectors);
     }

@@ -10,7 +10,13 @@
         "height": 2400,
         "width": 1024,
         "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/c6d10be60c701faaff6039ed719483ec086878fd.jpg?crop=780%2C520%2C0%2C0&resize=498\"]"      
+        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/c6d10be60c701faaff6039ed719483ec086878fd.jpg?crop=780%2C520%2C0%2C0&resize=498\"]",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ]
       },
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/profile/fiona-hamilton",
@@ -23,7 +29,13 @@
         "height": 2400,
         "width": 1024,
         "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/c6d10be60c701faaff6039ed719483ec086878fd.jpg?crop=780%2C520%2C0%2C0&resize=498\"]"      
+        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/c6d10be60c701faaff6039ed719483ec086878fd.jpg?crop=780%2C520%2C0%2C0&resize=498\"]",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ]
       },
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
@@ -31,7 +43,13 @@
         "height": 2000,
         "width": 500,
         "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/0d5fa06d6b10cfbbc2dade5f0d7b0271fccd994b.jpg?crop=520%2C520%2C130%2C0&resize=160\"]"
+        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/0d5fa06d6b10cfbbc2dade5f0d7b0271fccd994b.jpg?crop=520%2C520%2C130%2C0&resize=160\"]",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ]
       },
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
@@ -39,7 +57,13 @@
         "height": 2000,
         "width": 500,
         "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/0d5fa06d6b10cfbbc2dade5f0d7b0271fccd994b.jpg?crop=520%2C520%2C130%2C0&resize=160\"]"
+        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/0d5fa06d6b10cfbbc2dade5f0d7b0271fccd994b.jpg?crop=520%2C520%2C130%2C0&resize=160\"]",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ]
       }
     ]
   }
