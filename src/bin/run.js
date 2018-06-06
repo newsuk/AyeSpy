@@ -67,7 +67,7 @@ program
 program
   .command('generate-report')
   .option('c, --config [config]', 'Path to your config')
-  .action(async options => {
+  .action(options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
     generateReport(config);
   });

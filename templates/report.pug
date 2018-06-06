@@ -10,9 +10,9 @@ div(class='wrapper')
   each report in reportsData
       div
         h3(class='header') #{report.label}
-        a(class='snap' href=report.baseline) 
+        a(href=report.baseline) 
             img(class='screenshot', src=report.baseline)
-        a(class='snap' href=report.latest) 
+        a(href=report.latest) 
             img(class='screenshot', src=report.latest)
-        a(class='snap' href=report.comparison) 
-        img(class='screenshot', src=report.comparison)
+        a(href=report.comparison) 
+            img(class='screenshot', src=report.generatedDiff)

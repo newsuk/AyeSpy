@@ -4,7 +4,7 @@ import fs from 'fs';
 import logger from './logger';
 
 const createReportData = config => {
-  const reportsData = [];
+  const report = [];
 
   for (let i = 0; i < config.scenarios.length; i++) {
     const imageName = `${config.scenarios[i].label}.png`;
@@ -23,13 +23,13 @@ const createReportData = config => {
         label: config.scenarios[i].label,
         baseline: baselinePath,
         latest: latestPath,
-        comparison: generatedDiffsPath
+        generatedDiff: generatedDiffsPath
       };
 
-      reportsData.push(scenarioData);
+      report.push(scenarioData);
     }
   }
-  return reportsData;
+  return report;
 };
 
 export default async config => {
@@ -37,10 +37,10 @@ export default async config => {
 
   const templatePath = path.join(__dirname, '../templates/report.pug');
   const compileTemplate = pug.compileFile(templatePath);
-  const dextrosePresentation = compileTemplate({ reportsData });
+  const reportPresentation = compileTemplate({ reportsData });
   const reportDir = path.resolve(config.report);
 
-  if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir);
-  fs.writeFileSync(`${reportDir}/index.html`, dextrosePresentation);
+  if (!fs.access(reportDir)) fs.mkdirSync(reportDir);
+  fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
   logger.info('generate-report', 'successfully created report!');
 };
