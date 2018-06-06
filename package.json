@@ -22,7 +22,8 @@
     ]
   },
   "pre-commit": [
-    "lint-staged"
+    "lint-staged",
+    "test"
   ],
   "bin": {
     "ayespy": "lib/bin/run.js"
