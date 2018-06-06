@@ -12,6 +12,7 @@ import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 import updateBaselineShots from '../update-baseline-shots';
 import generateReport from '../generateReport';
+import uploadRemote from '../uploadRemote';
 
 setupLogger();
 
@@ -23,6 +24,7 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
@@ -30,6 +32,7 @@ program
     logger.info('run', 'Getting snapshots... 📸 ');
     createDirectories(fs, config);
     await getScreenshots(SnapShotter, config);
+    if (options.remote) await uploadRemote(config, 'latest');
   });
 
 program

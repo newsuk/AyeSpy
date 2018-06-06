@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/L0wry/Aye-Spy#readme",
   "dependencies": {
+    "aws-sdk": "^2.252.1",
     "commander": "^2.15.1",
     "looks-same": "^3.3.0",
     "npmlog": "^4.1.2",
