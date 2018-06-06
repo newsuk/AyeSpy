@@ -8,7 +8,7 @@ h1(class='title') AyeSpy Comparison Report
 
 div(class='wrapper')
   each report in reportsData
-      div(class=`box-${colour}`)
+      div
         h3(class='header') #{report.label}
         a(class='snap' href=report.baseline) 
             img(class='screenshot', src=report.baseline)
