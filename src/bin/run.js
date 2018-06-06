@@ -7,11 +7,11 @@ import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
 import getScreenshots from '../get-screenshots';
 import isEqual from '../comparer';
-
 import createDirectories from '../create-directories';
 import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 import updateBaselineShots from '../update-baseline-shots';
+import generateReport from '../generateReport';
 
 setupLogger();
 
@@ -62,6 +62,14 @@ program
     failedScenarios.forEach(async scenario => await createDiffImage(scenario));
 
     //TODO: write logger to fail builds
+  });
+
+program
+  .command('generate-report')
+  .option('c, --config [config]', 'Path to your config')
+  .action(async options => {
+    const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    generateReport(config);
   });
 
 program.parse(process.argv);

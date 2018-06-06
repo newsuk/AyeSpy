@@ -3,6 +3,7 @@
     "baseline": "./e2eTests/baseline",
     "latest": "./e2eTests/latest",
     "generatedDiffs": "./e2eTests/generatedDiffs",
+    "report": "./e2eTests/reports",
     "scenarios": [
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
