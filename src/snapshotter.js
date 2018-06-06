@@ -1,4 +1,4 @@
-import webdriver from 'selenium-webdriver';
+import webdriver, { By, until } from 'selenium-webdriver';
 import fs from 'fs';
 import logger from './logger';
 
@@ -41,11 +41,36 @@ export default class SnapShotter {
   }
 
   async takeSnap(scenario) {
+    const timeout = 10000;
     logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
     await this.driver.get(scenario.url);
 
+    if (scenario.cookies) {
+      for (let i = 0; i < scenario.cookies.length; i++) {
+        const { name, value } = scenario.cookies[i];
+
+        await this.driver.manage().addCookie({ name, value });
+      }
+
+      await this.driver.get(scenario.url);
+    }
+
     if (scenario.removeSelectors) {
       await this.removeSelectors(scenario.removeSelectors);
+    }
+
+    if (scenario.waitForSelector) {
+      const element = await this.driver.findElement(
+        By.css(scenario.waitForSelector)
+      );
+      await this.driver
+        .wait(until.elementIsVisible(element), timeout)
+        .catch(error => {
+          logger.error(
+            'snapshotter',
+            `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+          );
+        });
     }
 
     const screenShot = await this._driver.takeScreenshot();
