@@ -29,11 +29,6 @@ const createReportData = config => {
       reportsData.push(scenarioData);
     }
   }
-
-  logger.info(
-    'generate-report',
-    `full array of reports data is ${reportsData}`
-  );
   return reportsData;
 };
 
