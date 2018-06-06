@@ -8,7 +8,7 @@
     "test:e2e:compare": "yarn build && node lib/bin/run.js compare --config e2eTests/config.json",
     "test:e2e:update": "yarn build && node lib/bin/run.js update-baseline --config e2eTests/config.json",
     "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --config e2eTests/config.json",
-    "test": "./node_modules/.bin/jest ./lib",
+    "test": "yarn build && ./node_modules/.bin/jest ./lib",
     "lint": "eslint src/ --fix",
     "lint-staged": "lint-staged",
     "build": "babel src --out-dir lib",
