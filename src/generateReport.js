@@ -40,7 +40,7 @@ export default async config => {
   const reportPresentation = compileTemplate({ reportsData });
   const reportDir = path.resolve(config.report);
 
-  if (!fs.access(reportDir)) fs.mkdirSync(reportDir);
+  if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir);
   fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
   logger.info('generate-report', 'successfully created report!');
 };
