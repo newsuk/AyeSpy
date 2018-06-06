@@ -1,0 +1,23 @@
+body {
+    background-color: #DEDEDE;
+  }
+
+  .title {
+    font-family: Courier New, Courier, monospace;
+    text-align: center;
+  }
+  
+  .wrapper {
+    text-align: center;
+  }
+  
+  .screenshot {
+    width: 400px;
+    padding-right: 50px;
+  }
+
+  .header {
+    padding-bottom: 40px;
+    font-family: Courier New, Courier, monospace;
+    text-align: center;
+  }
