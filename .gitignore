@@ -20,4 +20,4 @@ coverage/*
 latest/
 baseline/
 generatedDiffs
-
+reports/
