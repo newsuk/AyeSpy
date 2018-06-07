@@ -69,6 +69,8 @@ program
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
     config.browser = options.browser;
 
+    createDirectories(fs, config);
+
     if (options.remote) {
       for (let i = 0; i < config.scenarios.length; i++) {
         await fetchRemote(
@@ -79,16 +81,15 @@ program
       }
     }
 
-    createDirectories(fs, config);
     const comparisonData = await comparisonDataConstructor(config);
-    const failedScenarios = [];
 
     for (let i = 0; i < comparisonData.length; i++) {
-      const equal = await isEqual(comparisonData[i]);
-      if (!equal) failedScenarios.push(comparisonData[i]);
+      if (!(await isEqual(comparisonData[i]))) {
+        await createDiffImage(comparisonData[i]);
+      }
     }
 
-    failedScenarios.forEach(async scenario => await createDiffImage(scenario));
+    if (options.remote) await uploadRemote(config, 'generatedDiffs');
 
     //TODO: write logger to fail builds
   });
