@@ -11,7 +11,7 @@ import createDirectories from '../create-directories';
 import createDiffImage from '../createDiffs';
 import comparisonDataConstructor from '../comparisonDataConstructor';
 import updateBaselineShots from '../update-baseline-shots';
-import generateReport from '../generateReport';
+import { generateLocalReport, generateRemoteReport } from '../generateReport';
 import uploadRemote from '../uploadRemote';
 import fetchRemote from '../fetchRemote';
 
@@ -97,8 +97,19 @@ program
 program
   .command('generate-report')
   .option('c, --config [config]', 'Path to your config')
+  .option('r, --remote', 'Upload new baseline to remote storage')
+  .option(
+    '-b, --browser [browser]',
+    'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
+  )
   .action(options => {
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    config.browser = options.browser;
+
+    const generateReport = options.remote
+      ? generateRemoteReport
+      : generateLocalReport;
+
     generateReport(config);
   });
 

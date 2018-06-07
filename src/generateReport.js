@@ -1,5 +1,6 @@
 import pug from 'pug';
 import path from 'path';
+import AWS from 'aws-sdk';
 import fs from 'fs';
 import logger from './logger';
 
@@ -31,8 +32,22 @@ const createReportData = config => {
   }
   return report;
 };
+const createRemoteReportData = (url, diffs) =>
+  diffs.map(diff => {
+    const scenarioNameChunks = diff.Key.split('/');
+    const scenarioName = scenarioNameChunks[
+      scenarioNameChunks.length - 1
+    ].split('.png')[0];
 
-export default async config => {
+    return {
+      label: scenarioName,
+      baseline: `${url}baseline/${diff.Key}`,
+      latest: `${url}latest/${diff.Key}`,
+      generatedDiff: `${url}generatedDiff/${diff.Key}`
+    };
+  });
+
+const generateLocalReport = async config => {
   const reportsData = createReportData(config);
 
   const templatePath = path.join(__dirname, '../templates/report.pug');
@@ -44,3 +59,25 @@ export default async config => {
   fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
   logger.info('generate-report', 'successfully created report!');
 };
+
+const generateRemoteReport = async config =>
+  new Promise((resolve, reject) => {
+    const s3 = new AWS.S3();
+    const params = { Bucket: config.remoteBucketName };
+
+    s3.listObjectsV2(params, (error, data) => {
+      if (error) reject(error);
+
+      const diffs = data.Contents.filter(item =>
+        item.Key.includes(`${config.browser}/generatedDiffs`)
+      );
+
+      const url = s3.endpoint.href;
+
+      console.log(createRemoteReportData(url, diffs));
+
+      resolve();
+    });
+  });
+
+export { generateLocalReport, generateRemoteReport };
