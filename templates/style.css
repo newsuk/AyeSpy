@@ -1,10 +1,11 @@
 body {
-    background-color: #DEDEDE;
+    background-color: #302d52;
   }
 
   .title {
     font-family: Courier New, Courier, monospace;
     text-align: center;
+    color: white;
   }
   
   .wrapper {
@@ -13,11 +14,36 @@ body {
   
   .screenshot {
     width: 400px;
-    padding-right: 50px;
   }
 
-  .header {
-    padding-bottom: 40px;
+  .scenario {
     font-family: Courier New, Courier, monospace;
     text-align: center;
+  }
+
+  .column {
+    float: left;
+    width: 33.33%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .box-light {
+    background-color: #bbc7c5;
+    font-family: Courier New, Courier, monospace;
+    size: 14px;
+    padding-bottom: 30;
+    padding-top: 10;
+  }
+  
+  .box-dark {
+    padding-bottom: 30;
+    padding-top: 10;
+    background-color: #9fb5b1;
+    font-family: Courier New, Courier, monospace;
+    size: 14px;
   }
