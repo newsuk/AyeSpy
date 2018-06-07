@@ -49,7 +49,6 @@ const generateLocalReport = async config =>
   writeReport(config, createReportData(config));
 
 const writeReport = (config, reportsData) => {
-  console.log(reportsData);
   const templatePath = path.join(__dirname, '../templates/report.pug');
   const compileTemplate = pug.compileFile(templatePath);
   const reportPresentation = compileTemplate({ reportsData });
@@ -58,6 +57,7 @@ const writeReport = (config, reportsData) => {
   if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir);
   fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
   logger.info('generate-report', 'successfully created report!');
+  return `${reportDir}/index.html`;
 };
 
 const generateRemoteReport = async config =>
@@ -75,7 +75,31 @@ const generateRemoteReport = async config =>
 
       const url = `${s3.endpoint.href}${config.remoteBucketName}/`;
 
-      writeReport(config, createRemoteReportData(url, diffs));
+      const reportFile = writeReport(
+        config,
+        createRemoteReportData(url, diffs)
+      );
+
+      const fileStream = fs.createReadStream(reportFile);
+
+      const uploadParams = {
+        Bucket: config.remoteBucketName,
+        Key: `${config.browser}/${path.basename(reportFile)}`,
+        Body: fileStream,
+        ContentType: 'text/html'
+      };
+
+      s3.putObject(uploadParams, (err, data) => {
+        if (err) {
+          logger.error(
+            'upload-remote',
+            `${path.basename(reportFile)} : ❌  ${err}`
+          );
+        }
+        if (data) {
+          logger.info('upload-remote', `${path.basename(reportFile)} : ✅`);
+        }
+      });
 
       resolve();
     });
