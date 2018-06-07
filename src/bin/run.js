@@ -13,6 +13,7 @@ import comparisonDataConstructor from '../comparisonDataConstructor';
 import updateBaselineShots from '../update-baseline-shots';
 import generateReport from '../generateReport';
 import uploadRemote from '../uploadRemote';
+import fetchRemote from '../fetchRemote';
 
 setupLogger();
 
@@ -37,24 +38,49 @@ program
 
 program
   .command('update-baseline')
+  .option(
+    '-b, --browser [browser]',
+    'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
+  )
   .option('c, --config [config]', 'Path to your config')
+  .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
+    if (!options.browser) throw 'no browser specified';
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    config.browser = options.browser;
 
     createDirectories(fs, config);
     await updateBaselineShots(fs, config).catch(error => {
       logger.error('run', error);
     });
+    if (options.remote) await uploadRemote(config, 'baseline');
   });
 
 program
   .command('compare')
+  .option(
+    '-b, --browser [browser]',
+    'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
+  )
   .option('c, --config [config]', 'Path to your config')
+  .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
+    if (!options.browser) throw 'no browser specified';
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+    config.browser = options.browser;
+
+    if (options.remote) {
+      for (let i = 0; i < config.scenarios.length; i++) {
+        await fetchRemote(
+          config,
+          'baseline',
+          `${config.scenarios[i].label}.png`
+        );
+      }
+    }
+
     createDirectories(fs, config);
     const comparisonData = await comparisonDataConstructor(config);
-
     const failedScenarios = [];
 
     for (let i = 0; i < comparisonData.length; i++) {

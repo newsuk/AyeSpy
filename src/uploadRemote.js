@@ -10,7 +10,7 @@ export default (config, key) =>
 
     let imageDir;
     if (key === 'latest') imageDir = path.resolve(config.latest);
-    if (key === 'baseline') imageDir = path.resolve(config.basename);
+    if (key === 'baseline') imageDir = path.resolve(config.baseline);
     if (key === 'generatedDiffs')
       imageDir = path.resolve(config.generatedDiffs);
     if (!imageDir) reject('The ket did not match any of the available options');
@@ -36,12 +36,10 @@ export default (config, key) =>
 
         const uploadParams = {
           Bucket: config.remoteBucketName,
-          Key: `${key}/${path.basename(file)}`,
+          Key: `${config.browser}/${key}/${path.basename(file)}`,
           Body: fileStream,
           ContentType: 'image/png'
         };
-
-        console.log(uploadParams);
 
         s3.putObject(uploadParams, (err, data) => {
           if (err) {
