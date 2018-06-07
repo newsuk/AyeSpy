@@ -34,22 +34,22 @@ const createReportData = config => {
 };
 const createRemoteReportData = (url, diffs) =>
   diffs.map(diff => {
-    const scenarioNameChunks = diff.Key.split('/');
-    const scenarioName = scenarioNameChunks[
-      scenarioNameChunks.length - 1
-    ].split('.png')[0];
+    const [browser, key, scenario] = diff.Key.split('/'); //eslint-disable-line no-unused-vars
+    const scenarioName = scenario.split('.png')[0];
 
     return {
       label: scenarioName,
-      baseline: `${url}baseline/${diff.Key}`,
-      latest: `${url}latest/${diff.Key}`,
-      generatedDiff: `${url}generatedDiff/${diff.Key}`
+      baseline: `${url}${browser}/baseline/${scenario}`,
+      latest: `${url}${browser}/latest/${scenario}`,
+      generatedDiff: `${url}${browser}/generatedDiffs/${scenario}`
     };
   });
 
-const generateLocalReport = async config => {
-  const reportsData = createReportData(config);
+const generateLocalReport = async config =>
+  writeReport(config, createReportData(config));
 
+const writeReport = (config, reportsData) => {
+  console.log(reportsData);
   const templatePath = path.join(__dirname, '../templates/report.pug');
   const compileTemplate = pug.compileFile(templatePath);
   const reportPresentation = compileTemplate({ reportsData });
@@ -62,6 +62,7 @@ const generateLocalReport = async config => {
 
 const generateRemoteReport = async config =>
   new Promise((resolve, reject) => {
+    AWS.config.update({ region: config.remoteRegion });
     const s3 = new AWS.S3();
     const params = { Bucket: config.remoteBucketName };
 
@@ -72,9 +73,9 @@ const generateRemoteReport = async config =>
         item.Key.includes(`${config.browser}/generatedDiffs`)
       );
 
-      const url = s3.endpoint.href;
+      const url = `${s3.endpoint.href}${config.remoteBucketName}/`;
 
-      console.log(createRemoteReportData(url, diffs));
+      writeReport(config, createRemoteReportData(url, diffs));
 
       resolve();
     });
