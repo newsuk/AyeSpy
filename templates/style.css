@@ -13,11 +13,36 @@ body {
   
   .screenshot {
     width: 400px;
-    padding-right: 50px;
   }
 
-  .header {
-    padding-bottom: 40px;
+  .scenario {
     font-family: Courier New, Courier, monospace;
     text-align: center;
+  }
+
+  .column {
+    float: left;
+    width: 33.33%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .box-blue {
+    background-color: #add8e6;
+    font-family: Courier New, Courier, monospace;
+    size: 14px;
+    padding-bottom: 30;
+    padding-top: 10;
+  }
+  
+  .box-pink {
+    padding-bottom: 30;
+    padding-top: 10;
+    background-color: #ffb6c1;
+    font-family: Courier New, Courier, monospace;
+    size: 14px;
   }

@@ -7,12 +7,20 @@ html
 h1(class='title') AyeSpy Comparison Report
 
 div(class='wrapper')
-  each report in reportsData
-      div
-        h3(class='header') #{report.label}
-        a(href=report.baseline) 
-            img(class='screenshot', src=report.baseline)
-        a(href=report.latest) 
-            img(class='screenshot', src=report.latest)
-        a(href=report.comparison) 
-            img(class='screenshot', src=report.generatedDiff)
+  each report, index in reportsData
+    - let colour = index  % 2 === 0 ? 'blue' : 'pink'
+      div(class=`box-${colour}`)
+        h3(class='scenario') Scenario: #{report.label}
+        div(class='row')
+          div(class='column')
+            h4 Baseline
+            a(href=report.baseline)
+              img(class='screenshot', src=report.baseline)
+          div(class='column')
+            h4 Latest
+            a(href=report.latest)
+              img(class='screenshot', src=report.latest)
+          div(class='column')
+            h4 Difference
+            a(href=report.comparison)
+              img(class='screenshot', src=report.generatedDiff)
