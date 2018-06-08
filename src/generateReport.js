@@ -68,7 +68,7 @@ const generateRemoteReport = async config => {
   }/`;
   console.log(url);
   await writeReport(config, createRemoteReportData(url, filteredResults));
-  await uploadRemote(config, 'report');
+  await uploadRemote('report', config);
 };
 
 export { generateLocalReport, generateRemoteReport };

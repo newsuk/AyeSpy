@@ -3,7 +3,7 @@ import path from 'path';
 import AWS from 'aws-sdk';
 import logger from './logger';
 
-export default (config, key) =>
+export default (key, config) =>
   new Promise((resolve, reject) => {
     if (!key) reject('key must be defined');
     logger.info('upload-remote', 'Uploading to S3');

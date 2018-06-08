@@ -14,6 +14,7 @@ import updateBaselineShots from '../update-baseline-shots';
 import { generateLocalReport, generateRemoteReport } from '../generateReport';
 import uploadRemote from '../uploadRemote';
 import fetchRemote from '../fetchRemote';
+import deleteRemote from '../deleteRemote';
 
 setupLogger();
 
@@ -33,7 +34,7 @@ program
     logger.info('run', 'Getting snapshots... 📸 ');
     createDirectories(fs, config);
     await getScreenshots(SnapShotter, config);
-    if (options.remote) await uploadRemote(config, 'latest');
+    if (options.remote) await uploadRemote('latest', config);
   });
 
 program
@@ -53,7 +54,7 @@ program
     await updateBaselineShots(fs, config).catch(error => {
       logger.error('run', error);
     });
-    if (options.remote) await uploadRemote(config, 'baseline');
+    if (options.remote) await uploadRemote('baseline', config);
   });
 
 program
@@ -71,8 +72,13 @@ program
 
     createDirectories(fs, config);
 
-    //remove contents of directory
+    const diffsPath = path.resolve(config.generatedDiffs);
+    fs.readdirSync(diffsPath).forEach(file => {
+      fs.unlinkSync(`${diffsPath}/${file}`);
+    });
+
     if (options.remote) {
+      await deleteRemote('generatedDiffs', config);
       for (let i = 0; i < config.scenarios.length; i++) {
         await fetchRemote(
           config,
@@ -90,7 +96,7 @@ program
       }
     }
 
-    if (options.remote) await uploadRemote(config, 'generatedDiffs');
+    if (options.remote) await uploadRemote('generatedDiffs', config);
 
     //TODO: write logger to fail builds
   });
