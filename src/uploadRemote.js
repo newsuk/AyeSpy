@@ -13,7 +13,8 @@ export default (config, key) =>
     if (key === 'baseline') imageDir = path.resolve(config.baseline);
     if (key === 'generatedDiffs')
       imageDir = path.resolve(config.generatedDiffs);
-    if (!imageDir) reject('The ket did not match any of the available options');
+    if (key === 'report') imageDir = path.resolve(config.report);
+    if (!imageDir) reject('The key did not match any of the available options');
 
     AWS.config.update({
       region: config.remoteRegion
@@ -34,11 +35,13 @@ export default (config, key) =>
           logger.error('upload-remote', err);
         });
 
+        const contentType = key === 'report' ? 'text/html' : 'image/png';
+
         const uploadParams = {
           Bucket: config.remoteBucketName,
           Key: `${config.browser}/${key}/${path.basename(file)}`,
           Body: fileStream,
-          ContentType: 'image/png'
+          ContentType: contentType
         };
 
         s3.putObject(uploadParams, (err, data) => {

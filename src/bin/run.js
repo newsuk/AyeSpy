@@ -71,6 +71,7 @@ program
 
     createDirectories(fs, config);
 
+    //remove contents of directory
     if (options.remote) {
       for (let i = 0; i < config.scenarios.length; i++) {
         await fetchRemote(
