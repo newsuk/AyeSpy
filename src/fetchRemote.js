@@ -9,6 +9,7 @@ export default (config, key, imageName) =>
     if (key === 'baseline') imageDir = path.resolve(config.baseline);
     if (key === 'generatedDiffs')
       imageDir = path.resolve(config.generatedDiffs);
+    if (!imageDir) reject('The key did not match any of the available options');
 
     const remoteFileName = `${config.browser}/${key}/${imageName}`;
     const fileName = `${imageDir}/${imageName}`;
