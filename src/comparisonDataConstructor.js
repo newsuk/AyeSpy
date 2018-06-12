@@ -10,11 +10,11 @@ const comparisonDataConstructor = (fs, config) =>
       }.png`;
 
       const latestFileExists = fs.access(latestPath, err => {
-        return err ? false : true;
+        return err ? true : false;
       });
 
       const baselineFileExists = fs.access(baselinePath, err => {
-        return err ? false : true;
+        return err ? true : false;
       });
 
       if (!latestFileExists || !baselineFileExists) {

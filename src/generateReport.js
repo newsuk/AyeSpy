@@ -2,8 +2,7 @@ import pug from 'pug';
 import path from 'path';
 import fs from 'fs';
 import logger from './logger';
-import listRemote from './listRemote';
-import uploadRemote from './uploadRemote';
+import { listRemote, uploadRemote } from './remoteActions';
 
 const createReportData = config => {
   const report = [];
