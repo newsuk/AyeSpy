@@ -1,6 +1,6 @@
 /* globals jest describe it expect */
 
-import updateBaselineShots from './update-baseline-shots';
+import updateBaselineShots from './updateBaselineShots';
 
 describe('update baseline shots', () => {
   let mockFs;

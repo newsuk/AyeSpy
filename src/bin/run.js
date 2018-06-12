@@ -5,16 +5,16 @@ import path from 'path';
 import fs from 'fs';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
-import getScreenshots from '../get-screenshots';
-import isEqual from '../comparer';
-import createDirectories from '../create-directories';
-import createDiffImage from '../createDiffs';
-import comparisonDataConstructor from '../comparisonDataConstructor';
-import updateBaselineShots from '../update-baseline-shots';
+import getScreenshots from '../getScreenshots';
+import updateBaselineShots from '../updateBaselineShots';
 import { generateLocalReport, generateRemoteReport } from '../generateReport';
 import uploadRemote from '../uploadRemote';
-import fetchRemote from '../fetchRemote';
-import deleteRemote from '../deleteRemote';
+import {
+  fetchRemoteComparisonImages,
+  createComparisons,
+  createDirectories,
+  clearDirectory
+} from '../comparisonActions';
 
 setupLogger();
 
@@ -69,36 +69,12 @@ program
     if (!options.browser) throw 'no browser specified';
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
     config.browser = options.browser;
+    config.remote = options.remote;
 
     createDirectories(fs, config);
-
-    const diffsPath = path.resolve(config.generatedDiffs);
-    fs.readdirSync(diffsPath).forEach(file => {
-      fs.unlinkSync(`${diffsPath}/${file}`);
-    });
-
-    if (options.remote) {
-      await deleteRemote('generatedDiffs', config);
-      for (let i = 0; i < config.scenarios.length; i++) {
-        await fetchRemote(
-          config,
-          'baseline',
-          `${config.scenarios[i].label}.png`
-        );
-      }
-    }
-
-    const comparisonData = await comparisonDataConstructor(config);
-
-    for (let i = 0; i < comparisonData.length; i++) {
-      if (!(await isEqual(comparisonData[i]))) {
-        await createDiffImage(comparisonData[i]);
-      }
-    }
-
-    if (options.remote) await uploadRemote('generatedDiffs', config);
-
-    //TODO: write logger to fail builds
+    clearDirectory(fs, config);
+    await fetchRemoteComparisonImages(fs, config);
+    await createComparisons(fs, config);
   });
 
 program
