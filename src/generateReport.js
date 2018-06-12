@@ -2,6 +2,8 @@ import pug from 'pug';
 import path from 'path';
 import fs from 'fs';
 import logger from './logger';
+import listRemote from './listRemote';
+import uploadRemote from './uploadRemote';
 
 const createReportData = config => {
   const report = [];
@@ -31,10 +33,23 @@ const createReportData = config => {
   }
   return report;
 };
+const createRemoteReportData = (url, diffs) =>
+  diffs.map(diff => {
+    const [browser, key, scenario] = diff.Key.split('/'); //eslint-disable-line no-unused-vars
+    const scenarioName = scenario.split('.png')[0];
 
-export default async config => {
-  const reportsData = createReportData(config);
+    return {
+      label: scenarioName,
+      baseline: `${url}${browser}/baseline/${scenario}`,
+      latest: `${url}${browser}/latest/${scenario}`,
+      generatedDiff: `${url}${browser}/generatedDiffs/${scenario}`
+    };
+  });
 
+const generateLocalReport = async config =>
+  writeReport(config, createReportData(config));
+
+const writeReport = (config, reportsData) => {
   const templatePath = path.join(__dirname, '../templates/report.pug');
   const compileTemplate = pug.compileFile(templatePath);
   const reportPresentation = compileTemplate({ reportsData });
@@ -43,4 +58,17 @@ export default async config => {
   if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir);
   fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
   logger.info('generate-report', 'successfully created report!');
+  return `${reportDir}/index.html`;
 };
+
+const generateRemoteReport = async config => {
+  const filteredResults = await listRemote('generatedDiffs', config);
+  const url = `https://s3-${config.remoteRegion}.amazonaws.com/${
+    config.remoteBucketName
+  }/`;
+  console.log(url);
+  await writeReport(config, createRemoteReportData(url, filteredResults));
+  await uploadRemote('report', config);
+};
+
+export { generateLocalReport, generateRemoteReport };

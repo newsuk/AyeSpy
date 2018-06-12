@@ -1,31 +1,25 @@
 import looksSame from 'looks-same';
+import { promisify } from 'util';
 import logger from './logger';
 
+const looksSameAsync = promisify(looksSame);
+
 const isEqual = imageData =>
-  new Promise((resolve, reject) => {
-    looksSame(
-      imageData.baseline,
-      imageData.latest,
-      {
-        tolerance: imageData.tolerance,
-        ignoreCaret: true,
-        ignoreAntialiasing: true
-      },
-      (error, equal) => {
-        if (error) {
-          logger.error('comparer', error);
-          reject(error);
-        }
-
-        if (equal) {
-          logger.info('comparer', `✅ Passed: ${imageData.label}`);
-        } else {
-          logger.info('comparer', `☠️ Failed: ${imageData.label}`);
-        }
-
-        resolve(equal);
+  looksSameAsync(imageData.baseline, imageData.latest, {
+    tolerance: imageData.tolerance,
+    ignoreCaret: true,
+    ignoreAntialiasing: true
+  })
+    .then(equal => {
+      if (equal) {
+        logger.info('comparer', `✅ Passed: ${imageData.label}`);
+      } else {
+        logger.info('comparer', `☠️ Failed: ${imageData.label}`);
       }
-    );
-  });
+      return equal;
+    })
+    .catch(error => {
+      logger.error('comparer', error);
+    });
 
 export default isEqual;

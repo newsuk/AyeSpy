@@ -4,6 +4,8 @@
     "latest": "./e2eTests/latest",
     "generatedDiffs": "./e2eTests/generatedDiffs",
     "report": "./e2eTests/reports",
+    "remoteBucketName": "aye-spy",
+    "remoteRegion": "eu-west-1",
     "scenarios": [
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",

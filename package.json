@@ -5,10 +5,10 @@
   "main": "lib/bin/run.js",
   "scripts": {
     "test:e2e:snap": "yarn build && node lib/bin/run.js snap --browser chrome --config e2eTests/config.json",
-    "test:e2e:compare": "yarn build && node lib/bin/run.js compare --config e2eTests/config.json",
+    "test:e2e:compare": "yarn build && node lib/bin/run.js compare  --browser chrome  --remote --config e2eTests/config.json",
     "test:e2e:update": "yarn build && node lib/bin/run.js update-baseline --config e2eTests/config.json",
-    "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --config e2eTests/config.json",
-    "test": "yarn build && ./node_modules/.bin/jest ./lib",
+    "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --browser chrome --remote --config e2eTests/config.json",
+    "test": "yarn build && ./node_modules/.bin/jest ./lib --coverage",
     "lint": "eslint src/ --fix",
     "lint-staged": "lint-staged",
     "build": "babel src --out-dir lib",
@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/L0wry/Aye-Spy#readme",
   "dependencies": {
+    "aws-sdk": "^2.252.1",
     "commander": "^2.15.1",
     "looks-same": "^3.3.0",
     "npmlog": "^4.1.2",
