@@ -23,7 +23,7 @@ const deleteRemote = async (key, config) => {
     AWS.config.update({ region: config.remoteRegion });
     const s3 = new AWS.S3();
 
-    var params = {
+    const params = {
       Bucket: config.remoteBucketName,
       Delete: {
         Objects: [],
