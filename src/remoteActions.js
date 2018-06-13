@@ -3,18 +3,13 @@ import fs from 'fs';
 import path from 'path';
 import logger from './logger';
 
-const resolveImagePath = (key, config) => {
+const resolveImagePath = (key, config) =>
   new Promise((resolve, reject) => {
-    let imageDir;
-    if (key === 'latest') imageDir = path.resolve(config.latest);
-    if (key === 'baseline') imageDir = path.resolve(config.baseline);
-    if (key === 'generatedDiffs')
-      imageDir = path.resolve(config.generatedDiffs);
-    if (!imageDir) reject('The key did not match any of the available options');
-
-    resolve(imageDir);
+    if (key === 'latest') resolve(path.resolve(config.latest));
+    if (key === 'baseline') resolve(path.resolve(config.baseline));
+    if (key === 'generatedDiffs') resolve(path.resolve(config.generatedDiffs));
+    reject('The key did not match any of the available options');
   });
-};
 
 const deleteRemote = async (key, config) => {
   const filteredResults = await listRemote(key, config);
@@ -46,6 +41,10 @@ const deleteRemote = async (key, config) => {
 
 const fetchRemote = async (config, key, imageName) => {
   const imageDir = await resolveImagePath(key, config);
+
+  console.log(key);
+  console.log(imageName);
+  console.log(imageDir);
 
   new Promise((resolve, reject) => {
     const remoteFileName = `${config.browser}/${key}/${imageName}`;
@@ -128,4 +127,10 @@ const uploadRemote = async (key, config) => {
   });
 };
 
-export { deleteRemote, fetchRemote, listRemote, uploadRemote };
+export {
+  deleteRemote,
+  fetchRemote,
+  listRemote,
+  resolveImagePath,
+  uploadRemote
+};

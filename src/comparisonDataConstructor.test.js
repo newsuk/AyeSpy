@@ -7,7 +7,7 @@ describe('data constructor', () => {
 
   beforeEach(() => {
     mockFs = {
-      access: jest.fn()
+      existsSync: jest.fn()
     };
   });
 
@@ -27,7 +27,7 @@ describe('data constructor', () => {
       ]
     };
 
-    mockFs.access.mockReturnValue(true);
+    mockFs.existsSync.mockReturnValue(true);
 
     const data = await comparisonDataConstructor(mockFs, config);
 
@@ -64,11 +64,7 @@ describe('data constructor', () => {
       }
     ];
 
-    mockFs.access
-      .mockReturnValueOnce(false)
-      .mockReturnValueOnce(true)
-      .mockReturnValueOnce(true)
-      .mockReturnValueOnce(false);
+    mockFs.existsSync.mockReturnValue(false);
 
     global.process.exit = jest.fn();
 
