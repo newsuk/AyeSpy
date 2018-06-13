@@ -34,7 +34,6 @@ const createDirectories = (fs, config) =>
 
     directories.forEach(dir => {
       const directoryExists = fs.existsSync(dir) ? true : false;
-      console.log(directoryExists);
 
       if (!directoryExists) fs.mkdirSync(dir);
     });
