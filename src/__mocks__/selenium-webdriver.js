@@ -17,9 +17,11 @@ class Builder {
       window: () => {
         return wrap;
       },
+      findElement: element => Promise.resolve(element),
       setRect: jest.fn(),
       get: jest.fn(),
       takeScreenshot: jest.fn(),
+      wait: jest.fn(),
       quit: () => {
         return wrap;
       }
@@ -28,6 +30,14 @@ class Builder {
   }
 }
 
+const By = {
+  css: selector => selector
+};
+
+const until = {
+  elementIsVisible: selector => selector
+};
+
 export default {
   Builder,
   Capabilities: {
@@ -35,3 +45,5 @@ export default {
     firefox: jest.fn()
   }
 };
+
+export { By, until };

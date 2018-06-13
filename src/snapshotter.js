@@ -4,23 +4,21 @@ import logger from './logger';
 
 export default class SnapShotter {
   constructor({
-    label,
-    latest,
-    gridUrl,
-    viewports,
+    label = 'label',
+    latest = process.cwd(),
+    gridUrl = 'http://localhost:4444',
     width = 700,
     height = 1024,
     browser = 'chrome',
     cookies,
     removeSelectors,
     waitForSelector,
-    url,
-    viewportLabel
+    url = 'http://localhost:80',
+    viewportLabel = 'viewportLabel'
   }) {
     this._label = label;
     this._latest = latest;
     this._gridUrl = gridUrl;
-    this._viewports = viewports;
     this._width = width;
     this._height = height;
     this._browser = browser;

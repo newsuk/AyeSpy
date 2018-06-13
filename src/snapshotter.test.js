@@ -56,4 +56,23 @@ describe('The snapshotter', () => {
     expect(webdriver.Capabilities.chrome.mock.calls.length).toBe(1);
     expect(webdriver.Capabilities.firefox.mock.calls.length).toBe(1);
   });
+
+  it('Waits for selectors', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      waitForSelector: 'selector'
+    };
+
+    const mockSnapshot = new SnapShotter(config);
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.wait.mock.calls.length).toBe(1);
+    expect(mockSnapshot.driver.wait).toBeCalledWith(
+      config.waitForSelector,
+      10000
+    );
+  });
+  // it('Throws an error if it cant find the selector')
+  // it('Closes the browser if an error is thrown')
 });
