@@ -2,7 +2,7 @@ import logger from './logger';
 
 const comparisonDataConstructor = (fs, config) =>
   new Promise(async resolve => {
-    const comparisonData = [];    
+    const comparisonData = [];
     config.scenarios.forEach(scenario => {
       if (!scenario.viewports)
         throw `${scenario.label} has no viewpoorts array defined`;
@@ -14,8 +14,12 @@ const comparisonDataConstructor = (fs, config) =>
         throw `${scenario.label} has no label set`;
 
       scenario.viewports.forEach(viewport => {
-        const baselinePath = `${config.baseline}/${scenario.label}-${viewport.label}.png`;
-        const latestPath = `${config.latest}/${scenario.label}-${viewport.label}.png`;
+        const baselinePath = `${config.baseline}/${scenario.label}-${
+          viewport.label
+        }.png`;
+        const latestPath = `${config.latest}/${scenario.label}-${
+          viewport.label
+        }.png`;
         const generatedDiffsPath = `${config.generatedDiffs}/${
           scenario.label
         }-${viewport.label}.png`;
