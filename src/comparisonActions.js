@@ -14,11 +14,11 @@ const createComparisons = async (fs, config) => {
     const scenario = comparisonData[i];
     const equal = await isEqual(scenario);
 
-    if (!equal) {
+    if (equal) {
+      reporter.pass(scenario.label);
+    } else {
       reporter.fail(scenario.label);
       await createDiffImage(scenario);
-    } else {
-      reporter.pass(scenario.label);
     }
   }
 
