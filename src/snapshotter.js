@@ -40,9 +40,12 @@ export default class SnapShotter {
     }
   }
 
-  async takeSnap(scenario) {
+  async takeSnap(scenario, fileName) {
+    if (!fileName) {
+      fileName = scenario.label;
+    }
     const timeout = 10000;
-    logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
+    logger.info(`Scenario: ${fileName}`, `Url: ${scenario.url}`);
     await this.driver.get(scenario.url);
 
     if (scenario.cookies) {
@@ -75,11 +78,7 @@ export default class SnapShotter {
     }
 
     const screenShot = await this._driver.takeScreenshot();
-    fs.writeFileSync(
-      `${this.latest}/${scenario.label}.png`,
-      screenShot,
-      'base64'
-    );
+    fs.writeFileSync(`${this.latest}/${fileName}.png`, screenShot, 'base64');
     await this.driver.quit();
   }
 }
