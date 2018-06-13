@@ -8,7 +8,7 @@ const resolveImagePath = (key, config) =>
     if (key === 'latest') resolve(path.resolve(config.latest));
     if (key === 'baseline') resolve(path.resolve(config.baseline));
     if (key === 'generatedDiffs') resolve(path.resolve(config.generatedDiffs));
-    if (key === 'report') resolve(path.resolve(config.reports));
+    if (key === 'report') resolve(path.resolve(config.report));
     reject('The key did not match any of the available options');
   });
 
@@ -47,6 +47,7 @@ const fetchRemote = async (config, key, imageName) => {
     const remoteFileName = `${config.browser}/${key}/${imageName}`;
     const fileName = `${imageDir}/${imageName}`;
     const s3 = new AWS.S3();
+    AWS.config.update({ region: config.remoteRegion });
     const params = { Bucket: config.remoteBucketName, Key: remoteFileName };
 
     s3.getObject(params, (error, data) => {

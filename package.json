@@ -4,9 +4,9 @@
   "description": "A visual regression tool",
   "main": "lib/bin/run.js",
   "scripts": {
-    "test:e2e:snap": "yarn build && node lib/bin/run.js snap --browser chrome --config e2eTests/config.json",
+    "test:e2e:snap": "yarn build && node lib/bin/run.js snap --browser chrome --config e2eTests/config.json --remote",
     "test:e2e:compare": "yarn build && node lib/bin/run.js compare  --browser chrome  --remote --config e2eTests/config.json",
-    "test:e2e:update": "yarn build && node lib/bin/run.js update-baseline --config e2eTests/config.json",
+    "test:e2e:update": "yarn build && node lib/bin/run.js update-baseline --browser chrome --config e2eTests/config.json",
     "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --browser chrome --remote --config e2eTests/config.json",
     "test": "yarn build && ./node_modules/.bin/jest ./lib --coverage",
     "lint": "eslint src/ --fix",

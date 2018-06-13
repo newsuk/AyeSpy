@@ -13,7 +13,6 @@
         "height": 2400,
         "width": 1024,
         "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/c6d10be60c701faaff6039ed719483ec086878fd.jpg?crop=780%2C520%2C0%2C0&resize=498\"]",
         "cookies": [
           {
             "name": "acs_tnl",
@@ -27,46 +26,303 @@
         "removeSelectors": ["#ad-header", ".AD"]
       },
       {
-        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
-        "label": "1homepage",
-        "height": 2400,
-        "width": 1024,
-        "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/c6d10be60c701faaff6039ed719483ec086878fd.jpg?crop=780%2C520%2C0%2C0&resize=498\"]",
-        "cookies": [
-          {
-            "name": "acs_tnl",
-            "value": "logged_in"
-          }
+        "label": "past_six_days",
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/past-six-days",
+        "removeSelectors": [
+          "#ad-header"
         ]
       },
       {
-        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
-        "label": "2homepage",
-        "height": 2000,
-        "width": 500,
-        "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/0d5fa06d6b10cfbbc2dade5f0d7b0271fccd994b.jpg?crop=520%2C520%2C130%2C0&resize=160\"]",
-        "cookies": [
-          {
-            "name": "acs_tnl",
-            "value": "logged_in"
-          }
+        "label": "logged_out_article",
+        "url":
+          "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/_TP_/article/3107c018-cb60-11e4-81dd-064fe933cd41",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
         ]
       },
       {
-        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
-        "label": "3homepage",
-        "height": 2000,
-        "width": 500,
-        "removeSelectors": ["#ad-header", ".AD"],
-        "waitForSelector": "[src=\"//nu-cps-imgsrv-tnl-dev-webapp.elb.tnl-dev.ntch.co.uk/imageserver/image/0d5fa06d6b10cfbbc2dade5f0d7b0271fccd994b.jpg?crop=520%2C520%2C130%2C0&resize=160\"]",
+        "label": "magazine",
         "cookies": [
           {
             "name": "acs_tnl",
             "value": "logged_in"
           }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/style",
+        "removeSelectors": [
+          "#ad-header"
+        ]
+      },
+      {
+        "label": "default-article-template",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/edition/news/british-trio-stopped-on-the-way-to-join-isis-57nwljmbn",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "major-news-article-template",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/past-six-days/2015-03-22/news/labour-will-make-us-as-bad-as-france-gf35ht9ds",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "major-news-defcon-article-template",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/article/fee-paying-chinese-help-state-schools-fight-cuts-z9znbg9p2",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "opinion-article-template",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/edition/comment/lee-kuan-yews-singapore-may-be-autocratic-but-at-least-the-escalators-work-ckl7nxfpc",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-article-template-thetimes",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/the-times-magazine/strictly-come-danczuk-7h7cwrhm6",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-article-template-the-sunday-times",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/the-sunday-times-magazine/strictly-come-danczuk-3drn0vqz7",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-article-template-culture",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/culture/is-the-fear-of-being-offensive-killing-free-speech-gp3c6frsv",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-article-template-style",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/style/inner-strength-md8b8c8pn",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-columnist-article-template-the-times",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/the-times-magazine/fashion-the-italian-job-06mt8kgxp",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-columnist-article-template-the sunday times",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/the-sunday-times-magazine/fashion-the-italian-job-k3qp706zs",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-columnist-article-template-style",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/style/fashion-the-italian-job-wdfjk6m3j",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-in-depth-article-template-culture",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/culture/the-nerds-a-superhero-00xf26gpz",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-in-depth-article-template-the-sunday-times",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/the-sunday-times-magazine/the-battle-of-the-bulge-t7nvgw3h2",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "supplement-in-depth-article-template-style",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/magazine/style/the-sex-baron-of-belgravia-3slplbj6c",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "topics",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/topic/islington"
+      },
+      {
+        "label": "article-with-topics",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/article/splits-in-europe-may-end-russian-sanctions-kstdpq5rn",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored"
+        ]
+      },
+      {
+        "label": "comments",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/edition/news/top-graduates-drawn-to-jobs-in-social-work-0npt9r70h",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored",
+          "#gmap-element"
+        ]
+      },
+      {
+        "label": "full-width-media",
+        "cookies": [
+          {
+            "name": "acs_tnl",
+            "value": "logged_in"
+          }
+        ],
+        "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/article/2f76384f-6d70-4ead-ba53-5e13751c6b7b",
+        "removeSelectors": [
+          "#ad-article-inline",
+          "#ad-header",
+          "#ad-article-sponsored",
+          "#gmap-element"
         ]
       }
     ]
   }
+
+  

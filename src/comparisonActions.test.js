@@ -10,7 +10,7 @@ describe('The comparions actions', () => {
   beforeEach(() => {
     mockFs = {
       readdirSync: () => ['1', '2', '3', '4', '5', '6'],
-      access: jest.fn(),
+      existsSync: jest.fn(),
       mkdirSync: () => {},
       copyFileSync: () => {}
     };
@@ -24,12 +24,12 @@ describe('The comparions actions', () => {
     };
 
     await createDirectories(mockFs, config).catch(err => console.log(err));
-    expect(mockFs.access.mock.calls.length).toBe(3);
+    expect(mockFs.existsSync.mock.calls.length).toBe(3);
   });
 
   it('Creates directories for diff, latest and baseline', async () => {
     mockFs = {
-      access: () => new Error(),
+      existsSync: () => false,
       mkdirSync: jest.fn()
     };
 
