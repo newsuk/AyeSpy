@@ -8,7 +8,7 @@ import SnapShotter from '../snapshotter';
 import getScreenshots from '../getScreenshots';
 import updateBaselineShots from '../updateBaselineShots';
 import { generateLocalReport, generateRemoteReport } from '../generateReport';
-import uploadRemote from '../uploadRemote';
+import { uploadRemote } from '../remoteActions';
 import {
   fetchRemoteComparisonImages,
   createComparisons,

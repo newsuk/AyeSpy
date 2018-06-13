@@ -1,10 +1,8 @@
 import path from 'path';
-import deleteRemote from './deleteRemote';
-import fetchRemote from './fetchRemote';
+import { deleteRemote, fetchRemote, uploadRemote } from './remoteActions';
 import createDiffImage from './createDiffs';
 import comparisonDataConstructor from './comparisonDataConstructor';
 import isEqual from './comparer';
-import uploadRemote from './uploadRemote';
 
 const createComparisons = async (fs, config) => {
   const comparisonData = await comparisonDataConstructor(fs, config);
