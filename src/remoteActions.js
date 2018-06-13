@@ -8,6 +8,7 @@ const resolveImagePath = (key, config) =>
     if (key === 'latest') resolve(path.resolve(config.latest));
     if (key === 'baseline') resolve(path.resolve(config.baseline));
     if (key === 'generatedDiffs') resolve(path.resolve(config.generatedDiffs));
+    if (key === 'report') resolve(path.resolve(config.reports));
     reject('The key did not match any of the available options');
   });
 
