@@ -32,7 +32,7 @@ program
 
     config.browser = options.browser;
     logger.info('run', 'Getting snapshots... 📸 ');
-    createDirectories(fs, config);
+    await createDirectories(fs, config);
     await getScreenshots(SnapShotter, config);
     if (options.remote) await uploadRemote('latest', config);
   });

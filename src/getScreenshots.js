@@ -1,40 +1,34 @@
 export default (SnapShotter, config) =>
   Promise.all(
     config.scenarios.map(scenario => {
-      const promises = [];
+      if (!scenario.viewports)
+        throw `${scenario.label} has no viewpoorts array defined`;
+      if (scenario.viewports.some(viewport => !viewport.height))
+        throw `${scenario.label} has no height set`;
+      if (scenario.viewports.some(viewport => !viewport.width))
+        throw `${scenario.label} has no width set`;
+      if (scenario.viewports.some(viewport => !viewport.label))
+        throw `${scenario.label} has no label set`;
 
-      if (config.viewports) {
-        config.viewports.forEach(viewport => {
-          const fileName = scenario.label + '-' + viewport.label;
-          const snap = new SnapShotter({
-            latest: config.latest,
-            browser: config.browser,
-            gridUrl: config.gridUrl,
-            height: viewport.height,
-            width: viewport.width
-          });
-          promises.push(snap.takeSnap(scenario, fileName));
-          return Promise.all(promises);
-        });
-      } else {
+      const promises = [];
+      scenario.viewports.forEach(viewport => {
         const snap = new SnapShotter({
+          label: scenario.label,
           latest: config.latest,
           browser: config.browser,
           gridUrl: config.gridUrl,
-          height: scenario.height,
-          width: scenario.width
+          height: viewport.height,
+          width: viewport.width,
+          viewportLabel: viewport.label,
+          cookies: scenario.cookies,
+          removeSelectors: scenario.removeSelectors,
+          waitForSelector: scenario.waitForSelector,
+          url: scenario.url
         });
-        promises.push(snap.takeSnap(scenario));
-        return Promise.all(promises);
-      }
 
-      // if(config.viewports) {
-      //   config.viewports.forEach(viewport => {
-      //     const fileName = scenario.label + '-' + viewport.label;
-      //     promises.push(snap.takeSnap(scenario, viewport.height, viewport.width, fileName));
-      //   })
-      // } else {
-      //   promises.push(snap.takeSnap(scenario));
-      // }
+        promises.push(snap.takeSnap());
+      });
+
+      return Promise.all(promises);
     })
   );

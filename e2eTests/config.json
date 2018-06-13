@@ -6,25 +6,11 @@
     "report": "./e2eTests/reports",
     "remoteBucketName": "aye-spy",
     "remoteRegion": "eu-west-1",
-    "viewports": [
-      {
-        "label": "big",
-        "width": 1000,
-        "height": 10000
-      },
-      {
-        "label": "small",
-        "width": 200,
-        "height": 500
-      }
-    ],
     "scenarios": [
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
         "label": "homepage",
-        "viewports": [{"height": 2400, "width": 1024}],
-        "height": 2400,
-        "width": 1024,
+        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}],
         "removeSelectors": ["#ad-header", ".AD"],
         "cookies": [
           {
@@ -36,14 +22,14 @@
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/profile/fiona-hamilton",
         "label": "author-profile",
-        "removeSelectors": ["#ad-header", ".AD"]
+        "removeSelectors": ["#ad-header", ".AD"],
+        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}]
       },
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
         "label": "1homepage",
-        "height": 2400,
-        "width": 1024,
         "removeSelectors": ["#ad-header", ".AD"],
+        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}],
         "cookies": [
           {
             "name": "acs_tnl",
@@ -54,8 +40,7 @@
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
         "label": "2homepage",
-        "height": 2000,
-        "width": 500,
+        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}],
         "removeSelectors": ["#ad-header", ".AD"],
         "cookies": [
           {
@@ -67,8 +52,7 @@
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
         "label": "3homepage",
-        "height": 2000,
-        "width": 500,
+        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}],
         "removeSelectors": ["#ad-header", ".AD"],
         "cookies": [
           {

@@ -4,13 +4,32 @@ import logger from './logger';
 
 export default class SnapShotter {
   constructor({
+    label,
     latest,
     gridUrl,
+    viewports,
     width = 700,
     height = 1024,
-    browser = 'chrome'
+    browser = 'chrome',
+    cookies,
+    removeSelectors,
+    waitForSelector,
+    url,
+    viewportLabel
   }) {
-    this.latest = latest;
+    this._label = label;
+    this._latest = latest;
+    this._gridUrl = gridUrl;
+    this._viewports = viewports;
+    this._width = width;
+    this._height = height;
+    this._browser = browser;
+    this._cookies = cookies;
+    this._removeSelectors = removeSelectors;
+    this._waitForSelector = waitForSelector;
+    this._url = url;
+    this._viewportLabel = viewportLabel;
+
     const browserCapability = browser.includes('chrome')
       ? webdriver.Capabilities.chrome
       : webdriver.Capabilities.firefox;
@@ -30,55 +49,67 @@ export default class SnapShotter {
     return this._driver;
   }
 
-  async removeSelectors(selectors) {
-    for (let i = 0; i < selectors.length; i++) {
+  async removeTheSelectors() {
+    for (let i = 0; i < this._removeSelectors.length; i++) {
       const script = `$('${
-        selectors[i]
+        this._removeSelectors[i]
       }').forEach(element => element.style.display = "none")`;
 
-      await this._driver.executeScript(script);
+      await this.driver.executeScript(script);
     }
   }
 
-  async takeSnap(scenario, fileName) {
-    if (!fileName) {
-      fileName = scenario.label;
-    }
-    const timeout = 10000;
-    logger.info(`Scenario: ${fileName}`, `Url: ${scenario.url}`);
-    await this.driver.get(scenario.url);
-
-    if (scenario.cookies) {
-      for (let i = 0; i < scenario.cookies.length; i++) {
-        const { name, value } = scenario.cookies[i];
-
-        await this.driver.manage().addCookie({ name, value });
-      }
-
-      await this.driver.get(scenario.url);
-    }
-
-    if (scenario.removeSelectors) {
-      await this.removeSelectors(scenario.removeSelectors);
-    }
-
-    if (scenario.waitForSelector) {
-      const element = await this.driver.findElement(
-        By.css(scenario.waitForSelector)
+  async takeSnap() {
+    try {
+      const timeout = 10000;
+      logger.info(
+        'Snapshotting',
+        `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
-
-      try {
-        await this.driver.wait(until.elementIsVisible(element), timeout);
-      } catch (error) {
-        logger.error(
-          'snapshotter',
-          `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
-        );
+      await this.driver.get(this._url);
+  
+      if (this._cookies) {
+        for (let i = 0; i < this._cookies.length; i++) {
+          const { name, value } = this._cookies[i];
+  
+          await this.driver.manage().addCookie({ name, value });
+        }
+  
+        await this.driver.get(this._url);
       }
+  
+      if (this._removeSelectors) {
+        await this.removeTheSelectors();
+      }
+  
+      if (this._waitForSelector) {
+        const element = await this.driver.findElement(
+          By.css(this._waitForSelector)
+        );
+  
+        try {
+          await this.driver.wait(until.elementIsVisible(element), timeout);
+        } catch (error) {
+          logger.error(
+            'snapshotter',
+            `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+          );
+        }
+      }
+  
+      const screenShot = await this.driver.takeScreenshot();
+      fs.writeFileSync(
+        `${this._latest}/${this._label}-${this._viewportLabel}.png`,
+        screenShot,
+        'base64'
+      );
     }
+    catch(err){
 
-    const screenShot = await this._driver.takeScreenshot();
-    fs.writeFileSync(`${this.latest}/${fileName}.png`, screenShot, 'base64');
-    await this.driver.quit();
+    }
+    finally {
+      await this.driver.quit();
+    }
+    
   }
 }
