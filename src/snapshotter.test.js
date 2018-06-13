@@ -13,21 +13,16 @@ describe('The snapshotter', () => {
 
   it('Takes navigates to a page and snaps', async () => {
     const config = {
-      gridUrl: 'https://lol.com'
+      gridUrl: 'https://lol.com',
+      label: 'test',
+      url: 'http://lolcats.com'
     };
 
     const mockSnapshot = new SnapShotter(config);
+    await mockSnapshot.takeSnap();
 
-    for (let i = 0; i < 20; i++) {
-      const scenario = {
-        label: `test-${i}`,
-        url: `http://lolcats-${i}.com`
-      };
-      await mockSnapshot.takeSnap(scenario);
-    }
-
-    expect(mockSnapshot.driver.get.mock.calls.length).toBe(20);
-    expect(mockSnapshot.driver.takeScreenshot.mock.calls.length).toBe(20);
+    expect(mockSnapshot.driver.get).toBeCalledWith(config.url);
+    expect(mockSnapshot.driver.takeScreenshot.mock.calls.length).toBe(1);
   });
 
   it('Sets default values for height and width', () => {
