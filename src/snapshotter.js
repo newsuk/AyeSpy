@@ -67,26 +67,26 @@ export default class SnapShotter {
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
       await this.driver.get(this._url);
-  
+
       if (this._cookies) {
         for (let i = 0; i < this._cookies.length; i++) {
           const { name, value } = this._cookies[i];
-  
+
           await this.driver.manage().addCookie({ name, value });
         }
-  
+
         await this.driver.get(this._url);
       }
-  
+
       if (this._removeSelectors) {
         await this.removeTheSelectors();
       }
-  
+
       if (this._waitForSelector) {
         const element = await this.driver.findElement(
           By.css(this._waitForSelector)
         );
-  
+
         try {
           await this.driver.wait(until.elementIsVisible(element), timeout);
         } catch (error) {
@@ -96,20 +96,16 @@ export default class SnapShotter {
           );
         }
       }
-  
+
       const screenShot = await this.driver.takeScreenshot();
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,
         screenShot,
         'base64'
       );
-    }
-    catch(err){
-
-    }
-    finally {
+    } catch (err) {
+    } finally {
       await this.driver.quit();
     }
-    
   }
 }
