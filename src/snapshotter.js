@@ -104,6 +104,12 @@ export default class SnapShotter {
         'base64'
       );
     } catch (err) {
+      logger.error(
+        'snapshotter',
+        `❌  Unable to take snapshot for ${this._label}-${
+          this._viewportLabel
+        }! ❌ ${err}`
+      );
     } finally {
       await this.driver.quit();
     }

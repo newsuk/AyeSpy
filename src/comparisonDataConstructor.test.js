@@ -22,7 +22,7 @@ describe('data constructor', () => {
       generatedDiffs: 'testDiff',
       scenarios: [
         {
-          viewports: [{"height": 2400, "width": 1024, "label": "large"}],
+          viewports: [{ height: 2400, width: 1024, label: 'large' }],
           label: 'test1'
         }
       ]
@@ -51,7 +51,7 @@ describe('data constructor', () => {
         baseline: 'testBaseline',
         scenarios: [
           {
-            viewports: [{"height": 2400, "width": 1024, "label": "large"}],            
+            viewports: [{ height: 2400, width: 1024, label: 'large' }],
             label: 'one'
           }
         ]
@@ -60,7 +60,7 @@ describe('data constructor', () => {
         latest: 'testLatest',
         scenarios: [
           {
-            viewports: [{"height": 2400, "width": 1024, "label": "large"}],            
+            viewports: [{ height: 2400, width: 1024, label: 'large' }],
             label: 'two'
           }
         ]

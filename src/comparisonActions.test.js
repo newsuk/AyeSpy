@@ -29,7 +29,7 @@ describe('The comparions actions', () => {
 
   it('Creates directories for diff, latest and baseline', async () => {
     mockFs = {
-      access: () => new Error(),
+      access: (path, callback) => callback('err'),
       mkdirSync: jest.fn()
     };
 
