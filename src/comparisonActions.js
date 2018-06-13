@@ -24,11 +24,11 @@ const createDirectories = (fs, config) =>
     directories.push(config.latest, config.generatedDiffs, config.baseline);
 
     directories.forEach(dir => {
-      const directoryExists = fs.access(dir, err => {
-        return err ? true : false;
+      fs.access(path.resolve(dir), err => {
+        if (err) {
+          fs.mkdirSync(path.resolve(dir));
+        }
       });
-
-      if (directoryExists) fs.mkdirSync(dir);
     });
 
     resolve();
