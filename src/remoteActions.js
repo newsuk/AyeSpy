@@ -42,10 +42,6 @@ const deleteRemote = async (key, config) => {
 const fetchRemote = async (config, key, imageName) => {
   const imageDir = await resolveImagePath(key, config);
 
-  console.log(key);
-  console.log(imageName);
-  console.log(imageDir);
-
   new Promise((resolve, reject) => {
     const remoteFileName = `${config.browser}/${key}/${imageName}`;
     const fileName = `${imageDir}/${imageName}`;
