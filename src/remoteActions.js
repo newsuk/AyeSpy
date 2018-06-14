@@ -15,7 +15,7 @@ const resolveImagePath = (key, config) =>
 const deleteRemote = async (key, config) => {
   const filteredResults = await listRemote(key, config);
 
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     AWS.config.update({ region: config.remoteRegion });
     const s3 = new AWS.S3();
 
