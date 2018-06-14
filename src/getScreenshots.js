@@ -1,3 +1,5 @@
+import webdriver, { By, until } from 'selenium-webdriver';
+
 export default (SnapShotter, config) =>
   Promise.all(
     config.scenarios.map(scenario => {
@@ -12,19 +14,22 @@ export default (SnapShotter, config) =>
 
       const promises = [];
       scenario.viewports.forEach(viewport => {
-        const snap = new SnapShotter({
-          label: scenario.label,
-          latest: config.latest,
-          browser: config.browser,
-          gridUrl: config.gridUrl,
-          height: viewport.height,
-          width: viewport.width,
-          viewportLabel: viewport.label,
-          cookies: scenario.cookies,
-          removeSelectors: scenario.removeSelectors,
-          waitForSelector: scenario.waitForSelector,
-          url: scenario.url
-        });
+        const snap = new SnapShotter(
+          {
+            label: scenario.label,
+            latest: config.latest,
+            browser: config.browser,
+            gridUrl: config.gridUrl,
+            height: viewport.height,
+            width: viewport.width,
+            viewportLabel: viewport.label,
+            cookies: scenario.cookies,
+            removeSelectors: scenario.removeSelectors,
+            waitForSelector: scenario.waitForSelector,
+            url: scenario.url
+          },
+          { webdriver, By, until }
+        );
 
         promises.push(snap.takeSnap());
       });

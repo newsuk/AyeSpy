@@ -1,10 +1,8 @@
 /* globals jest expect */
-
-import webdriver from 'selenium-webdriver';
+import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
 
 jest.mock('fs');
-jest.mock('selenium-webdriver');
 
 describe('The snapshotter', () => {
   afterEach(() => {
@@ -18,7 +16,7 @@ describe('The snapshotter', () => {
       url: 'http://lolcats.com'
     };
 
-    const mockSnapshot = new SnapShotter(config);
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
 
     expect(mockSnapshot.driver.get).toBeCalledWith(config.url);
@@ -30,7 +28,7 @@ describe('The snapshotter', () => {
       gridUrl: 'https://lol.com'
     };
 
-    const mockSnapshot = new SnapShotter(config);
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     expect(mockSnapshot.driver.setRect).toBeCalledWith({
       height: 1024,
       width: 700
@@ -38,15 +36,21 @@ describe('The snapshotter', () => {
   });
 
   it('Uses chrome and firefox', () => {
-    new SnapShotter({
-      gridUrl: 'https://lol.com',
-      browser: 'firefox'
-    });
+    new SnapShotter(
+      {
+        gridUrl: 'https://lol.com',
+        browser: 'firefox'
+      },
+      { webdriver, By, until }
+    );
 
-    new SnapShotter({
-      gridUrl: 'https://lol.com',
-      browser: 'chrome'
-    });
+    new SnapShotter(
+      {
+        gridUrl: 'https://lol.com',
+        browser: 'chrome'
+      },
+      { webdriver, By, until }
+    );
 
     expect(webdriver.Capabilities.chrome.mock.calls.length).toBe(1);
     expect(webdriver.Capabilities.firefox.mock.calls.length).toBe(1);
@@ -60,7 +64,7 @@ describe('The snapshotter', () => {
       waitForSelector: 'selector'
     };
 
-    const mockSnapshot = new SnapShotter(config);
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.wait.mock.calls.length).toBe(1);
     expect(mockSnapshot.driver.wait).toBeCalledWith(
@@ -68,6 +72,23 @@ describe('The snapshotter', () => {
       10000
     );
   });
-  // it('Throws an error if it cant find the selector')
-  // it('Closes the browser if an error is thrown')
+
+  it('Closes the browser if an error is thrown', async () => {
+    expect.assertions(1);
+
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      waitForSelector: 'selector'
+    };
+
+    By.css = () => {
+      throw new Error('sad times');
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.quit.mock.calls.length).toBe(1);
+  });
 });

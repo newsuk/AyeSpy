@@ -22,9 +22,7 @@ class Builder {
       get: jest.fn(),
       takeScreenshot: jest.fn(),
       wait: jest.fn(),
-      quit: () => {
-        return wrap;
-      }
+      quit: jest.fn()
     };
     return wrap;
   }
