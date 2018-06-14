@@ -25,9 +25,11 @@ const createComparisons = async (fs, config) => {
 
   if (config.remote)
     await uploadRemote('generatedDiffs', config)
-      .then(() => logger.info('upload-remote', 'File uploaded successfully ✅'))
+      .then(() =>
+        logger.info('upload-remote', 'Files uploaded successfully ✅')
+      )
       .catch(error =>
-        logger.error('upload-remote', `Error uploading file ❌  ${error}`)
+        logger.error('upload-remote', `Error uploading files ❌  ${error}`)
       );
 
   reporter.exit();
