@@ -4,6 +4,7 @@ import createDiffImage from './createDiffs';
 import comparisonDataConstructor from './comparisonDataConstructor';
 import isEqual from './comparer';
 import Reporter from './reporter';
+import logger from './logger';
 
 const createComparisons = async (fs, config) => {
   const comparisonData = await comparisonDataConstructor(fs, config);
@@ -22,7 +23,12 @@ const createComparisons = async (fs, config) => {
     }
   }
 
-  if (config.remote) await uploadRemote('generatedDiffs', config);
+  if (config.remote)
+    await uploadRemote('generatedDiffs', config)
+      .then(() => logger.info('upload-remote', 'File uploaded successfully ✅'))
+      .catch(error =>
+        logger.error('upload-remote', `Error uploading file ❌  ${error}`)
+      );
 
   reporter.exit();
 };
