@@ -22,7 +22,9 @@ class Builder {
       get: jest.fn(),
       takeScreenshot: jest.fn(),
       wait: jest.fn(),
-      quit: jest.fn()
+      quit: jest.fn(),
+      executeScript: jest.fn(),
+      addCookie: jest.fn()
     };
     return wrap;
   }

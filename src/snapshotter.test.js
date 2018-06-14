@@ -74,8 +74,6 @@ describe('The snapshotter', () => {
   });
 
   it('Closes the browser if an error is thrown', async () => {
-    expect.assertions(1);
-
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
@@ -90,5 +88,40 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.quit.mock.calls.length).toBe(1);
+  });
+
+  it('Removes Selectors', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      removeSelectors: ['selector1', 'selector2']
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
+  });
+
+  it('Adds cookies', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      cookies: [
+        {
+          name: 'cookiename',
+          value: 'cookievalue'
+        },
+        {
+          name: 'anothercookiename',
+          value: 'anothercookievalue'
+        }
+      ]
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.addCookie.mock.calls.length).toBe(2);
   });
 });

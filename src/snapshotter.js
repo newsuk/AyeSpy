@@ -120,7 +120,7 @@ export default class SnapShotter {
         'snapshotter',
         `❌  Unable to take snapshot for ${this._label}-${
           this._viewportLabel
-        }! ❌ ${err}`
+        }! ❌   : ${err}`
       );
     } finally {
       await this.driver.quit();
