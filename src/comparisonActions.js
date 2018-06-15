@@ -14,8 +14,11 @@ import logger from './logger';
 const createBucket = async config => {
   if (config.remote) {
     await createRemote(config)
-      .then(data => {
-        logger.info('comparison-actions', `Bucket already created ${data}`);
+      .then(() => {
+        logger.info(
+          'comparison-actions',
+          `${config.remoteBucketName} bucket has been created`
+        );
       })
       .catch(() => {
         logger.info('comparison-actions', 'Bucket already created');
