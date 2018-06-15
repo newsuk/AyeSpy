@@ -60,7 +60,15 @@ const fetchRemoteComparisonImages = async (key, config) => {
   if (config.remote) {
     await deleteRemote('generatedDiffs', config);
     for (let i = 0; i < config.scenarios.length; i++) {
-      await fetchRemote(config, 'baseline', `${config.scenarios[i].label}.png`);
+      for (let j = 0; j < config.scenarios[i].viewports.length; j++) {
+        await fetchRemote(
+          config,
+          'baseline',
+          `${config.scenarios[i].label}-${
+            config.scenarios[i].viewports[j].label
+          }.png`
+        );
+      }
     }
   }
 };
