@@ -1,14 +1,4 @@
-import listObjectFixtures from './s3ListObjectsFixtures';
-
-class S3 {
-  listObjectsV2(config, callback) {
-    callback(null, listObjectFixtures);
-  }
-
-  deleteObjects(params, callback) {
-    callback(null, params.Delete.Objects);
-  }
-}
+import S3 from './S3';
 
 export default {
   config: {

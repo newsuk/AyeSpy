@@ -1,19 +1,26 @@
 /* globals jest expect */
+import fs from 'fs';
+import {
+  resolveImagePath,
+  listRemote,
+  deleteRemote,
+  fetchRemote,
+  uploadRemote
+} from './remoteActions';
 
-import { resolveImagePath, listRemote, deleteRemote } from './remoteActions';
-
+jest.mock('fs');
 jest.mock('path');
 
 describe('Remote interactions', () => {
-  it('when passed a vailid key a path is returned', async () => {
+  it('when passed a valid key a path is returned', async () => {
     const config = {
       baseline: './e2eTests/baseline',
       latest: './e2eTests/latest',
       generatedDiffs: './e2eTests/generatedDiffs'
     };
 
-    const path = await resolveImagePath('latest', config);
-    expect(path).toEqual('resolution');
+    const returnedPath = await resolveImagePath('latest', config);
+    expect(returnedPath).toEqual('mock/resolved/path');
   });
 
   it('when passed an invalid key no path should return', async () => {
@@ -50,5 +57,42 @@ describe('Remote interactions', () => {
     });
     expect(data.every(obj => obj.Key.includes(key))).toBe(true);
     expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
+  });
+
+  it('fetches remote objects', async () => {
+    const key = 'latest';
+    const imageName = '3homepage';
+    const config = {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      latest: './e2eTests/latest'
+    };
+
+    await fetchRemote(config, key, imageName);
+    expect(fs.writeFileSync.mock.calls).toEqual([
+      [`mock/resolved/path/${imageName}`, 'buffer obj']
+    ]);
+  });
+
+  it('uploads to the remote', async () => {
+    const key = 'baseline';
+    const config = {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      baseline: './e2eTests/baseline'
+    };
+    const file = ['file1'];
+
+    fs.readdirSync.mockReturnValue(file);
+    fs.createReadStream.mockReturnValue({
+      on: () => {}
+    });
+
+    await uploadRemote(key, config)
+      .then(promises => promises[0])
+      .then(data => data.map(obj => obj.Key))
+      .then(name => {
+        expect(name).toEqual(['chrome/baseline/mock/resolved/path/file1']);
+      });
   });
 });
