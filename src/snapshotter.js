@@ -1,21 +1,43 @@
-import webdriver, { By, until } from 'selenium-webdriver';
 import fs from 'fs';
 import logger from './logger';
 
 export default class SnapShotter {
-  constructor({
-    latest,
-    gridUrl,
-    width = 700,
-    height = 1024,
-    browser = 'chrome'
-  }) {
-    this.latest = latest;
-    const browserCapability = browser.includes('chrome')
-      ? webdriver.Capabilities.chrome
-      : webdriver.Capabilities.firefox;
+  constructor(
+    {
+      label = 'label',
+      latest = __dirname,
+      gridUrl = 'http://localhost:4444',
+      width = 700,
+      height = 1024,
+      browser = 'chrome',
+      cookies,
+      removeSelectors,
+      waitForSelector,
+      url = 'http://localhost:80',
+      viewportLabel = 'viewportLabel'
+    },
+    selenium
+  ) {
+    this._label = label;
+    this._latest = latest;
+    this._gridUrl = gridUrl;
+    this._width = width;
+    this._height = height;
+    this._browser = browser;
+    this._cookies = cookies;
+    this._removeSelectors = removeSelectors;
+    this._waitForSelector = waitForSelector;
+    this._url = url;
+    this._viewportLabel = viewportLabel;
+    this._By = selenium.By;
+    this._until = selenium.until;
+    this._webdriver = selenium.webdriver;
 
-    this._driver = new webdriver.Builder()
+    const browserCapability = browser.includes('chrome')
+      ? this._webdriver.Capabilities.chrome
+      : this._webdriver.Capabilities.firefox;
+
+    this._driver = new this._webdriver.Builder()
       .usingServer(gridUrl)
       .withCapabilities(browserCapability())
       .build();
@@ -23,63 +45,83 @@ export default class SnapShotter {
     this._driver
       .manage()
       .window()
-      .setRect({ width, height });
+      .setRect({
+        width,
+        height
+      });
   }
 
   get driver() {
     return this._driver;
   }
 
-  async removeSelectors(selectors) {
-    for (let i = 0; i < selectors.length; i++) {
+  async removeTheSelectors() {
+    for (let i = 0; i < this._removeSelectors.length; i++) {
       const script = `$('${
-        selectors[i]
+        this._removeSelectors[i]
       }').forEach(element => element.style.display = "none")`;
 
-      await this._driver.executeScript(script);
+      await this.driver.executeScript(script);
     }
   }
 
-  async takeSnap(scenario) {
+  async applyCookies() {
+    for (let i = 0; i < this._cookies.length; i++) {
+      const { name, value } = this._cookies[i];
+
+      await this.driver.manage().addCookie({
+        name,
+        value
+      });
+    }
+
+    await this.driver.get(this._url);
+  }
+
+  async waitForSelector() {
     const timeout = 10000;
-    logger.info(`Scenario: ${scenario.label}`, `Url: ${scenario.url}`);
-    await this.driver.get(scenario.url);
-
-    if (scenario.cookies) {
-      for (let i = 0; i < scenario.cookies.length; i++) {
-        const { name, value } = scenario.cookies[i];
-
-        await this.driver.manage().addCookie({ name, value });
-      }
-
-      await this.driver.get(scenario.url);
-    }
-
-    if (scenario.removeSelectors) {
-      await this.removeSelectors(scenario.removeSelectors);
-    }
-
-    if (scenario.waitForSelector) {
-      const element = await this.driver.findElement(
-        By.css(scenario.waitForSelector)
-      );
-
-      try {
-        await this.driver.wait(until.elementIsVisible(element), timeout);
-      } catch (error) {
-        logger.error(
-          'snapshotter',
-          `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
-        );
-      }
-    }
-
-    const screenShot = await this._driver.takeScreenshot();
-    fs.writeFileSync(
-      `${this.latest}/${scenario.label}.png`,
-      screenShot,
-      'base64'
+    const element = await this.driver.findElement(
+      this._By.css(this._waitForSelector)
     );
-    await this.driver.quit();
+
+    try {
+      await this.driver.wait(this._until.elementIsVisible(element), timeout);
+    } catch (error) {
+      logger.error(
+        'snapshotter',
+        `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+      );
+    }
+  }
+
+  async takeSnap() {
+    try {
+      logger.info(
+        'Snapshotting',
+        `${this._label}-${this._viewportLabel} : Url: ${this._url}`
+      );
+      await this.driver.get(this._url);
+
+      if (this._cookies) await this.applyCookies();
+
+      if (this._removeSelectors) await this.removeTheSelectors();
+
+      if (this._waitForSelector) await this.waitForSelector();
+
+      fs.writeFileSync(
+        `${this._latest}/${this._label}-${this._viewportLabel}.png`,
+        await this.driver.takeScreenshot(),
+        'base64'
+      );
+    } catch (err) {
+      logger.error(
+        'snapshotter',
+        `❌  Unable to take snapshot for ${this._label}-${
+          this._viewportLabel
+        }! ❌   : ${err}`
+      );
+    } finally {
+      await this.driver.quit();
+    }
   }
 }

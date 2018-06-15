@@ -22,6 +22,7 @@ describe('data constructor', () => {
       generatedDiffs: 'testDiff',
       scenarios: [
         {
+          viewports: [{ height: 2400, width: 1024, label: 'large' }],
           label: 'test1'
         }
       ]
@@ -33,10 +34,10 @@ describe('data constructor', () => {
 
     const expectedData = [
       {
-        label: 'test1',
-        baseline: 'testBaseline/test1.png',
-        latest: 'testLatest/test1.png',
-        generatedDiffs: 'testDiff/test1.png',
+        label: 'test1-large',
+        baseline: 'testBaseline/test1-large.png',
+        latest: 'testLatest/test1-large.png',
+        generatedDiffs: 'testDiff/test1-large.png',
         tolerance: 0
       }
     ];
@@ -50,6 +51,7 @@ describe('data constructor', () => {
         baseline: 'testBaseline',
         scenarios: [
           {
+            viewports: [{ height: 2400, width: 1024, label: 'large' }],
             label: 'one'
           }
         ]
@@ -58,6 +60,7 @@ describe('data constructor', () => {
         latest: 'testLatest',
         scenarios: [
           {
+            viewports: [{ height: 2400, width: 1024, label: 'large' }],
             label: 'two'
           }
         ]

@@ -1,16 +1,33 @@
+import webdriver, { By, until } from 'selenium-webdriver';
+import scenarioValidator from './scenarioValidator';
+
 export default (SnapShotter, config) =>
   Promise.all(
     config.scenarios.map(scenario => {
-      const snap = new SnapShotter({
-        latest: config.latest,
-        browser: config.browser,
-        gridUrl: config.gridUrl,
-        height: scenario.height,
-        width: scenario.width
-      });
+      scenarioValidator(scenario);
 
       const promises = [];
-      promises.push(snap.takeSnap(scenario));
+      scenario.viewports.forEach(viewport => {
+        const snap = new SnapShotter(
+          {
+            label: scenario.label,
+            latest: config.latest,
+            browser: config.browser,
+            gridUrl: config.gridUrl,
+            height: viewport.height,
+            width: viewport.width,
+            viewportLabel: viewport.label,
+            cookies: scenario.cookies,
+            removeSelectors: scenario.removeSelectors,
+            waitForSelector: scenario.waitForSelector,
+            url: scenario.url
+          },
+          { webdriver, By, until }
+        );
+
+        promises.push(snap.takeSnap());
+      });
+
       return Promise.all(promises);
     })
   );

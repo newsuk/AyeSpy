@@ -1,33 +1,26 @@
 /* globals jest expect */
-
-import webdriver from 'selenium-webdriver';
+import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
 
 jest.mock('fs');
-jest.mock('selenium-webdriver');
 
 describe('The snapshotter', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('Takes navigates to a page and snaps', async () => {
+  it('Navigates to a page and snaps', async () => {
     const config = {
-      gridUrl: 'https://lol.com'
+      gridUrl: 'https://lol.com',
+      label: 'test',
+      url: 'http://lolcats.com'
     };
 
-    const mockSnapshot = new SnapShotter(config);
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
 
-    for (let i = 0; i < 20; i++) {
-      const scenario = {
-        label: `test-${i}`,
-        url: `http://lolcats-${i}.com`
-      };
-      await mockSnapshot.takeSnap(scenario);
-    }
-
-    expect(mockSnapshot.driver.get.mock.calls.length).toBe(20);
-    expect(mockSnapshot.driver.takeScreenshot.mock.calls.length).toBe(20);
+    expect(mockSnapshot.driver.get).toBeCalledWith(config.url);
+    expect(mockSnapshot.driver.takeScreenshot.mock.calls.length).toBe(1);
   });
 
   it('Sets default values for height and width', () => {
@@ -35,7 +28,7 @@ describe('The snapshotter', () => {
       gridUrl: 'https://lol.com'
     };
 
-    const mockSnapshot = new SnapShotter(config);
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     expect(mockSnapshot.driver.setRect).toBeCalledWith({
       height: 1024,
       width: 700
@@ -43,17 +36,92 @@ describe('The snapshotter', () => {
   });
 
   it('Uses chrome and firefox', () => {
-    new SnapShotter({
-      gridUrl: 'https://lol.com',
-      browser: 'firefox'
-    });
+    new SnapShotter(
+      {
+        gridUrl: 'https://lol.com',
+        browser: 'firefox'
+      },
+      { webdriver, By, until }
+    );
 
-    new SnapShotter({
-      gridUrl: 'https://lol.com',
-      browser: 'chrome'
-    });
+    new SnapShotter(
+      {
+        gridUrl: 'https://lol.com',
+        browser: 'chrome'
+      },
+      { webdriver, By, until }
+    );
 
     expect(webdriver.Capabilities.chrome.mock.calls.length).toBe(1);
     expect(webdriver.Capabilities.firefox.mock.calls.length).toBe(1);
+  });
+
+  it('Waits for selectors', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      waitForSelector: 'selector'
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.wait.mock.calls.length).toBe(1);
+    expect(mockSnapshot.driver.wait).toBeCalledWith(
+      config.waitForSelector,
+      10000
+    );
+  });
+
+  it('Closes the browser if an error is thrown', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      waitForSelector: 'selector'
+    };
+
+    By.css = () => {
+      throw new Error('sad times');
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.quit.mock.calls.length).toBe(1);
+  });
+
+  it('Removes Selectors', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      removeSelectors: ['selector1', 'selector2']
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
+  });
+
+  it('Adds cookies', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      cookies: [
+        {
+          name: 'cookiename',
+          value: 'cookievalue'
+        },
+        {
+          name: 'anothercookiename',
+          value: 'anothercookievalue'
+        }
+      ]
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.addCookie.mock.calls.length).toBe(2);
   });
 });
