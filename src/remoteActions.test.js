@@ -5,7 +5,8 @@ import {
   resolveImagePath,
   listRemote,
   deleteRemote,
-  fetchRemote
+  fetchRemote,
+  uploadRemote
 } from './remoteActions';
 
 jest.mock('fs');
@@ -66,9 +67,32 @@ describe('Remote interactions', () => {
       browser: 'chrome',
       latest: './e2eTests/latest'
     };
+
     await fetchRemote(config, key, imageName);
     expect(fs.writeFileSync.mock.calls).toEqual([
       [`${path.resolve(config.latest)}/${imageName}`, 'buffer obj']
     ]);
+  });
+
+  it('uploads to the remote', async () => {
+    const key = 'baseline';
+    const config = {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      baseline: './e2eTests/baseline'
+    };
+    const file = ['file1'];
+
+    fs.readdirSync.mockReturnValue(file);
+    fs.createReadStream.mockReturnValue({
+      on: () => {}
+    });
+
+    await uploadRemote(key, config)
+      .then(promises => promises[0])
+      .then(data => data.map(obj => obj.Key))
+      .then(name => {
+        expect(name).toEqual(['chrome/baseline/file1']);
+      });
   });
 });

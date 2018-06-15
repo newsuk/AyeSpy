@@ -22,4 +22,8 @@ export default class S3 {
   getObject(params, callback) {
     callback(null, mockGetObjectResponse);
   }
+
+  putObject(config) {
+    return { promise: () => Promise.resolve(config) };
+  }
 }
