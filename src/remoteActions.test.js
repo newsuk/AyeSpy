@@ -1,6 +1,5 @@
 /* globals jest expect */
 import fs from 'fs';
-import path from 'path';
 import {
   resolveImagePath,
   listRemote,
@@ -10,6 +9,7 @@ import {
 } from './remoteActions';
 
 jest.mock('fs');
+jest.mock('path');
 
 describe('Remote interactions', () => {
   it('when passed a valid key a path is returned', async () => {
@@ -20,7 +20,7 @@ describe('Remote interactions', () => {
     };
 
     const returnedPath = await resolveImagePath('latest', config);
-    expect(returnedPath).toEqual(path.resolve(config.latest));
+    expect(returnedPath).toEqual('mock/resolved/path');
   });
 
   it('when passed an invalid key no path should return', async () => {
@@ -70,7 +70,7 @@ describe('Remote interactions', () => {
 
     await fetchRemote(config, key, imageName);
     expect(fs.writeFileSync.mock.calls).toEqual([
-      [`${path.resolve(config.latest)}/${imageName}`, 'buffer obj']
+      [`mock/resolved/path/${imageName}`, 'buffer obj']
     ]);
   });
 
@@ -92,7 +92,7 @@ describe('Remote interactions', () => {
       .then(promises => promises[0])
       .then(data => data.map(obj => obj.Key))
       .then(name => {
-        expect(name).toEqual(['chrome/baseline/file1']);
+        expect(name).toEqual(['chrome/baseline/mock/resolved/path/file1']);
       });
   });
 });
