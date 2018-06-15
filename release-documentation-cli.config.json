@@ -1,0 +1,8 @@
+{
+    "testEvidenceJobs":[
+        {
+            "buildName": "AyeSpy",
+            "ciTool": "bitrise"
+        }
+    ]
+}
