@@ -17,16 +17,26 @@ class Builder {
       window: () => {
         return wrap;
       },
+      findElement: element => Promise.resolve(element),
       setRect: jest.fn(),
       get: jest.fn(),
       takeScreenshot: jest.fn(),
-      quit: () => {
-        return wrap;
-      }
+      wait: jest.fn(),
+      quit: jest.fn(),
+      executeScript: jest.fn(),
+      addCookie: jest.fn()
     };
     return wrap;
   }
 }
+
+const By = {
+  css: selector => selector
+};
+
+const until = {
+  elementIsVisible: selector => selector
+};
 
 export default {
   Builder,
@@ -35,3 +45,5 @@ export default {
     firefox: jest.fn()
   }
 };
+
+export { By, until };
