@@ -1,6 +1,6 @@
 /* globals jest expect */
 
-import { resolveImagePath } from './remoteActions';
+import { resolveImagePath, listRemote, deleteRemote } from './remoteActions';
 
 jest.mock('path');
 
@@ -30,5 +30,25 @@ describe('Remote interactions', () => {
         'The key did not match any of the available options'
       );
     }
+  });
+
+  it('lists and filters remote objects', async () => {
+    const key = 'latest';
+    const data = await listRemote(key, {
+      remoteRegion: 'region',
+      browser: 'chrome'
+    });
+    expect(data.every(obj => obj.Key.includes(key))).toBe(true);
+    expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
+  });
+
+  it('deletes filtered remote objects', async () => {
+    const key = 'latest';
+    const data = await deleteRemote(key, {
+      remoteRegion: 'region',
+      browser: 'chrome'
+    });
+    expect(data.every(obj => obj.Key.includes(key))).toBe(true);
+    expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
   });
 });

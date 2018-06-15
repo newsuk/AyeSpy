@@ -33,10 +33,10 @@ const deleteRemote = (key, config) =>
     }
 
     if (filteredResults.length !== 0) {
-      s3.deleteObjects(params, error => {
+      s3.deleteObjects(params, (error, data) => {
         if (error) reject(error);
         logger.info('delete-remote', `Successfully deleted ${key}`);
-        resolve();
+        resolve(data);
       });
     }
     resolve();
