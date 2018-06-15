@@ -28,7 +28,10 @@ program
   .option('c, --config [config]', 'Path to your config')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
+    const configPath = path.resolve(options.config);
     const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+
+    if (!config) throw new Error(`Could not resolve ${configPath}`);
 
     config.browser = options.browser;
     logger.info('run', 'Getting snapshots... 📸 ');
