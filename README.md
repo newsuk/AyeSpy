@@ -1,8 +1,6 @@
 # Aye Spy
 ### Aye Spy with my little eye... a visual regression!
 
-![](https://s3-eu-west-1.amazonaws.com/aye-spy/ayespy.jpg)
-
 Aye spy is a high performance visual regression tool. Created to fit in with your cloud infrastructure and distribute tests using selenium grid for huge performance gains.
 
 In order to get the most out of Aye Spy we recommend using a selenium grid and cloud storage (currently supporting Amazon S3). However if you wish to run locally that is also supported but the performance gains will be less significant.
