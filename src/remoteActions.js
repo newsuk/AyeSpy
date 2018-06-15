@@ -12,6 +12,23 @@ const resolveImagePath = (key, config) =>
     reject('The key did not match any of the available options');
   });
 
+const createRemote = config => {
+  AWS.config.update({ region: config.remoteRegion });
+  const s3 = new AWS.S3();
+
+  const params = {
+    Bucket: config.remoteBucketName,
+    GrantFullControl: 'true',
+    GrantRead: 'true',
+    GrantReadACP: 'true',
+    GrantWrite: 'true',
+    GrantWriteACP: 'true'
+  };
+
+  const createBucketPromise = s3.createBucket(params).promise();
+  return createBucketPromise;
+};
+
 const deleteRemote = (key, config) =>
   new Promise(async (resolve, reject) => {
     const filteredResults = await listRemote(key, config);
@@ -116,6 +133,7 @@ const uploadRemote = async (key, config) => {
 };
 
 export {
+  createRemote,
   deleteRemote,
   fetchRemote,
   listRemote,
