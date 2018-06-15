@@ -12,10 +12,10 @@ const resolveImagePath = (key, config) =>
     reject('The key did not match any of the available options');
   });
 
-const deleteRemote = async (key, config) => {
-  const filteredResults = await listRemote(key, config);
+const deleteRemote = (key, config) =>
+  new Promise(async (resolve, reject) => {
+    const filteredResults = await listRemote(key, config);
 
-  new Promise((resolve, reject) => {
     AWS.config.update({ region: config.remoteRegion });
     const s3 = new AWS.S3();
 
@@ -32,18 +32,19 @@ const deleteRemote = async (key, config) => {
       params.Delete.Objects.push(keyObject);
     }
 
-    s3.deleteObjects(params, (error, data) => {
-      if (error) reject(error);
-      logger.info('delete-remote', `Successfully deleted ${key}`);
-      resolve(data);
-    });
+    if (filteredResults.length !== 0) {
+      s3.deleteObjects(params, error => {
+        if (error) reject(error);
+        logger.info('delete-remote', `Successfully deleted ${key}`);
+        resolve();
+      });
+    }
+    resolve();
   });
-};
 
-const fetchRemote = async (config, key, imageName) => {
-  const imageDir = await resolveImagePath(key, config);
-
-  new Promise((resolve, reject) => {
+const fetchRemote = (config, key, imageName) =>
+  new Promise(async (resolve, reject) => {
+    const imageDir = await resolveImagePath(key, config);
     const remoteFileName = `${config.browser}/${key}/${imageName}`;
     const fileName = `${imageDir}/${imageName}`;
     const s3 = new AWS.S3();
@@ -56,7 +57,6 @@ const fetchRemote = async (config, key, imageName) => {
       resolve();
     });
   });
-};
 
 const listRemote = (key, config) =>
   new Promise((resolve, reject) => {
@@ -76,53 +76,43 @@ const listRemote = (key, config) =>
 
 const uploadRemote = async (key, config) => {
   const imageDir = await resolveImagePath(key, config);
-
-  new Promise(resolve => {
-    AWS.config.update({
-      region: config.remoteRegion
-    });
-    const s3 = new AWS.S3();
-    const files = fs.readdirSync(imageDir).map(file => `${imageDir}/${file}`);
-
-    if (files.length !== 0) {
-      logger.info(
-        'upload-remote',
-        `${files.length} images to be uploaded to bucket: ${key}`
-      );
-
-      files.forEach(file => {
-        const fileStream = fs.createReadStream(file);
-
-        fileStream.on('error', err => {
-          logger.error('upload-remote', err);
-        });
-
-        const contentType = key === 'report' ? 'text/html' : 'image/png';
-
-        const uploadParams = {
-          Bucket: config.remoteBucketName,
-          Key: `${config.browser}/${key}/${path.basename(file)}`,
-          Body: fileStream,
-          ContentType: contentType
-        };
-
-        s3.putObject(uploadParams, (err, data) => {
-          if (err) {
-            logger.error(
-              'upload-remote',
-              `${path.basename(file)} : ❌  ${err}`
-            );
-          }
-          if (data) {
-            logger.info('upload-remote', `${path.basename(file)} : ✅`);
-          }
-        });
-      });
-    } else {
-      logger.info('upload-remote', 'No snapshots found - skipping');
-    }
-    resolve();
+  AWS.config.update({
+    region: config.remoteRegion
   });
+  const s3 = new AWS.S3();
+  const files = fs.readdirSync(imageDir).map(file => `${imageDir}/${file}`);
+
+  if (files.length !== 0) {
+    logger.info(
+      'upload-remote',
+      `${files.length} images to be uploaded to bucket: ${key}`
+    );
+  }
+
+  return Promise.all(
+    files.map(file => {
+      const fileStream = fs.createReadStream(file);
+
+      fileStream.on('error', err => {
+        logger.error('upload-remote', err);
+      });
+
+      const contentType = key === 'report' ? 'text/html' : 'image/png';
+
+      const uploadParams = {
+        Bucket: config.remoteBucketName,
+        Key: `${config.browser}/${key}/${path.basename(file)}`,
+        Body: fileStream,
+        ContentType: contentType
+      };
+
+      const putObjectPromise = s3.putObject(uploadParams).promise();
+
+      const promises = [];
+      promises.push(putObjectPromise);
+      return Promise.all(promises);
+    })
+  );
 };
 
 export {
