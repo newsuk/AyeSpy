@@ -1,17 +1,11 @@
 import logger from './logger';
+import scenarioValidator from './scenarioValidator';
 
 const comparisonDataConstructor = (fs, config) =>
   new Promise(async resolve => {
     const comparisonData = [];
     config.scenarios.forEach(scenario => {
-      if (!scenario.viewports)
-        throw `${scenario.label} has no viewpoorts array defined`;
-      if (scenario.viewports.some(viewport => !viewport.height))
-        throw `${scenario.label} has no height set`;
-      if (scenario.viewports.some(viewport => !viewport.width))
-        throw `${scenario.label} has no width set`;
-      if (scenario.viewports.some(viewport => !viewport.label))
-        throw `${scenario.label} has no label set`;
+      scenarioValidator(scenario);
 
       scenario.viewports.forEach(viewport => {
         const baselinePath = `${config.baseline}/${scenario.label}-${

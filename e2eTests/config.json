@@ -36,7 +36,7 @@
       {
         "label": "logged_out_article",
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/_TP_/article/3107c018-cb60-11e4-81dd-064fe933cd41",
-        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}],                
+        "viewports": [{"height": 2400, "width": 1024, "label": "large"},{"height": 2400, "width": 500, "label": "mobile"}],
         "removeSelectors": [
           "#ad-article-inline",
           "#ad-header",

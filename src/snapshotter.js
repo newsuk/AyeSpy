@@ -65,54 +65,52 @@ export default class SnapShotter {
     }
   }
 
+  async applyCookies() {
+    for (let i = 0; i < this._cookies.length; i++) {
+      const { name, value } = this._cookies[i];
+
+      await this.driver.manage().addCookie({
+        name,
+        value
+      });
+    }
+
+    await this.driver.get(this._url);
+  }
+
+  async waitForSelector() {
+    const timeout = 10000;
+    const element = await this.driver.findElement(
+      this._By.css(this._waitForSelector)
+    );
+
+    try {
+      await this.driver.wait(this._until.elementIsVisible(element), timeout);
+    } catch (error) {
+      logger.error(
+        'snapshotter',
+        `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+      );
+    }
+  }
+
   async takeSnap() {
     try {
-      const timeout = 10000;
       logger.info(
         'Snapshotting',
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
       await this.driver.get(this._url);
 
-      if (this._cookies) {
-        for (let i = 0; i < this._cookies.length; i++) {
-          const { name, value } = this._cookies[i];
+      if (this._cookies) await this.applyCookies();
 
-          await this.driver.manage().addCookie({
-            name,
-            value
-          });
-        }
+      if (this._removeSelectors) await this.removeTheSelectors();
 
-        await this.driver.get(this._url);
-      }
+      if (this._waitForSelector) await this.waitForSelector();
 
-      if (this._removeSelectors) {
-        await this.removeTheSelectors();
-      }
-
-      if (this._waitForSelector) {
-        const element = await this.driver.findElement(
-          this._By.css(this._waitForSelector)
-        );
-
-        try {
-          await this.driver.wait(
-            this._until.elementIsVisible(element),
-            timeout
-          );
-        } catch (error) {
-          logger.error(
-            'snapshotter',
-            `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
-          );
-        }
-      }
-
-      const screenShot = await this.driver.takeScreenshot();
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,
-        screenShot,
+        await this.driver.takeScreenshot(),
         'base64'
       );
     } catch (err) {

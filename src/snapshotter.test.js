@@ -9,7 +9,7 @@ describe('The snapshotter', () => {
     jest.clearAllMocks();
   });
 
-  it('Takes navigates to a page and snaps', async () => {
+  it('Navigates to a page and snaps', async () => {
     const config = {
       gridUrl: 'https://lol.com',
       label: 'test',
