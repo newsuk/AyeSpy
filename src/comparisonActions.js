@@ -1,10 +1,25 @@
 import path from 'path';
-import { deleteRemote, fetchRemote, uploadRemote } from './remoteActions';
+import {
+  createRemote,
+  deleteRemote,
+  fetchRemote,
+  uploadRemote
+} from './remoteActions';
 import createDiffImage from './createDiffs';
 import comparisonDataConstructor from './comparisonDataConstructor';
 import isEqual from './comparer';
 import Reporter from './reporter';
 import logger from './logger';
+
+const createBucket = async config => {
+  await createRemote(config)
+    .then(data => {
+      logger.info('comparison-actions', `Bucket already created ${data}`);
+    })
+    .catch(() => {
+      logger.info('comparison-actions', 'Bucket already created');
+    });
+};
 
 const createComparisons = async (fs, config) => {
   const comparisonData = await comparisonDataConstructor(fs, config);
@@ -74,6 +89,7 @@ const fetchRemoteComparisonImages = async (key, config) => {
 };
 
 export {
+  createBucket,
   createComparisons,
   createDirectories,
   clearDirectory,
