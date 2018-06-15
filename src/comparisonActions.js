@@ -12,13 +12,15 @@ import Reporter from './reporter';
 import logger from './logger';
 
 const createBucket = async config => {
-  await createRemote(config)
-    .then(data => {
-      logger.info('comparison-actions', `Bucket already created ${data}`);
-    })
-    .catch(() => {
-      logger.info('comparison-actions', 'Bucket already created');
-    });
+  if (config.remote) {
+    await createRemote(config)
+      .then(data => {
+        logger.info('comparison-actions', `Bucket already created ${data}`);
+      })
+      .catch(() => {
+        logger.info('comparison-actions', 'Bucket already created');
+      });
+  }
 };
 
 const createComparisons = async (fs, config) => {
