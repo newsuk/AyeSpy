@@ -1,0 +1,6 @@
+src
+tmp
+coverage
+yarn-error.log
+*.test.js
+e2eTests
