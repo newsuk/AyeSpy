@@ -1,19 +1,25 @@
 /* globals jest expect */
+import fs from 'fs';
+import path from 'path';
+import {
+  resolveImagePath,
+  listRemote,
+  deleteRemote,
+  fetchRemote
+} from './remoteActions';
 
-import { resolveImagePath, listRemote, deleteRemote } from './remoteActions';
-
-jest.mock('path');
+jest.mock('fs');
 
 describe('Remote interactions', () => {
-  it('when passed a vailid key a path is returned', async () => {
+  it('when passed a valid key a path is returned', async () => {
     const config = {
       baseline: './e2eTests/baseline',
       latest: './e2eTests/latest',
       generatedDiffs: './e2eTests/generatedDiffs'
     };
 
-    const path = await resolveImagePath('latest', config);
-    expect(path).toEqual('resolution');
+    const returnedPath = await resolveImagePath('latest', config);
+    expect(returnedPath).toEqual(path.resolve(config.latest));
   });
 
   it('when passed an invalid key no path should return', async () => {
@@ -50,5 +56,19 @@ describe('Remote interactions', () => {
     });
     expect(data.every(obj => obj.Key.includes(key))).toBe(true);
     expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
+  });
+
+  it('fetches remote objects', async () => {
+    const key = 'latest';
+    const imageName = '3homepage';
+    const config = {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      latest: './e2eTests/latest'
+    };
+    await fetchRemote(config, key, imageName);
+    expect(fs.writeFileSync.mock.calls).toEqual([
+      [`${path.resolve(config.latest)}/${imageName}`, 'buffer obj']
+    ]);
   });
 });
