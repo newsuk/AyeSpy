@@ -2,7 +2,8 @@
 
 import {
   createDirectories,
-  fetchRemoteComparisonImages
+  fetchRemoteComparisonImages,
+  clearDirectory
 } from './comparisonActions';
 import { deleteRemote, fetchRemote } from './remoteActions';
 
@@ -70,5 +71,21 @@ describe('The comparions actions', () => {
     );
     expect(deleteRemote.mock.calls.length).toBe(1);
     expect(fetchRemote.mock.calls.length).toBe(2);
+  });
+
+  it('clears the generated diffs directory', async () => {
+    mockFs = {
+      readdirSync: () => ['1', '2', '3', '4', '5', '6'],
+      unlinkSync: jest.fn()
+    };
+
+    const config = {
+      baseline: './baselineTest',
+      latest: './latestTest',
+      generatedDiffs: './generatedDiffsTest'
+    };
+
+    await clearDirectory(mockFs, config);
+    expect(mockFs.unlinkSync.mock.calls.length).toBe(6);
   });
 });
