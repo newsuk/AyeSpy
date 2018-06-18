@@ -7,14 +7,22 @@ describe('update baseline shots', () => {
 
   beforeEach(() => {
     mockFs = {
-      readdirSync: () => ['1', '2', '3', '4', '5', '6'],
+      readdirSync: () => [
+        '1.png',
+        '2.png',
+        '3.png',
+        '4.png',
+        '5.png',
+        '6.png',
+        '7.txt'
+      ],
       access: () => {},
       mkdirSync: () => {},
       copyFileSync: jest.fn()
     };
   });
 
-  it('copies src files to destination for all files', async () => {
+  it('copies src png files to destination for all files', async () => {
     const config = {
       baseline: 'baseline',
       latest: 'latest'
