@@ -76,20 +76,23 @@ const clearDirectory = (fs, config) => {
   });
 };
 
-const fetchRemoteComparisonImages = async (key, config) => {
+const fetchRemoteComparisonImages = async config => {
   if (config.remote) {
     await deleteRemote('generatedDiffs', config);
-    for (let i = 0; i < config.scenarios.length; i++) {
-      for (let j = 0; j < config.scenarios[i].viewports.length; j++) {
-        await fetchRemote(
-          config,
-          'baseline',
-          `${config.scenarios[i].label}-${
-            config.scenarios[i].viewports[j].label
-          }.png`
-        );
-      }
-    }
+    return Promise.all(
+      config.scenarios.map(scenario =>
+        scenario.viewports.map(viewport => {
+          const promises = [];
+          const fetchRemotePromise = fetchRemote(
+            config,
+            'baseline',
+            `${scenario.label}-${viewport.label}.png`
+          );
+          promises.push(fetchRemotePromise);
+          return Promise.all(promises);
+        })
+      )
+    );
   }
 };
 

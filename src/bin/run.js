@@ -78,7 +78,7 @@ program
     createDirectories(fs, config);
     clearDirectory(fs, config);
     createBucket(config);
-    await fetchRemoteComparisonImages(fs, config);
+    await fetchRemoteComparisonImages(config);
     await createComparisons(fs, config);
   });
 
