@@ -30,12 +30,6 @@ export default class Reporter {
     this.state.failed.count++;
   }
 
-  exit() {
-    this.generateReport();
-    const exitCode = this._state.failed.count > 0 ? 1 : 0;
-    process.exit(exitCode);
-  }
-
   generateReport() {
     logger.info(
       'Reporter',
