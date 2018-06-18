@@ -17,10 +17,13 @@ export default (fs, config) =>
     );
 
     for (let i = 0; i < latestSnaps.length; i++) {
-      const src = path.resolve(dirPath, latestSnaps[i]);
-      const destination = path.resolve(config.baseline, latestSnaps[i]);
+      const isPng = latestSnaps[i].split('.').pop() === 'png';
+      if (isPng) {
+        const src = path.resolve(dirPath, latestSnaps[i]);
+        const destination = path.resolve(config.baseline, latestSnaps[i]);
 
-      fs.copyFileSync(src, destination);
+        fs.copyFileSync(src, destination);
+      }
     }
 
     logger.info('update-baseline-shots', 'Baseline directory updated');
