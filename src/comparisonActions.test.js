@@ -3,12 +3,18 @@
 import {
   createDirectories,
   fetchRemoteComparisonImages,
-  clearDirectory
+  clearDirectory,
+  createComparisons
 } from './comparisonActions';
 import { deleteRemote, fetchRemote } from './remoteActions';
+import createDiffImage from './createDiffs';
 
 jest.mock('fs');
 jest.mock('./remoteActions');
+jest.mock('./reporter');
+jest.mock('./comparisonDataConstructor');
+jest.mock('./comparer');
+jest.mock('./createDiffs');
 
 describe('The comparions actions', () => {
   let mockFs;
@@ -20,6 +26,10 @@ describe('The comparions actions', () => {
       mkdirSync: () => {},
       copyFileSync: () => {}
     };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('Creates directories checks the directories exist before creating', async () => {
@@ -87,5 +97,27 @@ describe('The comparions actions', () => {
 
     await clearDirectory(mockFs, config);
     expect(mockFs.unlinkSync.mock.calls.length).toBe(6);
+  });
+
+  it('creates a diff image when comparison fails', async () => {
+    const config = {
+      baseline: './baselineTest',
+      latest: './latestTest',
+      generatedDiffs: './generatedDiffsTest',
+      scenarios: [
+        {
+          viewports: [{ height: 2400, width: 1024, label: 'large' }],
+          label: 'test1'
+        }
+      ]
+    };
+
+    mockFs = {
+      readdirSync: () => ['1', '2', '3', '4', '5', '6'],
+      unlinkSync: jest.fn()
+    };
+
+    await createComparisons(mockFs, config);
+    expect(createDiffImage.mock.calls.length).toBe(1);
   });
 });

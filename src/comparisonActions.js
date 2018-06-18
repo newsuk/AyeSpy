@@ -34,6 +34,7 @@ const createComparisons = async (fs, config) => {
   for (let i = 0; i < comparisonData.length; i++) {
     const scenario = comparisonData[i];
     const equal = await isEqual(scenario);
+    console.log(equal);
 
     if (equal) {
       reporter.pass(scenario.label);
