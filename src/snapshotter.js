@@ -104,9 +104,9 @@ export default class SnapShotter {
 
       if (this._cookies) await this.applyCookies();
 
-      if (this._removeSelectors) await this.removeTheSelectors();
-
       if (this._waitForSelector) await this.waitForSelector();
+
+      if (this._removeSelectors) await this.removeTheSelectors();
 
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,
