@@ -1,4 +1,4 @@
-/* globals expect jest it */
+/* globals expect it */
 import Reporter from './reporter';
 
 describe('Test reporter', () => {
@@ -24,21 +24,5 @@ describe('Test reporter', () => {
 
   it('throws without failed scenario name', () => {
     expect(() => reporter.fail()).toThrow();
-  });
-
-  it('exits with code 1 when there is a failure', () => {
-    global.process.exit = jest.fn();
-
-    reporter.fail('fail');
-    reporter.exit();
-    expect(global.process.exit).toBeCalledWith(1);
-  });
-
-  it('exits with code 0 when there is no failures', () => {
-    global.process.exit = jest.fn();
-
-    reporter.pass('test');
-    reporter.exit();
-    expect(global.process.exit).toBeCalledWith(0);
   });
 });

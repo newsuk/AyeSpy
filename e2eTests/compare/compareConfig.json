@@ -1,0 +1,35 @@
+{
+  "gridUrl": "http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub",
+  "baseline": "./e2eTests/compare/baseline",
+  "latest": "./e2eTests/compare/latest",
+  "generatedDiffs": "./e2eTests/compare/generatedDiffs",
+  "report": "./e2eTests/reports",
+  "remoteBucketName": "aye-spy",
+  "remoteRegion": "eu-west-1",
+  "scenarios": [
+    {
+      "url": "http://test.co.uk/",
+      "label": "pass",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "removeSelectors": ["#ad-header", ".AD"],
+      "cookies": [
+        {
+          "name": "acs_tnl",
+          "value": "logged_in"
+        }
+      ]
+    },
+    {
+      "url": "http://test.co.uk/",
+      "label": "fail",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "removeSelectors": ["#ad-header", ".AD"],
+      "cookies": [
+        {
+          "name": "acs_tnl",
+          "value": "logged_in"
+        }
+      ]
+    }]
+}
+

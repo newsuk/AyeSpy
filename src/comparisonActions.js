@@ -52,7 +52,7 @@ const createComparisons = async (fs, config) => {
         logger.error('upload-remote', `Error uploading files ❌  ${error}`)
       );
 
-  reporter.exit();
+  reporter.generateReport();
 };
 
 const createDirectories = (fs, config) =>
