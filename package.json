@@ -35,12 +35,12 @@
     "testing",
     "test"
   ],
-  "author": "L0wry",
+  "author": "newsuk",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/L0wry/Aye-Spy/issues"
+    "url": "https://github.com/newsuk/Aye-Spy/issues"
   },
-  "homepage": "https://github.com/L0wry/Aye-Spy#readme",
+  "homepage": "https://github.com/newsuk/Aye-Spy#readme",
   "dependencies": {
     "aws-sdk": "^2.252.1",
     "commander": "^2.15.1",
