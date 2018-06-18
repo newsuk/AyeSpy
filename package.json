@@ -1,6 +1,6 @@
 {
   "name": "aye-spy",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A visual regression tool",
   "main": "lib/bin/run.js",
   "scripts": {
