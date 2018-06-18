@@ -1,8 +1,13 @@
 /* globals jest expect */
 
-import { createDirectories } from './comparisonActions';
+import {
+  createDirectories,
+  fetchRemoteComparisonImages
+} from './comparisonActions';
+import { deleteRemote, fetchRemote } from './remoteActions';
 
 jest.mock('fs');
+jest.mock('./remoteActions');
 
 describe('The comparions actions', () => {
   let mockFs;
@@ -41,5 +46,29 @@ describe('The comparions actions', () => {
 
     await createDirectories(mockFs, config).catch(err => console.log(err));
     expect(mockFs.mkdirSync.mock.calls.length).toBe(3);
+  });
+
+  it('deletes generated differences from the remote buckect before fetching baseline images', async () => {
+    const config = {
+      baseline: './baselineTest',
+      latest: './latestTest',
+      generatedDiffs: './generatedDiffsTest',
+      remote: 'yes',
+      scenarios: [
+        {
+          viewports: [
+            { height: 2400, width: 1024, label: 'large' },
+            { height: 2400, width: 500, label: 'mobile' }
+          ],
+          label: 'test1'
+        }
+      ]
+    };
+
+    await fetchRemoteComparisonImages(mockFs, config).catch(err =>
+      console.log(err)
+    );
+    expect(deleteRemote.mock.calls.length).toBe(1);
+    expect(fetchRemote.mock.calls.length).toBe(2);
   });
 });
