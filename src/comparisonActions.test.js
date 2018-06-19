@@ -4,17 +4,18 @@ import {
   createDirectories,
   fetchRemoteComparisonImages,
   clearDirectory,
-  createComparisons
+  createComparisons,
+  createBucket
 } from './comparisonActions';
-import { deleteRemote, fetchRemote } from './remoteActions';
+import { deleteRemote, fetchRemote, createRemote } from './remoteActions';
 import createDiffImage from './createDiffs';
 
 jest.mock('fs');
-jest.mock('./remoteActions');
 jest.mock('./reporter');
 jest.mock('./comparisonDataConstructor');
 jest.mock('./comparer');
 jest.mock('./createDiffs');
+jest.mock('./remoteActions');
 
 describe('The comparions actions', () => {
   let mockFs;
@@ -76,9 +77,7 @@ describe('The comparions actions', () => {
       ]
     };
 
-    await fetchRemoteComparisonImages(mockFs, config).catch(err =>
-      console.log(err)
-    );
+    await fetchRemoteComparisonImages(mockFs, config);
     expect(deleteRemote.mock.calls.length).toBe(1);
     expect(fetchRemote.mock.calls.length).toBe(2);
   });
@@ -111,6 +110,13 @@ describe('The comparions actions', () => {
         }
       ]
     };
+    const expectedArgument = {
+      label: 'test1-large',
+      baseline: 'testBaseline/test1-large.png',
+      latest: 'testLatest/test1-large.png',
+      generatedDiffs: 'testDiff/test1-large.png',
+      tolerance: 0
+    };
 
     mockFs = {
       readdirSync: () => ['1', '2', '3', '4', '5', '6'],
@@ -118,6 +124,18 @@ describe('The comparions actions', () => {
     };
 
     await createComparisons(mockFs, config);
-    expect(createDiffImage.mock.calls.length).toBe(1);
+    expect(createDiffImage).toHaveBeenCalledWith(expectedArgument);
+  });
+
+  it('creates a remote bucket', async () => {
+    const config = {
+      baseline: './baselineTest',
+      latest: './latestTest',
+      generatedDiffs: './generatedDiffsTest',
+      remote: 'yes'
+    };
+
+    await createBucket(config).catch(err => console.log(err));
+    expect(createRemote).toHaveBeenCalledWith(config);
   });
 });
