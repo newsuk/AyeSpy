@@ -24,3 +24,4 @@ reports/
 
 # e2eTest folders 
 e2eTests/updateBaseline/baseline/*
+e2eTests/snap/latest/*

@@ -4,7 +4,7 @@
   "description": "A visual regression tool",
   "main": "lib/bin/run.js",
   "scripts": {
-    "test:e2e:snap": "yarn build && node lib/bin/run.js snap --browser chrome --config e2eTests/config.json --remote",
+    "test:e2e:snap": "yarn build && ./node_modules/.bin/jest e2eTests/snap/*",
     "test:e2e:compare": "yarn build && node lib/bin/run.js compare --browser chrome  --remote --config e2eTests/config.json",
     "test:e2e:update": "yarn build && ./node_modules/.bin/jest e2eTests/updateBaseline/*",
     "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --browser chrome --remote --config e2eTests/config.json",
@@ -48,6 +48,7 @@
     "npmlog": "^4.1.2",
     "pug": "^2.0.3",
     "release-documentation-cli": "^1.8.0",
+    "selenium-standalone": "^6.15.0",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "devDependencies": {
