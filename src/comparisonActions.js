@@ -3,7 +3,8 @@ import {
   createRemote,
   deleteRemote,
   fetchRemote,
-  uploadRemote
+  uploadRemote,
+  updateRemotePolicy
 } from './remoteActions';
 import createDiffImage from './createDiffs';
 import comparisonDataConstructor from './comparisonDataConstructor';
@@ -14,11 +15,12 @@ import logger from './logger';
 const createBucket = async config => {
   if (config.remote) {
     await createRemote(config)
-      .then(() => {
+      .then(async () => {
         logger.info(
           'comparison-actions',
           `${config.remoteBucketName} bucket has been created`
         );
+        await updateRemotePolicy(config);
       })
       .catch(() => {
         logger.info('comparison-actions', 'Bucket already created');

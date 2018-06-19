@@ -37,6 +37,7 @@ program
     config.browser = options.browser;
     logger.info('run', 'Getting snapshots... 📸 ');
     await createDirectories(fs, config);
+    await createBucket(config);
     await getScreenshots(SnapShotter, config);
     if (options.remote) await uploadRemote('latest', config);
   });
@@ -77,7 +78,7 @@ program
 
     createDirectories(fs, config);
     clearDirectory(fs, config);
-    createBucket(config);
+    await createBucket(config);
     await fetchRemoteComparisonImages(config);
     await createComparisons(fs, config);
   });
