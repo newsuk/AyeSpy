@@ -1,4 +1,4 @@
-const scenariioValidator = scenario => {
+const scenarioValidator = scenario => {
   if (!scenario.viewports)
     throw `${scenario.label} has no viewports array defined`;
   if (scenario.viewports.some(viewport => !viewport.height))
@@ -9,4 +9,4 @@ const scenariioValidator = scenario => {
     throw `${scenario.label} has no label set`;
 };
 
-export default scenariioValidator;
+export default scenarioValidator;
