@@ -1,12 +1,9 @@
-/* globals jest expect */
+/* globals jest jasmine expect */
 
-import looksSame from 'looks-same';
+import { createDiff } from 'looks-same';
 import createDiffImage from './createDiffs';
 
-jest.mock('looks-same', () => {
-  return { createDiff: jest.fn() };
-});
-
+jest.mock('looks-same');
 jest.mock('path');
 
 describe('Creating difference images', () => {
@@ -16,8 +13,7 @@ describe('Creating difference images', () => {
     jest.clearAllMocks();
   });
 
-  it('checks whether the image data looks the same', () => {
-    jest.setTimeout(60000);
+  it('checks whether the image data looks the same', async () => {
     const comparisonData = {
       label: 'test1-large',
       baseline: 'testBaseline/test1-large.png',
@@ -26,7 +22,19 @@ describe('Creating difference images', () => {
       tolerance: 0
     };
 
-    createDiffImage(comparisonData);
-    expect(looksSame.createDiff).toHaveBeenCalled();
+    const expectedArgument = {
+      current: 'testLatest/test1-large.png',
+      diff: 'mock/resolved/path',
+      highlightColor: '#ff00ff',
+      reference: 'testBaseline/test1-large.png',
+      strict: false,
+      tolerance: 0
+    };
+
+    await createDiffImage(comparisonData);
+    expect(createDiff).toHaveBeenCalledWith(
+      expectedArgument,
+      jasmine.any(Function)
+    );
   });
 });

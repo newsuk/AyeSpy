@@ -1,10 +1,10 @@
-import looksSame from 'looks-same';
+import { createDiff } from 'looks-same';
 import path from 'path';
 import logger from './logger';
 
 const createDiffImage = imageData =>
   new Promise((resolve, reject) => {
-    looksSame.createDiff(
+    createDiff(
       {
         reference: imageData.baseline,
         current: imageData.latest,
