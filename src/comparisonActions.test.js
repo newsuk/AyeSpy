@@ -77,7 +77,7 @@ describe('The comparions actions', () => {
       ]
     };
 
-    await fetchRemoteComparisonImages(mockFs, config);
+    await fetchRemoteComparisonImages(config);
     expect(deleteRemote.mock.calls.length).toBe(1);
     expect(fetchRemote.mock.calls.length).toBe(2);
   });
