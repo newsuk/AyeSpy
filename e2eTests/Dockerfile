@@ -4,6 +4,6 @@ WORKDIR /home/node/app
 
 COPY . .
 
-RUN npm install
+RUN yarn
 
-CMD npm run test:e2e:snap
+CMD yarn test:e2e
