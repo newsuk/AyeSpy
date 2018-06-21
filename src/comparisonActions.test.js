@@ -60,7 +60,7 @@ describe('The comparions actions', () => {
     expect(mockFs.mkdirSync.mock.calls.length).toBe(3);
   });
 
-  it('deletes generated differences from the remote bucket before fetching baseline images', async () => {
+  it('deletes generated differences from the remote bucket and gets each image', async () => {
     const config = {
       baseline: './baselineTest',
       latest: './latestTest',
