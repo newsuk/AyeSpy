@@ -3,7 +3,8 @@ import {
   createRemote,
   deleteRemote,
   fetchRemote,
-  uploadRemote
+  uploadRemote,
+  updateRemotePolicy
 } from './remoteActions';
 import createDiffImage from './createDiffs';
 import comparisonDataConstructor from './comparisonDataConstructor';
@@ -14,11 +15,12 @@ import logger from './logger';
 const createBucket = async config => {
   if (config.remote) {
     await createRemote(config)
-      .then(() => {
+      .then(async () => {
         logger.info(
           'comparison-actions',
           `${config.remoteBucketName} bucket has been created`
         );
+        await updateRemotePolicy(config);
       })
       .catch(() => {
         logger.info('comparison-actions', 'Bucket already created');
@@ -52,7 +54,7 @@ const createComparisons = async (fs, config) => {
         logger.error('upload-remote', `Error uploading files ❌  ${error}`)
       );
 
-  reporter.exit();
+  reporter.generateReport();
 };
 
 const createDirectories = (fs, config) =>
@@ -76,20 +78,23 @@ const clearDirectory = (fs, config) => {
   });
 };
 
-const fetchRemoteComparisonImages = async (key, config) => {
+const fetchRemoteComparisonImages = async config => {
   if (config.remote) {
     await deleteRemote('generatedDiffs', config);
-    for (let i = 0; i < config.scenarios.length; i++) {
-      for (let j = 0; j < config.scenarios[i].viewports.length; j++) {
-        await fetchRemote(
-          config,
-          'baseline',
-          `${config.scenarios[i].label}-${
-            config.scenarios[i].viewports[j].label
-          }.png`
-        );
-      }
-    }
+    return Promise.all(
+      config.scenarios.map(scenario =>
+        scenario.viewports.map(viewport => {
+          const promises = [];
+          const fetchRemotePromise = fetchRemote(
+            config,
+            'baseline',
+            `${scenario.label}-${viewport.label}.png`
+          );
+          promises.push(fetchRemotePromise);
+          return Promise.all(promises);
+        })
+      )
+    );
   }
 };
 

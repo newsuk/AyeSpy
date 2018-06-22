@@ -29,7 +29,7 @@ export AWS_SECRET_ACCESS_KEY=secretkey
 export AWS_ACCESS_KEY_ID=keyid
 ```
 
-Create an S3 bucket to store your images.
+Create an S3 bucket to store your images. It will also need to have the correct permissions set up.
 
 Example cofig:
 

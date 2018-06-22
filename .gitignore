@@ -25,3 +25,5 @@ reports/
 # e2eTest folders 
 e2eTests/updateBaseline/baseline/*
 e2eTests/snap/latest/*
+e2eTests/compare/generatedDiffs/*
+

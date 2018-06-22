@@ -1,14 +1,14 @@
 {
   "name": "aye-spy",
-  "version": "1.4.2",
+  "version": "1.4.7",
   "description": "A visual regression tool",
   "main": "lib/bin/run.js",
   "scripts": {
     "test:e2e:snap": "yarn build && ./node_modules/.bin/jest e2eTests/snap/*",
-    "test:e2e:compare": "yarn build && node lib/bin/run.js compare --browser chrome  --remote --config e2eTests/config.json",
+    "test:e2e:compare": "yarn build && ./node_modules/.bin/jest e2eTests/compare/*",
     "test:e2e:update": "yarn build && ./node_modules/.bin/jest e2eTests/updateBaseline/*",
     "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --browser chrome --remote --config e2eTests/config.json",
-    "test:e2e": "yarn test:e2e:snap && yarn test:e2e:update",
+    "test:e2e": "yarn build && ./node_modules/.bin/jest e2eTests/*",
     "test": "yarn build && ./node_modules/.bin/jest ./lib --coverage",
     "lint": "eslint src/ --fix && eslint e2eTests/ --fix",
     "lint-staged": "lint-staged",
@@ -35,12 +35,12 @@
     "testing",
     "test"
   ],
-  "author": "L0wry",
+  "author": "newsuk",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/L0wry/Aye-Spy/issues"
+    "url": "https://github.com/newsuk/Aye-Spy/issues"
   },
-  "homepage": "https://github.com/L0wry/Aye-Spy#readme",
+  "homepage": "https://github.com/newsuk/Aye-Spy#readme",
   "dependencies": {
     "aws-sdk": "^2.252.1",
     "commander": "^2.15.1",
