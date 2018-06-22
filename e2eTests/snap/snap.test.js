@@ -21,9 +21,13 @@ describe('e2e Tests taking snaps', () => {
   it('should successfully take a snapshot', async () => {
     let exitCode = 0;
 
-    try{
-      execSync('node ./lib/bin/run.js snap --browser chrome --config e2eTests/snap/snapConfig.json');
-    }catch (error) {
+    try {
+      const stdout = execSync(
+        'node ./lib/bin/run.js snap --browser chrome --config e2eTests/snap/snapConfig.json'
+      ).toString();
+      //pipe stdout to Jest console
+      console.log(stdout);
+    } catch (error) {
       exitCode = error.status;
     }
 
@@ -31,5 +35,4 @@ describe('e2e Tests taking snaps', () => {
     const latestDirFiles = fs.readdirSync(dirPath);
     expect(latestDirFiles).toEqual(['image-large.png']);
   });
-
 });

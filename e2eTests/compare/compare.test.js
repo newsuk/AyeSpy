@@ -18,8 +18,8 @@ describe('e2e Tests compare shots locally', () => {
     }
   });
 
-  it('Compares the latest images with the baseline images', async () => {
-    const stdout = await execSync(
+  it('Compares the latest images with the baseline images', () => {
+    const stdout = execSync(
       'node ./lib/bin/run.js compare --browser chrome --config e2eTests/compare/compareConfig.json'
     ).toString();
 
