@@ -54,10 +54,15 @@ const writeReport = (config, reportsData) => {
   const reportPresentation = compileTemplate({ reportsData });
   const reportDir = path.resolve(config.report);
 
-  if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir);
-  fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
-  logger.info('generate-report', 'successfully created report!');
-  return `${reportDir}/index.html`;
+  try {
+    if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir);
+    fs.writeFileSync(`${reportDir}/index.html`, reportPresentation);
+    logger.info('generate-report', 'successfully created report!');
+    return `${reportDir}/index.html`;
+  } catch (err) {
+    logger.error(err);
+    process.exitCode = 1;
+  }
 };
 
 const generateRemoteReport = async config => {
