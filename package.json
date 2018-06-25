@@ -11,7 +11,7 @@
     "test:e2e": "yarn build && ./node_modules/.bin/jest e2eTests/*",
     "test:e2e:build": "cd e2eTests && docker-compose build e2e",
     "test:e2e:run": "cd e2eTests && docker-compose run e2e",
-    "test": "./node_modules/.bin/jest ./src --coverage",
+    "test": "./node_modules/.bin/jest ./src/* --coverage",
     "lint": "eslint src/ --fix && eslint e2eTests/ --fix",
     "lint-staged": "lint-staged",
     "build": "babel src --out-dir lib",
