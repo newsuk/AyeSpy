@@ -1,7 +1,7 @@
 /* globals jest expect */
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
-import jestFunction from './__mocks__/seleniumMock';
+import seleniumMockFunction from './__mocks__/seleniumMock';
 
 jest.mock('fs');
 
@@ -137,7 +137,7 @@ describe('The snapshotter', () => {
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
-    expect(jestFunction).toBeCalledWith(mockSnapshot.driver);
-    expect(jestFunction.mock.calls.length).toBe(2);
+    expect(seleniumMockFunction).toBeCalledWith(mockSnapshot.driver);
+    expect(seleniumMockFunction.mock.calls.length).toBe(2);
   });
 });
