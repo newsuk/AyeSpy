@@ -1,0 +1,15 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/snap/baseline",
+  "latest": "./e2eTests/snap/latest",
+  "generatedDiffs": "./e2eTests/snap/generatedDiffs",
+  "report": "./e2eTests/reports",
+  "remoteBucketName": "aye-spy",
+  "remoteRegion": "eu-west-1",
+  "scenarios": [
+    {
+      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
+      "label": "image",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
+    }]
+}

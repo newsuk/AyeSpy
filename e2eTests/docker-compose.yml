@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  hub:
+    image: selenium/hub:latest
+    expose:
+      - 4444
+    networks:
+      - selenium-grid
+
+  chrome:
+    image: selenium/node-chrome-debug:latest
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    ports:
+      - 5900:5900
+    depends_on:
+      - hub
+    networks:
+      - selenium-grid
+
+  e2e:
+    build:
+      context: ..
+      dockerfile: ./e2eTests/Dockerfile
+    depends_on:
+      - chrome  
+    networks:
+      - selenium-grid
+
+networks:
+  selenium-grid:
