@@ -10,8 +10,6 @@
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
         "label": "homepage",
-        "height": 2400,
-        "width": 1024,
         "removeSelectors": ["#ad-header", ".AD"],
         "cookies": [
           {
