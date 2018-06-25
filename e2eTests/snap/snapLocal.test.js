@@ -5,7 +5,7 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import config from './snapConfig';
 
-describe('e2e Tests taking snaps', () => {
+describe('e2e Tests taking snaps locally', () => {
   let dirPath;
 
   beforeEach(() => {
