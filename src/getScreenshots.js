@@ -20,7 +20,9 @@ export default (SnapShotter, config) =>
             cookies: scenario.cookies,
             removeSelectors: scenario.removeSelectors,
             waitForSelector: scenario.waitForSelector,
-            url: scenario.url
+            url: scenario.url,
+            onBeforeScript: scenario.onBeforeScript,
+            onReadyScript: scenario.onReadyScript
           },
           { webdriver, By, until }
         );

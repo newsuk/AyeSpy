@@ -1,4 +1,7 @@
+/* eslint-disable import/no-dynamic-require*/
+
 import fs from 'fs';
+import path from 'path';
 import logger from './logger';
 
 export default class SnapShotter {
@@ -14,7 +17,9 @@ export default class SnapShotter {
       removeSelectors,
       waitForSelector,
       url = 'http://localhost:80',
-      viewportLabel = 'viewportLabel'
+      viewportLabel = 'viewportLabel',
+      onBeforeScript,
+      onReadyScript
     },
     selenium
   ) {
@@ -28,6 +33,8 @@ export default class SnapShotter {
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
     this._url = url;
+    this._onBeforeScript = onBeforeScript;
+    this._onReadyScript = onReadyScript;
     this._viewportLabel = viewportLabel;
     this._By = selenium.By;
     this._until = selenium.until;
@@ -94,12 +101,25 @@ export default class SnapShotter {
     }
   }
 
+  async executeScript(script) {
+    try {
+      const scriptToExecute = require(path.resolve(script));
+      await scriptToExecute(this._driver);
+    } catch (error) {
+      logger.error(
+        'snapshotter',
+        `❌  Unable to find the specified script location! ❌ ${error}`
+      );
+    }
+  }
+
   async takeSnap() {
     try {
       logger.info(
         'Snapshotting',
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
+      if (this._onBeforeScript) await this.executeScript(this._onBeforeScript);
       await this.driver.get(this._url);
 
       if (this._cookies) await this.applyCookies();
@@ -107,6 +127,8 @@ export default class SnapShotter {
       if (this._waitForSelector) await this.waitForSelector();
 
       if (this._removeSelectors) await this.removeTheSelectors();
+
+      if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,

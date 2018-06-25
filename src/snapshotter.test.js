@@ -1,6 +1,7 @@
 /* globals jest expect */
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
+import jestFunction from './__mocks__/seleniumMock';
 
 jest.mock('fs');
 
@@ -123,5 +124,20 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.addCookie.mock.calls.length).toBe(2);
+  });
+
+  it('Executes a script', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      onBeforeScript: './src/__mocks__/seleniumMock.js',
+      onReadyScript: './src/__mocks__/seleniumMock.js'
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(jestFunction).toBeCalledWith(mockSnapshot.driver);
+    expect(jestFunction.mock.calls.length).toBe(2);
   });
 });
