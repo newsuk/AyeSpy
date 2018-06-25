@@ -34,6 +34,8 @@ program
 
     if (!config) throw new Error(`Could not resolve ${configPath}`);
 
+    validateConfig('latest', options.remote, config);
+
     config.browser = options.browser;
     logger.info('run', 'Getting snapshots... 📸 ');
     await createDirectories(fs, config);
