@@ -32,7 +32,8 @@ function isLocalConfigValid(config) {
     'latest',
     'generatedDiffs',
     'report',
-    'scenarios'
+    'scenarios',
+    'browser'
   ].filter(field => !config[field]);
 
   return isValid(missingConfigFields);

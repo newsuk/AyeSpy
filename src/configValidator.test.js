@@ -20,6 +20,7 @@ describe('The Config Validator', () => {
       latest: './e2eTests/generateHtmlReport/latest',
       generatedDiffs: './e2eTests/generateHtmlReport/generatedDiffs',
       report: './e2eTests/generateHtmlReport/reports',
+      browser: 'chrome',
       scenarios: [
         {
           url: 'http:/google.com/',
@@ -76,6 +77,7 @@ describe('The Config Validator', () => {
       latest: './e2eTests/generateHtmlReport/latest',
       generatedDiffs: './e2eTests/generateHtmlReport/generatedDiffs',
       report: './e2eTests/generateHtmlReport/reports',
+      browser: 'chrome',
       scenarios: [
         {
           url: 'http:/google.com/',
