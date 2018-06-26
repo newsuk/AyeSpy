@@ -4,7 +4,7 @@ function isValid(missingConfigFields) {
   if (missingConfigFields.length > 0) {
     logger.info(
       'configValidator',
-      `❗️Missing mandatory fields from config: \n${missingConfigFields.toString()}`
+      `❗️Please add missing mandatory fields to your config: \n${missingConfigFields.toString()}`
     );
     return false;
   }
@@ -18,9 +18,9 @@ function isRemoteConfigValid(config) {
   );
 
   if (!process.env.AWS_SECRET_ACCESS_KEY)
-    missingConfigFields.push('env variable AWS_SECRET_ACCESS_KEY');
+    missingConfigFields.push('env variable: AWS_SECRET_ACCESS_KEY');
   if (!process.env.AWS_ACCESS_KEY_ID)
-    missingConfigFields.push('env variable AWS_ACCESS_KEY_ID');
+    missingConfigFields.push('env variable: AWS_ACCESS_KEY_ID');
 
   return isValid(missingConfigFields);
 }
@@ -49,14 +49,14 @@ const validateConfig = (config, isRemote) =>
     if (isLocalConfigValid(config) && isRemoteConfigCorrect) {
       logger.info('configValidator', 'Config validated ✅');
       resolve();
+    } else {
+      logger.info(
+        'config Validator',
+        '❗️ Please update your config to be valid \n Exiting Aye Spy'
+      );
+      process.exitCode = 1;
+      process.exit();
     }
-
-    logger.info(
-      'config Validator',
-      '❗️ Please update your config to be valid \n Exiting Aye Spy'
-    );
-    process.exitCode = 1;
-    process.exit();
   });
 
 export default validateConfig;
