@@ -11,6 +11,7 @@ function isValid(missingConfigFields) {
 
   return true;
 }
+
 function isRemoteConfigValid(config) {
   const missingConfigFields = ['remoteBucketName', 'remoteRegion'].filter(
     field => !config[field]
@@ -23,6 +24,7 @@ function isRemoteConfigValid(config) {
 
   return isValid(missingConfigFields);
 }
+
 function isLocalConfigValid(config) {
   const missingConfigFields = [
     'gridUrl',
@@ -36,11 +38,26 @@ function isLocalConfigValid(config) {
   return isValid(missingConfigFields);
 }
 
-const validateConfig = (config, isRemote) => {
-  if (isRemote) isRemoteConfigValid(config);
+const validateConfig = (config, isRemote) =>
+  new Promise(resolve => {
+    let isRemoteConfigCorrect = true;
 
-  isLocalConfigValid(config);
-};
+    if (isRemote) {
+      isRemoteConfigCorrect = isRemoteConfigValid(config);
+    }
+
+    if (isLocalConfigValid(config) && isRemoteConfigCorrect) {
+      logger.info('configValidator', 'Config validated ✅');
+      resolve();
+    }
+
+    logger.info(
+      'config Validator',
+      '❗️ Please update your config to be valid \n Exiting Aye Spy'
+    );
+    process.exitCode = 1;
+    process.exit();
+  });
 
 export default validateConfig;
 export { isLocalConfigValid, isRemoteConfigValid };
