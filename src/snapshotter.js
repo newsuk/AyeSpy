@@ -106,10 +106,7 @@ export default class SnapShotter {
       const scriptToExecute = require(path.resolve(script));
       await scriptToExecute(this._driver);
     } catch (error) {
-      logger.error(
-        'snapshotter',
-        `❌  Unable to find the specified script location! ❌ ${error}`
-      );
+      logger.error('snapshotter', `❌  Unable to run script due to: ${error}`);
     }
   }
 
@@ -119,16 +116,17 @@ export default class SnapShotter {
         'Snapshotting',
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
-      if (this._onBeforeScript) await this.executeScript(this._onBeforeScript);
       await this.driver.get(this._url);
+
+      if (this._onBeforeScript) await this.executeScript(this._onBeforeScript);
 
       if (this._cookies) await this.applyCookies();
 
       if (this._waitForSelector) await this.waitForSelector();
 
-      if (this._removeSelectors) await this.removeTheSelectors();
-
       if (this._onReadyScript) await this.executeScript(this._onReadyScript);
+
+      if (this._removeSelectors) await this.removeTheSelectors();
 
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,

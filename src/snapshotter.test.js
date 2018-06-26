@@ -1,7 +1,8 @@
 /* globals jest expect */
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
-import seleniumMockFunction from './__mocks__/seleniumMock';
+import seleniumMock from './__mocks__/seleniumMock';
+import logger from './logger';
 
 jest.mock('fs');
 
@@ -126,18 +127,43 @@ describe('The snapshotter', () => {
     expect(mockSnapshot.driver.addCookie.mock.calls.length).toBe(2);
   });
 
-  it('Executes a script', async () => {
+  it('Executes the onBefore script', async () => {
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
       label: '1homepage',
-      onBeforeScript: './src/__mocks__/seleniumMock.js',
+      onBeforeScript: './src/__mocks__/seleniumMock.js'
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(seleniumMock).toBeCalledWith(mockSnapshot.driver);
+  });
+
+  it('Executes the onReady script', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
       onReadyScript: './src/__mocks__/seleniumMock.js'
     };
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
-    expect(seleniumMockFunction).toBeCalledWith(mockSnapshot.driver);
-    expect(seleniumMockFunction.mock.calls.length).toBe(2);
+    expect(seleniumMock).toBeCalledWith(mockSnapshot.driver);
+  });
+
+  it.only('Throws an error if incorrect script file is provided', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      onReadyScript: '/brokenfile.js'
+    };
+
+    logger.error = jest.fn();
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(logger.error.mock.calls.length).toBe(1);
   });
 });
