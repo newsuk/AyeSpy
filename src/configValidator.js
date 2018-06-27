@@ -1,5 +1,16 @@
 import logger from './logger';
 
+const mandatoryLocalFields = [
+  'gridUrl',
+  'baseline',
+  'latest',
+  'generatedDiffs',
+  'report',
+  'scenarios',
+  'browser'
+];
+const mandatoryRemoteFields = ['remoteBucketName', 'remoteRegion'];
+
 function isValid(missingConfigFields) {
   if (missingConfigFields.length > 0) {
     logger.info(
@@ -13,7 +24,7 @@ function isValid(missingConfigFields) {
 }
 
 function isRemoteConfigValid(config) {
-  const missingConfigFields = ['remoteBucketName', 'remoteRegion'].filter(
+  const missingConfigFields = mandatoryRemoteFields.filter(
     field => !config[field]
   );
 
@@ -26,15 +37,9 @@ function isRemoteConfigValid(config) {
 }
 
 function isLocalConfigValid(config) {
-  const missingConfigFields = [
-    'gridUrl',
-    'baseline',
-    'latest',
-    'generatedDiffs',
-    'report',
-    'scenarios',
-    'browser'
-  ].filter(field => !config[field]);
+  const missingConfigFields = mandatoryLocalFields.filter(
+    field => !config[field]
+  );
 
   return isValid(missingConfigFields);
 }
