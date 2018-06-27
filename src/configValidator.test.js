@@ -5,12 +5,24 @@ import validateConfig, {
   isRemoteConfigValid
 } from './configValidator';
 
+import logger from './logger';
+
 describe('The Config Validator', () => {
+  beforeEach(() => {
+    logger.info = jest.fn();
+  });
+
   it('local config returns false for invalid configs', () => {
     const config = {
       gridUrl: 'http://selenium.com:4444/wd/hub'
     };
+
+    logger.info = jest.fn();
     expect(isLocalConfigValid(config)).toBe(false);
+    const missingFields = logger.info.mock.calls[0][1];
+    expect(missingFields).toContain(
+      'baseline,latest,generatedDiffs,report,scenarios,browser'
+    );
   });
 
   it('local config returns true for valid configs', () => {
@@ -36,6 +48,10 @@ describe('The Config Validator', () => {
       gridUrl: 'http://selenium.com:4444/wd/hub'
     };
     expect(isRemoteConfigValid(config)).toBe(false);
+    const missingFields = logger.info.mock.calls[0][1];
+    expect(missingFields).toContain(
+      'remoteBucketName,remoteRegion,env variable: AWS_SECRET_ACCESS_KEY,env variable: AWS_ACCESS_KEY_ID'
+    );
   });
 
   it('remote config returns true for valid configs', () => {
