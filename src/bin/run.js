@@ -43,7 +43,6 @@ program
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
-      if (!config) throw Error(`Could not resolve config at path: ${config}`);
       if (options.browser) config.browser = options.browser;
 
       validateConfig(config, options.remote);
