@@ -1,4 +1,7 @@
+/* eslint-disable import/no-dynamic-require*/
+
 import fs from 'fs';
+import path from 'path';
 import logger from './logger';
 
 export default class SnapShotter {
@@ -14,7 +17,9 @@ export default class SnapShotter {
       removeSelectors,
       waitForSelector,
       url = 'http://localhost:80',
-      viewportLabel = 'viewportLabel'
+      viewportLabel = 'viewportLabel',
+      onBeforeScript,
+      onReadyScript
     },
     selenium
   ) {
@@ -28,6 +33,8 @@ export default class SnapShotter {
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
     this._url = url;
+    this._onBeforeScript = onBeforeScript;
+    this._onReadyScript = onReadyScript;
     this._viewportLabel = viewportLabel;
     this._By = selenium.By;
     this._until = selenium.until;
@@ -94,6 +101,15 @@ export default class SnapShotter {
     }
   }
 
+  async executeScript(script) {
+    try {
+      const scriptToExecute = require(path.resolve(script));
+      await scriptToExecute(this._driver);
+    } catch (error) {
+      logger.error('snapshotter', `❌  Unable to run script due to: ${error}`);
+    }
+  }
+
   async takeSnap() {
     try {
       logger.info(
@@ -102,9 +118,13 @@ export default class SnapShotter {
       );
       await this.driver.get(this._url);
 
+      if (this._onBeforeScript) await this.executeScript(this._onBeforeScript);
+
       if (this._cookies) await this.applyCookies();
 
       if (this._waitForSelector) await this.waitForSelector();
+
+      if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 
       if (this._removeSelectors) await this.removeTheSelectors();
 
