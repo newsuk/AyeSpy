@@ -15,7 +15,7 @@ function isValid(missingConfigFields) {
   if (missingConfigFields.length > 0) {
     logger.info(
       'configValidator',
-      `❗️Please add missing mandatory fields to your config: \n${missingConfigFields.toString()}`
+      `❗️  Please add missing mandatory fields to your config: \n${missingConfigFields.toString()}`
     );
     return false;
   }
