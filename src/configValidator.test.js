@@ -17,7 +17,6 @@ describe('The Config Validator', () => {
       gridUrl: 'http://selenium.com:4444/wd/hub'
     };
 
-    logger.info = jest.fn();
     expect(isLocalConfigValid(config)).toBe(false);
     const missingFields = logger.info.mock.calls[0][1];
     expect(missingFields).toContain(
