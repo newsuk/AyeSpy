@@ -74,7 +74,6 @@ const By = require('selenium-webdriver').By;
 
 const clickElement = async browser => {
   await browser.findElement(By.css('#buttonId"]')).click();
-  );
 };
 
 module.exports = clickElement;
