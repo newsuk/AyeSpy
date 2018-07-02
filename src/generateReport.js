@@ -8,27 +8,29 @@ const createReportData = config => {
   const report = [];
 
   for (let i = 0; i < config.scenarios.length; i++) {
-    const imageName = `${config.scenarios[i].label}.png`;
-    const baselinePath = path.resolve(`${config.baseline}/${imageName}`);
-    const latestPath = path.resolve(`${config.latest}/${imageName}`);
-    const generatedDiffsPath = path.resolve(
-      `${config.generatedDiffs}/${imageName}`
-    );
+    const scenario = config.scenarios[i];
+    scenario.viewports.forEach(viewport => {
+      const name = `${scenario.label}-${viewport.label}`;
+      const imageName = `${name}.png`;
 
-    if (fs.existsSync(generatedDiffsPath)) {
-      logger.info(
-        'generate-report',
-        `found diff for ${config.scenarios[i].label}`
+      const baselinePath = path.resolve(`${config.baseline}/${imageName}`);
+      const latestPath = path.resolve(`${config.latest}/${imageName}`);
+      const generatedDiffsPath = path.resolve(
+        `${config.generatedDiffs}/${imageName}`
       );
-      const scenarioData = {
-        label: config.scenarios[i].label,
-        baseline: baselinePath,
-        latest: latestPath,
-        generatedDiff: generatedDiffsPath
-      };
 
-      report.push(scenarioData);
-    }
+      if (fs.existsSync(generatedDiffsPath)) {
+        logger.info('generate-report', `found diff for ${name}`);
+        const scenarioData = {
+          label: name,
+          baseline: baselinePath,
+          latest: latestPath,
+          generatedDiff: generatedDiffsPath
+        };
+
+        report.push(scenarioData);
+      }
+    });
   }
   return report;
 };
