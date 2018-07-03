@@ -153,7 +153,7 @@ describe('The snapshotter', () => {
     expect(seleniumMock).toBeCalledWith(mockSnapshot.driver);
   });
 
-  it.only('Throws an error if incorrect script file is provided', async () => {
+  it('Throws an error if incorrect script file is provided', async () => {
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
