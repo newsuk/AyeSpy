@@ -66,7 +66,7 @@ export default class SnapShotter {
     for (let i = 0; i < this._removeSelectors.length; i++) {
       const script = `$('${
         this._removeSelectors[i]
-      }').forEach(element => element.style.display = "none")`;
+      }').forEach(element => element.remove())`;
 
       await this.driver.executeScript(script);
     }
