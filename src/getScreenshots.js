@@ -22,7 +22,8 @@ export default (SnapShotter, config) =>
             waitForSelector: scenario.waitForSelector,
             url: scenario.url,
             onBeforeScript: scenario.onBeforeScript,
-            onReadyScript: scenario.onReadyScript
+            onReadyScript: scenario.onReadyScript,
+            wait: scenario.wait
           },
           { webdriver, By, until }
         );

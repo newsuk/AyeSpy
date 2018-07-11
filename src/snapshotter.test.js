@@ -105,6 +105,20 @@ describe('The snapshotter', () => {
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
   });
 
+  it('implicitly waits if specified', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://test.co.uk/',
+      label: '1homepage',
+      wait: 2000
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    mockSnapshot.snooze = jest.fn();
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.snooze.mock.calls.length).toBe(1);
+  });
+
   it('Adds cookies', async () => {
     const config = {
       gridUrl: 'https://lol.com',
