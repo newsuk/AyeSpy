@@ -16,6 +16,7 @@ export default class SnapShotter {
       cookies,
       removeSelectors,
       waitForSelector,
+      wait,
       url = 'http://localhost:80',
       viewportLabel = 'viewportLabel',
       onBeforeScript,
@@ -33,6 +34,7 @@ export default class SnapShotter {
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
     this._url = url;
+    this.wait = wait;
     this._onBeforeScript = onBeforeScript;
     this._onReadyScript = onReadyScript;
     this._viewportLabel = viewportLabel;
@@ -60,6 +62,10 @@ export default class SnapShotter {
 
   get driver() {
     return this._driver;
+  }
+
+  async snooze(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async removeTheSelectors() {
@@ -127,6 +133,8 @@ export default class SnapShotter {
       if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 
       if (this._removeSelectors) await this.removeTheSelectors();
+
+      if (this.wait) await this.snooze(this.wait);
 
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,
