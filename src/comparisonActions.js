@@ -81,7 +81,7 @@ const clearDirectory = (fs, config) => {
 const fetchRemoteComparisonImages = async config => {
   if (config.remote) {
     await deleteRemote('generatedDiffs', config);
-
+    logger.info('comparisonActions', 'Getting baseline images from S3...');
     const promises = [];
 
     config.scenarios.map(scenario =>
