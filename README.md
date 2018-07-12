@@ -26,7 +26,7 @@ The idea behind visual regression is essentially image comparison over time.
 
 There are a set of 'visually correct' baseline images of your site.
 
-As you make changes to your site Aye Spy will take new images of your site
+As you make changes to your site Aye Spy will take new images.
 
 Aye Spy will then compare the latest images against the baseline images.
 
@@ -39,7 +39,7 @@ If they are expected, update the baseline images
 In order to get the most out of Aye Spy we recommend 
 
   - Using the [selenium images from docker hub](https://hub.docker.com/u/selenium/) for consistent repeatable state 
-  - A cloud storage (currently supporting Amazon S3). 
+  - Cloud storage (currently supporting Amazon S3)
 
 
 
