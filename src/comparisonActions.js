@@ -81,20 +81,21 @@ const clearDirectory = (fs, config) => {
 const fetchRemoteComparisonImages = async config => {
   if (config.remote) {
     await deleteRemote('generatedDiffs', config);
-    return Promise.all(
-      config.scenarios.map(scenario =>
-        scenario.viewports.map(viewport => {
-          const promises = [];
-          const fetchRemotePromise = fetchRemote(
-            config,
-            'baseline',
-            `${scenario.label}-${viewport.label}.png`
-          );
-          promises.push(fetchRemotePromise);
-          return Promise.all(promises);
-        })
-      )
+    logger.info('comparisonActions', 'Getting baseline images from S3...');
+    const promises = [];
+
+    config.scenarios.map(scenario =>
+      scenario.viewports.map(viewport => {
+        const fetchRemotePromise = fetchRemote(
+          config,
+          'baseline',
+          `${scenario.label}-${viewport.label}.png`
+        );
+        promises.push(fetchRemotePromise);
+      })
     );
+
+    return Promise.all(promises);
   }
 };
 
