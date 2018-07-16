@@ -1,6 +1,6 @@
 import logger from './logger';
 
-export default class Reporter {
+class Reporter {
   constructor() {
     this._state = {
       passed: {
@@ -52,3 +52,5 @@ Scenarios Failed: ${this.state.failed.count}
     }
   }
 }
+
+export default new Reporter();

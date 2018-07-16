@@ -31,16 +31,14 @@ const createBucket = async config => {
 const createComparisons = async (fs, config) => {
   const comparisonData = await comparisonDataConstructor(fs, config);
 
-  const reporter = new Reporter();
-
   for (let i = 0; i < comparisonData.length; i++) {
     const scenario = comparisonData[i];
     const equal = await isEqual(scenario);
 
     if (equal) {
-      reporter.pass(scenario.label);
+      Reporter.pass(scenario.label);
     } else {
-      reporter.fail(scenario.label);
+      Reporter.fail(scenario.label);
       await createDiffImage(scenario);
     }
   }
@@ -54,7 +52,7 @@ const createComparisons = async (fs, config) => {
         logger.error('upload-remote', `Error uploading files ❌  ${error}`)
       );
 
-  reporter.generateReport();
+  Reporter.generateReport();
 };
 
 const createDirectories = (fs, config) =>
