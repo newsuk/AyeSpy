@@ -27,8 +27,8 @@ const createRemote = config => {
   return s3
     .createBucket(params)
     .promise()
-    .then(result => console.log('result:', result))
-    .catch(console.error);
+    .then(logger.info)
+    .catch(logger.error);
 };
 
 const updateRemotePolicy = config => {
@@ -60,7 +60,6 @@ const updateRemotePolicy = config => {
 
 const deleteRemote = async (key, config) => {
   const filteredResults = await listRemote(key, config);
-  console.log(filteredResults);
 
   AWS.config.update({ region: config.remoteRegion });
   const s3 = new AWS.S3();
@@ -85,7 +84,7 @@ const deleteRemote = async (key, config) => {
       .then(() => {
         return params.Delete.Objects;
       })
-      .catch(console.error);
+      .catch(logger.info);
   }
 };
 
@@ -100,8 +99,8 @@ const deleteRemoteBucket = config => {
   return s3
     .deleteBucket(params)
     .promise()
-    .then(result => console.log('result:', result))
-    .catch(console.error);
+    .then(logger.info)
+    .catch(logger.error);
 };
 
 const fetchRemote = (config, key, imageName) =>
@@ -129,17 +128,16 @@ const listRemote = (key, config) => {
     .listObjectsV2(params)
     .promise()
     .then(result => {
-      console.log(result);
+      logger.info(result);
       return result.Contents.filter(item =>
         item.Key.includes(`${config.browser}/${key}`)
       );
     })
-    .catch(console.log);
+    .catch(logger.error);
 };
 
 const uploadRemote = async (key, config) => {
   const imageDir = await resolveImagePath(key, config);
-  console.log('imageDir: ' + imageDir);
   AWS.config.update({
     region: config.remoteRegion
   });
@@ -163,7 +161,7 @@ const uploadRemote = async (key, config) => {
 
       const contentType = key === 'report' ? 'text/html' : 'image/png';
 
-      console.log('Key: ' + `${config.browser}/${key}/${path.basename(file)}`);
+      logger.info('Key: ' + `${config.browser}/${key}/${path.basename(file)}`);
 
       const uploadParams = {
         Bucket: config.remoteBucketName,

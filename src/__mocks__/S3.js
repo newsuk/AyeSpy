@@ -11,19 +11,12 @@ const mockGetObjectResponse = {
 };
 
 export default class S3 {
-  // listObjectsV2(config, callback) {
-  //   callback(null, listObjectFixtures);
-  // }
-  listObjectsV2(params) {
-    return { promise: () => Promise.resolve(listObjectFixtures) };
+  listObjectsV2(config, callback) {
+    callback(null, listObjectFixtures);
   }
 
-  // deleteObjects(params, callback) {
-  //   callback(null, params.Delete.Objects);
-  // }
-  deleteObjects(params) {
-    return { promise: () => Promise.resolve(() => params.Delete.Objects) };
-    // return { promise: () => Promise.resolve(listObjectFixtures) };
+  deleteObjects(params, callback) {
+    callback(null, params.Delete.Objects);
   }
 
   getObject(params, callback) {
