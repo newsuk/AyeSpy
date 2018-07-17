@@ -43,6 +43,8 @@ describe('The Config Validator', () => {
   });
 
   it('remote config returns false for invalid configs', () => {
+    delete process.env.AWS_SECRET_ACCESS_KEY;
+    delete process.env.AWS_ACCESS_KEY_ID;
     const config = {
       gridUrl: 'http://selenium.com:4444/wd/hub'
     };
