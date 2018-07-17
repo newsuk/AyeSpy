@@ -4,7 +4,7 @@
   "latest": "./e2eTests/updateBaseline/mockImages",
   "generatedDiffs": "./generatedDiffs",
   "report": "./reports",
-  "remoteBucketName": "aye-spy-e2e-tests-another-one",
+  "remoteBucketName": "aye-spy-e2e-tests-my-bucket",
   "remoteRegion": "eu-west-1",
   "browser": "chrome",
   "scenarios": [

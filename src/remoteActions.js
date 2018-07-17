@@ -82,7 +82,9 @@ const deleteRemote = async (key, config) => {
     return s3
       .deleteObjects(params)
       .promise()
-      .then(result => console.log(result))
+      .then(() => {
+        return params.Delete.Objects;
+      })
       .catch(console.error);
   }
 };

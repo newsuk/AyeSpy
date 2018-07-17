@@ -25,7 +25,7 @@ describe('e2e Tests updating baseline shots remotely', () => {
   });
 
   it('Uploads the local latest images to the remote baseline folder', async () => {
-    //uploads your local latest images to the remote baseline folder
+    // uploads your local latest images to the remote baseline folder
     const stdout = await execSync(
       'node ./lib/bin/run.js update-baseline --browser chrome --remote --config e2eTests/updateBaseline/updateBaselineRemoteConfig.json'
     ).toString();
