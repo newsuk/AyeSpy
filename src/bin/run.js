@@ -17,6 +17,7 @@ import {
   fetchRemoteComparisonImages
 } from '../comparisonActions';
 import validateConfig from '../configValidator';
+import Reporter from '../reporter';
 
 setupLogger();
 
@@ -104,6 +105,10 @@ program
       await createBucket(config);
       await fetchRemoteComparisonImages(config);
       await createComparisons(fs, config);
+
+      Reporter.state.failed.count > 0
+        ? (process.exitCode = 1)
+        : (process.exitCode = 0);
     } catch (err) {
       handleError(err);
     }

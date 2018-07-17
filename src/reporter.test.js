@@ -1,11 +1,10 @@
 /* globals expect it */
-import Reporter from './reporter';
 
 describe('Test reporter', () => {
   let reporter;
 
   beforeEach(() => {
-    reporter = new Reporter();
+    reporter = require('./reporter').default;
   });
 
   it('increments on a passed test:', () => {

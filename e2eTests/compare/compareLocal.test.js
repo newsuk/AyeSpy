@@ -19,13 +19,15 @@ describe('e2e Tests compare shots locally', () => {
   });
 
   it('Compares the latest images with the baseline images', () => {
-    const stdout = execSync(
-      'node ./lib/bin/run.js compare --browser chrome --config e2eTests/compare/compareConfig.json'
-    ).toString();
-
-    //pipe stdout to Jest console
-    console.log(stdout);
-    const files = fs.readdirSync(dirPath);
-    expect(files).toEqual(['fail-large.png']);
+    try {
+      execSync(
+        'node ./lib/bin/run.js compare --browser chrome --config e2eTests/compare/compareConfig.json'
+      ).toString();
+    } catch (err) {
+      
+      expect(err.status).toBe(1);
+      const files = fs.readdirSync(dirPath);
+      expect(files).toEqual(['fail-large.png']);
+    }
   });
 });
