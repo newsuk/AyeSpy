@@ -2,7 +2,7 @@ import pug from 'pug';
 import path from 'path';
 import fs from 'fs';
 import logger from './logger';
-import { listRemote, uploadRemote } from './remoteActions';
+import { listRemoteKeys, uploadRemoteKeys } from './remoteActions';
 
 const createReportData = config => {
   const report = [];
@@ -68,12 +68,12 @@ const writeReport = (config, reportsData) => {
 };
 
 const generateRemoteReport = async config => {
-  const filteredResults = await listRemote('generatedDiffs', config);
+  const filteredResults = await listRemoteKeys('generatedDiffs', config);
   const url = `https://s3-${config.remoteRegion}.amazonaws.com/${
     config.remoteBucketName
   }/`;
   await writeReport(config, createRemoteReportData(url, filteredResults));
-  await uploadRemote('report', config);
+  await uploadRemoteKeys('report', config);
 };
 
 export { generateLocalReport, generateRemoteReport };

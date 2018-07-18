@@ -24,6 +24,9 @@ services:
     build:
       context: ..
       dockerfile: ./e2eTests/Dockerfile
+    environment:
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_ACCESS_KEY_ID
     depends_on:
       - chrome  
     networks:

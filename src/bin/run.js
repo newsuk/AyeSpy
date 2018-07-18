@@ -8,7 +8,7 @@ import SnapShotter from '../snapshotter';
 import getScreenshots from '../getScreenshots';
 import updateBaselineShots from '../updateBaselineShots';
 import { generateLocalReport, generateRemoteReport } from '../generateReport';
-import { uploadRemote } from '../remoteActions';
+import { uploadRemoteKeys } from '../remoteActions';
 import {
   createBucket,
   createComparisons,
@@ -51,7 +51,7 @@ program
       await createDirectories(fs, config);
       await createBucket(config);
       await getScreenshots(SnapShotter, config);
-      if (options.remote) await uploadRemote('latest', config);
+      if (options.remote) await uploadRemoteKeys('latest', config);
     } catch (err) {
       handleError(err);
     }
@@ -77,7 +77,7 @@ program
       await updateBaselineShots(fs, config).catch(error => {
         logger.error('run', error);
       });
-      if (options.remote) await uploadRemote('baseline', config);
+      if (options.remote) await uploadRemoteKeys('baseline', config);
     } catch (err) {
       handleError(err);
     }

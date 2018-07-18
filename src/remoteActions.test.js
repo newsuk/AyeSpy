@@ -2,10 +2,10 @@
 import fs from 'fs';
 import {
   resolveImagePath,
-  listRemote,
-  deleteRemoteKey,
-  fetchRemote,
-  uploadRemote
+  listRemoteKeys,
+  deleteRemoteKeys,
+  fetchRemoteKeys,
+  uploadRemoteKeys
 } from './remoteActions';
 
 jest.mock('fs');
@@ -41,7 +41,7 @@ describe('Remote interactions', () => {
 
   it('lists and filters remote objects', async () => {
     const key = 'latest';
-    const data = await listRemote(key, {
+    const data = await listRemoteKeys(key, {
       remoteRegion: 'region',
       browser: 'chrome'
     });
@@ -51,7 +51,7 @@ describe('Remote interactions', () => {
 
   it('deletes filtered remote objects', async () => {
     const key = 'latest';
-    const data = await deleteRemoteKey(key, {
+    const data = await deleteRemoteKeys(key, {
       remoteRegion: 'region',
       browser: 'chrome'
     });
@@ -68,7 +68,7 @@ describe('Remote interactions', () => {
       latest: './e2eTests/latest'
     };
 
-    await fetchRemote(config, key, imageName);
+    await fetchRemoteKeys(config, key, imageName);
     expect(fs.writeFileSync.mock.calls).toEqual([
       [`mock/resolved/path/${imageName}`, 'buffer obj']
     ]);
@@ -88,7 +88,7 @@ describe('Remote interactions', () => {
       on: () => {}
     });
 
-    await uploadRemote(key, config)
+    await uploadRemoteKeys(key, config)
       .then(promises => promises[0])
       .then(data => data.map(obj => obj.Key))
       .then(name => {

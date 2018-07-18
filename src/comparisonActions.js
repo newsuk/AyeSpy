@@ -1,9 +1,9 @@
 import path from 'path';
 import {
   createRemote,
-  deleteRemoteKey,
-  fetchRemote,
-  uploadRemote,
+  deleteRemoteKeys,
+  fetchRemoteKeys,
+  uploadRemoteKeys,
   updateRemotePolicy
 } from './remoteActions';
 import createDiffImage from './createDiffs';
@@ -46,7 +46,7 @@ const createComparisons = async (fs, config) => {
   }
 
   if (config.remote)
-    await uploadRemote('generatedDiffs', config)
+    await uploadRemoteKeys('generatedDiffs', config)
       .then(() =>
         logger.info('upload-remote', 'Files uploaded successfully ✅')
       )
@@ -80,13 +80,13 @@ const clearDirectory = (fs, config) => {
 
 const fetchRemoteComparisonImages = async config => {
   if (config.remote) {
-    await deleteRemoteKey('generatedDiffs', config);
+    await deleteRemoteKeys('generatedDiffs', config);
     logger.info('comparisonActions', 'Getting baseline images from S3...');
     const promises = [];
 
     config.scenarios.map(scenario =>
       scenario.viewports.map(viewport => {
-        const fetchRemotePromise = fetchRemote(
+        const fetchRemotePromise = fetchRemoteKeys(
           config,
           'baseline',
           `${scenario.label}-${viewport.label}.png`

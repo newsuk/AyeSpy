@@ -74,8 +74,8 @@ function createDeletionParams(filteredResults, config) {
   return params;
 }
 
-const deleteRemoteKey = async (key, config) => {
-  const filteredResults = await listRemote(key, config);
+const deleteRemoteKeys = async (key, config) => {
+  const filteredResults = await listRemoteKeys(key, config);
 
   AWS.config.update({ region: config.remoteRegion });
   const s3 = new AWS.S3();
@@ -108,7 +108,7 @@ const deleteRemoteBucket = config => {
     .catch(logger.error);
 };
 
-const fetchRemote = (config, key, imageName) =>
+const fetchRemoteKeys = (config, key, imageName) =>
   new Promise(async (resolve, reject) => {
     const imageDir = await resolveImagePath(key, config);
     const remoteFileName = `${config.browser}/${key}/${imageName}`;
@@ -124,7 +124,7 @@ const fetchRemote = (config, key, imageName) =>
     });
   });
 
-const listRemote = (key, config) => {
+const listRemoteKeys = (key, config) => {
   AWS.config.update({ region: config.remoteRegion });
   const s3 = new AWS.S3();
   const params = { Bucket: config.remoteBucketName };
@@ -141,7 +141,7 @@ const listRemote = (key, config) => {
     .catch(logger.error);
 };
 
-const uploadRemote = async (key, config) => {
+const uploadRemoteKeys = async (key, config) => {
   const imageDir = await resolveImagePath(key, config);
   AWS.config.update({
     region: config.remoteRegion
@@ -186,11 +186,11 @@ const uploadRemote = async (key, config) => {
 
 export {
   createRemote,
-  deleteRemoteKey,
+  deleteRemoteKeys,
   deleteRemoteBucket,
-  fetchRemote,
-  listRemote,
+  fetchRemoteKeys,
+  listRemoteKeys,
   resolveImagePath,
-  uploadRemote,
+  uploadRemoteKeys,
   updateRemotePolicy
 };

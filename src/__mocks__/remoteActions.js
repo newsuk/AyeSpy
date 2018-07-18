@@ -1,7 +1,7 @@
 /* globals jest */
 
 const createRemote = jest.fn().mockImplementation(() => Promise.resolve());
-const deleteRemoteKey = jest.fn().mockImplementation(() => Promise.resolve());
-const fetchRemote = jest.fn().mockImplementation(() => Promise.resolve());
+const deleteRemoteKeys = jest.fn().mockImplementation(() => Promise.resolve());
+const fetchRemoteKeys = jest.fn().mockImplementation(() => Promise.resolve());
 
-export { createRemote, deleteRemoteKey, fetchRemote };
+export { createRemote, deleteRemoteKeys, fetchRemoteKeys };
