@@ -3,7 +3,7 @@ import fs from 'fs';
 import {
   resolveImagePath,
   listRemote,
-  deleteRemote,
+  deleteRemoteKey,
   fetchRemote,
   uploadRemote
 } from './remoteActions';
@@ -51,7 +51,7 @@ describe('Remote interactions', () => {
 
   it('deletes filtered remote objects', async () => {
     const key = 'latest';
-    const data = await deleteRemote(key, {
+    const data = await deleteRemoteKey(key, {
       remoteRegion: 'region',
       browser: 'chrome'
     });

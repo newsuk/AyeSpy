@@ -58,7 +58,7 @@ const updateRemotePolicy = config => {
   s3.putBucketPolicy(params).promise();
 };
 
-const deleteRemote = async (key, config) => {
+const deleteRemoteKey = async (key, config) => {
   const filteredResults = await listRemote(key, config);
 
   AWS.config.update({ region: config.remoteRegion });
@@ -181,7 +181,7 @@ const uploadRemote = async (key, config) => {
 
 export {
   createRemote,
-  deleteRemote,
+  deleteRemoteKey,
   deleteRemoteBucket,
   fetchRemote,
   listRemote,

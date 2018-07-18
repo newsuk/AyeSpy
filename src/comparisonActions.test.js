@@ -7,7 +7,7 @@ import {
   createComparisons,
   createBucket
 } from './comparisonActions';
-import { deleteRemote, fetchRemote, createRemote } from './remoteActions';
+import { deleteRemoteKey, fetchRemote, createRemote } from './remoteActions';
 import createDiffImage from './createDiffs';
 
 jest.mock('fs');
@@ -78,7 +78,7 @@ describe('The comparions actions', () => {
     };
 
     await fetchRemoteComparisonImages(config);
-    expect(deleteRemote.mock.calls.length).toBe(1);
+    expect(deleteRemoteKey.mock.calls.length).toBe(1);
     expect(fetchRemote.mock.calls.length).toBe(2);
   });
 
