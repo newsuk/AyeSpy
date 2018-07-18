@@ -43,15 +43,26 @@ describe('The Config Validator', () => {
   });
 
   it('remote config returns false for invalid configs', () => {
-    delete process.env.AWS_SECRET_ACCESS_KEY;
-    delete process.env.AWS_ACCESS_KEY_ID;
     const config = {
       gridUrl: 'http://selenium.com:4444/wd/hub'
     };
     expect(isRemoteConfigValid(config)).toBe(false);
     const missingFields = logger.info.mock.calls[0][1];
+    expect(missingFields).toContain('remoteBucketName,remoteRegion');
+  });
+
+  it('remote config returns false for missing aws credentials', () => {
+    delete process.env.AWS_SECRET_ACCESS_KEY;
+    delete process.env.AWS_ACCESS_KEY_ID;
+    const config = {
+      gridUrl: 'http://selenium.com:4444/wd/hub',
+      remoteBucketName: 'aye-spy',
+      remoteRegion: 'eu-west-1'
+    };
+    expect(isRemoteConfigValid(config)).toBe(false);
+    const missingFields = logger.info.mock.calls[0][1];
     expect(missingFields).toContain(
-      'remoteBucketName,remoteRegion,env variable: AWS_SECRET_ACCESS_KEY,env variable: AWS_ACCESS_KEY_ID'
+      'env variable: AWS_SECRET_ACCESS_KEY,env variable: AWS_ACCESS_KEY_ID'
     );
   });
 
