@@ -26,19 +26,13 @@ describe('e2e Tests updating baseline shots remotely', () => {
 
   it('Uploads the local latest images to the remote baseline folder', async () => {
     // uploads your local latest images to the remote baseline folder
-    // const stdout = await execSync(
-    //   'node ./lib/bin/run.js update-baseline --browser chrome --remote --config e2eTests/updateBaseline/updateBaselineRemoteAyeSpyConfig.json'
-    // ).toString();
+    const stdout = await execSync(
+      'node ./lib/bin/run.js update-baseline --browser chrome --remote --config e2eTests/updateBaseline/updateBaselineRemoteAyeSpyConfig.json'
+    ).toString();
 
-    //pipe stdout to Jest console
-    // console.log(stdout);
-    try{
-      await execSync(
-        'node ./lib/bin/run.js update-baseline --browser chrome --remote --config e2eTests/updateBaseline/updateBaselineRemoteAyeSpyConfig.json'
-      )
-    } catch(err) {
-      console.log(err)
-    }
+    // pipe stdout to Jest console
+    console.log(stdout);
+
     //list the contents of the bucket based on the filter
     const bucketObjects = await listRemote(
       'baseline/testImage.png',
