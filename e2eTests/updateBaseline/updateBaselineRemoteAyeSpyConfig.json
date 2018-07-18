@@ -1,0 +1,22 @@
+{
+  "gridUrl": "http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub",
+  "baseline": "./baseline",
+  "latest": "./e2eTests/updateBaseline/mockImages",
+  "generatedDiffs": "./generatedDiffs",
+  "report": "./reports",
+  "remoteBucketName": "aye-spy-e2e-tests-my-bucket",
+  "remoteRegion": "eu-west-1",
+  "browser": "chrome",
+  "scenarios": [
+    {
+      "url": "http://www.google.com",
+      "label": "homepage",
+      "removeSelectors": ["#ad-header", ".AD"],
+      "cookies": [
+        {
+          "name": "acs_tnl",
+          "value": "logged_in"
+        }
+      ]
+    }]
+}
