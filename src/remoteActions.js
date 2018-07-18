@@ -58,12 +58,7 @@ const updateRemotePolicy = config => {
   s3.putBucketPolicy(params).promise();
 };
 
-const deleteRemoteKey = async (key, config) => {
-  const filteredResults = await listRemote(key, config);
-
-  AWS.config.update({ region: config.remoteRegion });
-  const s3 = new AWS.S3();
-
+function createDeletionParams(filteredResults, config) {
   const params = {
     Bucket: config.remoteBucketName,
     Delete: {
@@ -76,6 +71,16 @@ const deleteRemoteKey = async (key, config) => {
     const keyObject = { Key: filteredResults[i].Key };
     params.Delete.Objects.push(keyObject);
   }
+  return params;
+}
+
+const deleteRemoteKey = async (key, config) => {
+  const filteredResults = await listRemote(key, config);
+
+  AWS.config.update({ region: config.remoteRegion });
+  const s3 = new AWS.S3();
+
+  const params = createDeletionParams(filteredResults, config);
 
   if (filteredResults.length !== 0) {
     return s3
