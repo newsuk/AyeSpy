@@ -28,11 +28,6 @@ function isRemoteConfigValid(config) {
     field => !config[field]
   );
 
-  if (!process.env.AWS_SECRET_ACCESS_KEY)
-    missingConfigFields.push('env variable: AWS_SECRET_ACCESS_KEY');
-  if (!process.env.AWS_ACCESS_KEY_ID)
-    missingConfigFields.push('env variable: AWS_ACCESS_KEY_ID');
-
   return isValid(missingConfigFields);
 }
 
