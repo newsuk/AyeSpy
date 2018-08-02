@@ -27,8 +27,13 @@ const createRemote = config => {
   return s3
     .createBucket(params)
     .promise()
-    .then(data => logger.info('remote-actions', data))
-    .catch(err => logger.error('remote-actions', err));
+    .catch(err => {
+      if (err.code === 'BucketAlreadyOwnedByYou') {
+        return;
+      } else {
+        logger.error('remote-actions', err);
+      }
+    });
 };
 
 const updateRemotePolicy = config => {
@@ -104,7 +109,6 @@ const deleteRemoteBucket = config => {
   return s3
     .deleteBucket(params)
     .promise()
-    .then(data => logger.info('remote-actions', data))
     .catch(err => logger.error('remote-actions', err));
 };
 
@@ -133,7 +137,6 @@ const listRemoteKeys = (key, config) => {
     .listObjectsV2(params)
     .promise()
     .then(result => {
-      logger.info('remote-actions', result);
       return result.Contents.filter(item =>
         item.Key.includes(`${config.browser}/${key}`)
       );
