@@ -4,7 +4,6 @@
   "description": "A visual regression tool",
   "main": "lib/bin/run.js",
   "scripts": {
-    "test:e2e:generate-report": "yarn build && node lib/bin/run.js generate-report --browser chrome --remote --config e2eTests/config.json",
     "test:e2e": "yarn build && ./node_modules/.bin/jest e2eTests/*",
     "test:e2e:build": "cd e2eTests && docker-compose build e2e",
     "test:e2e:run": "cd e2eTests && docker-compose run e2e",

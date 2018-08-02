@@ -98,7 +98,7 @@ program
 
       if (options.browser) config.browser = options.browser;
       config.remote = options.remote;
-      validateConfig(config, options.remote);
+      validateConfig(config, config.remote);
 
       createDirectories(fs, config);
       clearDirectory(fs, config);
@@ -106,35 +106,17 @@ program
       await fetchRemoteComparisonImages(config);
       await createComparisons(fs, config);
 
-      Reporter.state.failed.count > 0
-        ? (process.exitCode = 1)
-        : (process.exitCode = 0);
-    } catch (err) {
-      handleError(err);
-    }
-  });
+      if (Reporter.state.failed.count) {
+        const generateReport = config.remote
+          ? generateRemoteReport
+          : generateLocalReport;
 
-program
-  .command('generate-report')
-  .option('c, --config [config]', 'Path to your config')
-  .option('r, --remote', 'Upload new baseline to remote storage')
-  .option(
-    '-b, --browser [browser]',
-    'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
-  )
-  .action(options => {
-    try {
-      const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+        generateReport(config);
 
-      if (options.browser) config.browser = options.browser;
-
-      validateConfig(config, options.remote);
-
-      const generateReport = options.remote
-        ? generateRemoteReport
-        : generateLocalReport;
-
-      generateReport(config);
+        process.exitCode = 1;
+      } else {
+        process.exitCode = 0;
+      }
     } catch (err) {
       handleError(err);
     }

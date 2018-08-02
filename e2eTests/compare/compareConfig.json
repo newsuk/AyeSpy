@@ -3,7 +3,7 @@
   "baseline": "./e2eTests/compare/baselineMockImages",
   "latest": "./e2eTests/compare/latestMockImages",
   "generatedDiffs": "./e2eTests/compare/generatedDiffs",
-  "report": "./e2eTests/reports",
+  "report": "./e2eTests/compare/reports",
   "remoteBucketName": "aye-spy",
   "remoteRegion": "eu-west-1",
   "scenarios": [
