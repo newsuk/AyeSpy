@@ -27,8 +27,8 @@ const createRemote = config => {
   return s3
     .createBucket(params)
     .promise()
-    .then(logger.info)
-    .catch(logger.error);
+    .then(data => logger.info('remote-actions', data))
+    .catch(err => logger.error('remote-actions', err));
 };
 
 const updateRemotePolicy = config => {
@@ -89,7 +89,7 @@ const deleteRemoteKeys = async (key, config) => {
       .then(() => {
         return params.Delete.Objects;
       })
-      .catch(logger.info);
+      .catch(err => logger.error('remote-actions', err));
   }
 };
 
@@ -104,8 +104,8 @@ const deleteRemoteBucket = config => {
   return s3
     .deleteBucket(params)
     .promise()
-    .then(logger.info)
-    .catch(logger.error);
+    .then(data => logger.info('remote-actions', data))
+    .catch(err => logger.error('remote-actions', err));
 };
 
 const fetchRemoteKeys = (config, key, imageName) =>
@@ -133,12 +133,12 @@ const listRemoteKeys = (key, config) => {
     .listObjectsV2(params)
     .promise()
     .then(result => {
-      logger.info(result);
+      logger.info('remote-actions', result);
       return result.Contents.filter(item =>
         item.Key.includes(`${config.browser}/${key}`)
       );
     })
-    .catch(logger.error);
+    .catch(err => logger.error('remote-actions', err));
 };
 
 const uploadRemoteKeys = async (key, config) => {
@@ -151,7 +151,7 @@ const uploadRemoteKeys = async (key, config) => {
 
   if (files.length !== 0) {
     logger.info(
-      'upload-remote',
+      'remote-actions',
       `${files.length} images to be uploaded to bucket: ${key}`
     );
   }
@@ -161,13 +161,13 @@ const uploadRemoteKeys = async (key, config) => {
       const fileStream = fs.createReadStream(file);
 
       fileStream.on('error', err => {
-        logger.error('upload-remote', err);
+        logger.error('remote-actions', err);
       });
 
       const contentType = key === 'report' ? 'text/html' : 'image/png';
 
       logger.info(
-        'upload-remote',
+        'remote-actions',
         `Uploading to S3: ${config.browser}/${key}/${path.basename(file)}`
       );
 
