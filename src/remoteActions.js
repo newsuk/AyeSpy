@@ -166,7 +166,10 @@ const uploadRemoteKeys = async (key, config) => {
 
       const contentType = key === 'report' ? 'text/html' : 'image/png';
 
-      logger.info('Key: ' + `${config.browser}/${key}/${path.basename(file)}`);
+      logger.info(
+        'upload-remote',
+        `Uploading to S3: ${config.browser}/${key}/${path.basename(file)}`
+      );
 
       const uploadParams = {
         Bucket: config.remoteBucketName,
