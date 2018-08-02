@@ -106,7 +106,7 @@ program
       await fetchRemoteComparisonImages(config);
       await createComparisons(fs, config);
 
-      if (Reporter.state.failed.count > 0) {
+      if (Reporter.state.failed.count) {
         const generateReport = config.remote
           ? generateRemoteReport
           : generateLocalReport;

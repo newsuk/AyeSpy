@@ -30,7 +30,7 @@ As you make changes to your site Aye Spy will take new images.
 
 Aye Spy will then compare the latest images against the baseline images.
 
-If there are differences the build fails and a report will be generated,
+If there are differences the build fails and a report will be generated.
 This gives you the opportunity to check the differences are expected.
 
 If they are expected, update the baseline images
