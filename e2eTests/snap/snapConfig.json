@@ -1,5 +1,5 @@
 {
-  "gridUrl": "http://hub:4444/wd/hub",
+  "gridUrl": "http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub",
   "baseline": "./e2eTests/snap/baseline",
   "latest": "./e2eTests/snap/latest",
   "generatedDiffs": "./e2eTests/snap/generatedDiffs",
