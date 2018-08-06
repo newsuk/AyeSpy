@@ -70,7 +70,7 @@ export default class SnapShotter {
 
   async removeTheSelectors() {
     for (let i = 0; i < this._removeSelectors.length; i++) {
-      const script = `$('${
+      const script = `document.querySelectorAll('${
         this._removeSelectors[i]
       }').forEach(element => element.remove())`;
 
