@@ -18,7 +18,7 @@ describe('e2e Tests taking snaps locally', () => {
     }
   });
 
-  it.skip('should successfully take a snapshot', async () => {
+  it('should successfully take a snapshot', async () => {
     let exitCode = 0;
 
     try {
