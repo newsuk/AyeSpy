@@ -24,7 +24,7 @@ describe('e2e Tests updating baseline shots remotely', () => {
     await deleteRemoteBucket(ayeSpyConfig);
   });
 
-  it('Uploads the local latest images to the remote baseline folder', async () => {
+  it.skip('Uploads the local latest images to the remote baseline folder', async () => {
     // uploads your local latest images to the remote baseline folder
     const stdout = await execSync(
       'node ./lib/bin/run.js update-baseline --browser chrome --remote --config e2eTests/updateBaseline/updateBaselineRemoteAyeSpyConfig.json'

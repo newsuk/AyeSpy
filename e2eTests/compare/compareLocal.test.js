@@ -25,7 +25,7 @@ describe('e2e Tests compare shots locally', () => {
     cleanState(dirPath); 
   });
 
-  it('Compares the latest images with the baseline images and generate a report', () => {
+  it.skip('Compares the latest images with the baseline images and generate a report', () => {
     try {
       execSync(
         'node ./lib/bin/run.js compare --browser chrome --config e2eTests/compare/compareConfig.json'
