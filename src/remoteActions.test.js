@@ -90,9 +90,9 @@ describe('Remote interactions', () => {
 
     await uploadRemoteKeys(key, config)
       .then(promises => promises[0])
-      .then(data => data.map(obj => obj.Key))
+      .then(obj => obj.Key)
       .then(name => {
-        expect(name).toEqual(['chrome/baseline/mock/resolved/path/file1']);
+        expect(name).toEqual('chrome/baseline/mock/resolved/path/file1');
       });
   });
 });
