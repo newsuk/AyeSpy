@@ -181,13 +181,9 @@ const uploadRemoteKeys = async (key, config) => {
         ContentType: contentType
       };
 
-      const putObjectPromise = s3.putObject(uploadParams).promise();
-
-      const promises = [];
-      promises.push(putObjectPromise);
-      return Promise.all(promises);
+      return s3.putObject(uploadParams).promise();
     })
-  );
+  ).catch(err => logger.error('remote-actions', err));
 };
 
 export {
