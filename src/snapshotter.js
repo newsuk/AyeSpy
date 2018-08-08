@@ -13,6 +13,7 @@ export default class SnapShotter {
       width = 700,
       height = 1024,
       browser = 'chrome',
+      mobileDeviceName,
       cookies,
       removeSelectors,
       waitForSelector,
@@ -30,6 +31,7 @@ export default class SnapShotter {
     this._width = width;
     this._height = height;
     this._browser = browser;
+    this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
@@ -46,9 +48,13 @@ export default class SnapShotter {
       ? this._webdriver.Capabilities.chrome
       : this._webdriver.Capabilities.firefox;
 
+    const capability = mobileDeviceName
+      ? this.getMobileBrowserCapability()
+      : browserCapability();
+
     this._driver = new this._webdriver.Builder()
       .usingServer(gridUrl)
-      .withCapabilities(browserCapability())
+      .withCapabilities(capability)
       .build();
 
     this._driver
@@ -62,6 +68,19 @@ export default class SnapShotter {
 
   get driver() {
     return this._driver;
+  }
+
+  getMobileBrowserCapability() {
+    return {
+      browserName: 'chrome',
+      version: '*',
+      'goog:chromeOptions': {
+        mobileEmulation: {
+          deviceName: this._mobileDeviceName
+        },
+        args: ['incognito']
+      }
+    };
   }
 
   async snooze(ms) {
