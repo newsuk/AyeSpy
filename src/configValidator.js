@@ -39,6 +39,24 @@ function isLocalConfigValid(config) {
   return isValid(missingConfigFields);
 }
 
+function isMobileConfigValid(config) {
+  let isMobileConfigCorrect = true;
+
+  config.scenarios.forEach(scenario => {
+    if (config.browser !== 'chrome' && scenario.mobileDeviceName) {
+      logger.info(
+        'configValidator',
+        `❗️  ${
+          config.browser
+        } not supported on the mobile emulator. Please change your browser to chrome.`
+      );
+      isMobileConfigCorrect = false;
+    }
+  });
+
+  return isMobileConfigCorrect;
+}
+
 const validateConfig = (config, isRemote) =>
   new Promise(resolve => {
     let isRemoteConfigCorrect = true;
@@ -46,8 +64,11 @@ const validateConfig = (config, isRemote) =>
     if (isRemote) {
       isRemoteConfigCorrect = isRemoteConfigValid(config);
     }
-
-    if (isLocalConfigValid(config) && isRemoteConfigCorrect) {
+    if (
+      isLocalConfigValid(config) &&
+      isRemoteConfigCorrect &&
+      isMobileConfigValid(config)
+    ) {
       logger.info('configValidator', 'Config validated ✅');
       resolve();
     } else {
@@ -58,4 +79,4 @@ const validateConfig = (config, isRemote) =>
   });
 
 export default validateConfig;
-export { isLocalConfigValid, isRemoteConfigValid };
+export { isLocalConfigValid, isRemoteConfigValid, isMobileConfigValid };

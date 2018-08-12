@@ -2,7 +2,8 @@
 
 import validateConfig, {
   isLocalConfigValid,
-  isRemoteConfigValid
+  isRemoteConfigValid,
+  isMobileConfigValid
 } from './configValidator';
 
 import logger from './logger';
@@ -97,5 +98,33 @@ describe('The Config Validator', () => {
       ]
     };
     validateConfig(config, true).then(done);
+  });
+
+  it('config returns true for valid mobile configs', () => {
+    const config = {
+      browser: 'chrome',
+      scenarios: [
+        {
+          url: 'http:/google.com/',
+          label: 'homepage',
+          mobileDeviceName: 'iPhone 7 Plus'
+        }
+      ]
+    };
+    expect(isMobileConfigValid(config)).toBe(true);
+  });
+
+  it('config returns false for invalid mobile configs', () => {
+    const config = {
+      browser: 'firefox',
+      scenarios: [
+        {
+          url: 'http:/google.com/',
+          label: 'homepage',
+          mobileDeviceName: 'iPhone 7 Plus'
+        }
+      ]
+    };
+    expect(isMobileConfigValid(config)).toBe(false);
   });
 });
