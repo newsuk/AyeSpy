@@ -180,4 +180,30 @@ describe('The snapshotter', () => {
     await mockSnapshot.takeSnap();
     expect(logger.error.mock.calls.length).toBe(1);
   });
+
+  it('Returns the mobile browser capabilities when called with a mobile emulator', async () => {
+    const mockSnapshot = (SnapShotter.prototype.getMobileBrowserCapability = jest.fn());
+    new SnapShotter(
+      {
+        gridUrl: 'https://lol.com',
+        mobileDeviceName: 'test'
+      },
+      { webdriver, By, until }
+    );
+
+    expect(mockSnapshot.mock.calls.length).toBe(1);
+  });
+
+  it('Returns the desktop capabilities when called with a non-mobile browser', async () => {
+    const mockSnapshot = (SnapShotter.prototype.getMobileBrowserCapability = jest.fn());
+    new SnapShotter(
+      {
+        gridUrl: 'https://lol.com',
+        browser: 'chrome'
+      },
+      { webdriver, By, until }
+    );
+
+    expect(mockSnapshot.mock.calls.length).toBe(0);
+  });
 });

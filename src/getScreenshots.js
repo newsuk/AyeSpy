@@ -13,6 +13,7 @@ export default (SnapShotter, config) =>
             label: scenario.label,
             latest: config.latest,
             browser: config.browser,
+            mobileDeviceName: scenario.mobileDeviceName,
             gridUrl: config.gridUrl,
             height: viewport.height,
             width: viewport.width,

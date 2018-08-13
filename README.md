@@ -110,6 +110,10 @@ const clickElement = async browser => {
 module.exports = clickElement;
 ```
 
+## Mobile Emulator
+
+For scenarios where you need to use a mobile emulator, pass in the device name to the property `mobileDeviceName` on your config. Note that at the moment, this will only work with the chrome browser.
+
 ## Running
 
 Take the latest screenshots for comparison:
