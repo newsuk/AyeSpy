@@ -3,7 +3,7 @@
 import {
   createDirectories,
   fetchRemoteComparisonImages,
-  clearDirectory,
+  clearDirectories,
   createComparisons,
   createBucket
 } from './comparisonActions';
@@ -86,20 +86,22 @@ describe('The comparions actions', () => {
     expect(fetchRemoteKeys.mock.calls.length).toBe(2);
   });
 
-  it('clears the generated diffs directory', async () => {
+  it('clears the directories', async () => {
     mockFs = {
       readdirSync: () => ['1', '2', '3', '4', '5', '6'],
-      unlinkSync: jest.fn()
+      unlinkSync: jest.fn(),
+      existsSync: () => true
     };
 
     const config = {
+      report: './report',
       baseline: './baselineTest',
       latest: './latestTest',
       generatedDiffs: './generatedDiffsTest'
     };
 
-    await clearDirectory(mockFs, config);
-    expect(mockFs.unlinkSync.mock.calls.length).toBe(6);
+    await clearDirectories(mockFs, config);
+    expect(mockFs.unlinkSync.mock.calls.length).toBe(12);
   });
 
   it('creates a diff image when comparison fails', async () => {

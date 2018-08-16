@@ -13,7 +13,7 @@ import {
   createBucket,
   createComparisons,
   createDirectories,
-  clearDirectory,
+  clearDirectories,
   fetchRemoteComparisonImages
 } from '../comparisonActions';
 import validateConfig from '../configValidator';
@@ -101,7 +101,7 @@ program
       validateConfig(config, config.remote);
 
       createDirectories(fs, config);
-      clearDirectory(fs, config);
+      clearDirectories(fs, config);
       await createBucket(config);
       await fetchRemoteComparisonImages(config);
       await createComparisons(fs, config);
