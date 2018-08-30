@@ -73,7 +73,7 @@ Example config to run Aye Spy:
           }
         ],
         "waitForSelector": "#section-news", // explicitly wait for a selector to be visible before snap
-        "onReadyScript": './scripts/clickSelector.js', // run a script before snap
+        "onReadyScript": "./scripts/clickSelector.js", // run a script before snap
         "wait": 2000 // implicitly wait before taking a snap
       }
     ]
@@ -103,8 +103,10 @@ Example script:
 ```
 const By = require('selenium-webdriver').By;
 
-const clickElement = async browser => {
-  await browser.findElement(By.css('#buttonId"]')).click();
+const landingPageNoErrors = async browser => {
+    await browser.wait(until.elementIsVisible(browser.findElement(By.css(utils.getFirstName()))), 10000);
+    await browser.findElement(By.id("firstName")).sendKeys("Bobby");
+    await browser.findElement(By.css(".dob-day-option-field > select:nth-child(1)")).sendKeys("10");
 };
 
 module.exports = clickElement;
