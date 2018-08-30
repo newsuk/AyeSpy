@@ -106,7 +106,7 @@ const By = require('selenium-webdriver').By;
 const landingPageNoErrors = async browser => {
     await browser.wait(until.elementIsVisible(browser.findElement(By.css(utils.getFirstName()))), 10000);
     await browser.findElement(By.id("firstName")).sendKeys("Bobby");
-    await browser.findElement(By.css(".dob-day-option-field > select:nth-child(1)")).sendKeys("10");
+    await browser.findElement(By.css(".dob-day-option-field")).sendKeys("10");
 };
 
 module.exports = clickElement;
