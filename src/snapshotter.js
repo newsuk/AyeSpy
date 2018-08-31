@@ -61,8 +61,8 @@ export default class SnapShotter {
       .manage()
       .window()
       .setRect({
-        width,
-        height
+        width: this._width,
+        height: this._height
       });
   }
 
@@ -78,7 +78,7 @@ export default class SnapShotter {
         mobileEmulation: {
           deviceName: this._mobileDeviceName
         },
-        args: ['incognito']
+        args: ['incognito', `--window-size=${this._width},${this._height}`]
       }
     };
   }
@@ -91,7 +91,7 @@ export default class SnapShotter {
     for (let i = 0; i < this._removeSelectors.length; i++) {
       const script = `document.querySelectorAll('${
         this._removeSelectors[i]
-      }').forEach(element => element.remove())`;
+        }').forEach(element => element.remove())`;
 
       await this.driver.executeScript(script);
     }
@@ -164,7 +164,7 @@ export default class SnapShotter {
       logger.error(
         'snapshotter',
         `❌  Unable to take snapshot for ${this._label}-${
-          this._viewportLabel
+        this._viewportLabel
         }! ❌   : ${err}`
       );
     } finally {
