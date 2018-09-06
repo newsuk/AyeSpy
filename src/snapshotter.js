@@ -56,14 +56,6 @@ export default class SnapShotter {
       .usingServer(gridUrl)
       .withCapabilities(capability)
       .build();
-
-    this._driver
-      .manage()
-      .window()
-      .setRect({
-        width,
-        height
-      });
   }
 
   get driver() {
@@ -142,6 +134,14 @@ export default class SnapShotter {
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
       await this.driver.get(this._url);
+
+      await this._driver
+        .manage()
+        .window()
+        .setRect({
+          width: this._width,
+          height: this._height
+        });
 
       if (this._onBeforeScript) await this.executeScript(this._onBeforeScript);
 
