@@ -25,12 +25,13 @@ describe('The snapshotter', () => {
     expect(mockSnapshot.driver.takeScreenshot.mock.calls.length).toBe(1);
   });
 
-  it('Sets default values for height and width', () => {
+  it('Sets default values for height and width', async () => {
     const config = {
       gridUrl: 'https://lol.com'
     };
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.setRect).toBeCalledWith({
       height: 1024,
       width: 700
