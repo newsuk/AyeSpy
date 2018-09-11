@@ -1,6 +1,4 @@
-[![Build Status](https://app.bitrise.io/app/9477d3f47782ace9/status.svg?token=yuy5aC1nmPlz1rsMx7YuKA&branch=master)](https://app.bitrise.io/app/9477d3f47782ace9)
-
-[![npm version](https://badge.fury.io/js/aye-spy.svg)](https://badge.fury.io/js/aye-spy)
+[![Build Status](https://app.bitrise.io/app/9477d3f47782ace9/status.svg?token=yuy5aC1nmPlz1rsMx7YuKA&branch=master)](https://app.bitrise.io/app/9477d3f47782ace9) [![npm version](https://badge.fury.io/js/aye-spy.svg)](https://badge.fury.io/js/aye-spy)
 # Aye Spy
 
 ## With my little eye... 🐛 👀
