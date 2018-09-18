@@ -133,7 +133,7 @@ Run the comparison between baseline and latest:
 
 ## Visual Regression Tips and Tricks
 
-To make you visual regression tests as robust as possible there are a few points to consider.
+To make your visual regression tests as robust as possible there are a few points to consider.
 
   - Data: Wherever you run ayespy you need to have complete ownership of data. Along with the ability to refresh the data back to a consistent state
   - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeSelectors` array. You want your page under test to be static.
