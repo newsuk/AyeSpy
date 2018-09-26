@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://i.imgur.com/NSXKo0i.png">
+  <img src="https://i.imgur.com/O56jJf9.png">
 </p>
 
 # Aye Spy
