@@ -1,7 +1,7 @@
 import log from 'npmlog';
 
-const setupLogger = logLevel => {
-  log.level = logLevel || 'info';
+const setupLogger = () => {
+  log.level = process.env.LOGLEVEL ? process.env.LOGLEVEL : 'info';
   log.stream = process.stdout;
   log.enableColor();
   log.info('ayespy Logger', `Log level is ${log.level}`);
