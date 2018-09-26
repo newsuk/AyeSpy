@@ -7,7 +7,7 @@
 
 # Aye Spy
 
-## With my little eye... 🐛 👀
+## With my little eye...
 
 ### Brought to you by The Times Tooling team  🛠
 
