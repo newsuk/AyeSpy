@@ -1,4 +1,10 @@
 [![Build Status](https://app.bitrise.io/app/9477d3f47782ace9/status.svg?token=yuy5aC1nmPlz1rsMx7YuKA&branch=master)](https://app.bitrise.io/app/9477d3f47782ace9) [![npm version](https://badge.fury.io/js/aye-spy.svg)](https://badge.fury.io/js/aye-spy)
+
+
+<p align="center">
+  <img src="https://i.imgur.com/NSXKo0i.png">
+</p>
+
 # Aye Spy
 
 ## With my little eye... 🐛 👀
