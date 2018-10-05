@@ -15,6 +15,7 @@ export default class SnapShotter {
       browser = 'chrome',
       mobileDeviceName,
       cookies,
+      snapSelector,
       removeSelectors,
       waitForSelector,
       wait,
@@ -33,6 +34,7 @@ export default class SnapShotter {
     this._browser = browser;
     this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
+    this._snapSelector = snapSelector;
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
     this._url = url;
@@ -127,6 +129,10 @@ export default class SnapShotter {
     }
   }
 
+  getElementDimensions(selector) {
+    return this._driver.findElement(this._By.css(selector)).getRect();
+  }
+
   async takeSnap() {
     try {
       logger.info(
@@ -155,9 +161,19 @@ export default class SnapShotter {
 
       if (this.wait) await this.snooze(this.wait);
 
+      const screenshot = await this.driver.takeScreenshot();
+
+      if (this._snapSelector) {
+        const elementDimensions = await this.getElementDimensions(
+          this._snapSelector
+        );
+        console.log(elementDimensions);
+        //TODO: Crop screenshot using x,y,width,height from dimensions.
+      }
+
       fs.writeFileSync(
         `${this._latest}/${this._label}-${this._viewportLabel}.png`,
-        await this.driver.takeScreenshot(),
+        screenshot,
         'base64'
       );
     } catch (err) {

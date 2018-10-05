@@ -20,9 +20,9 @@ describe('e2e Tests compare shots locally', () => {
   beforeEach(() => {
     dirPath = path.resolve(config.generatedDiffs);
     reportPath = path.resolve(config.report);
-    
+
     cleanState(reportPath);
-    cleanState(dirPath); 
+    cleanState(dirPath);
   });
 
   it('Compares the latest images with the baseline images and generate a report', () => {
