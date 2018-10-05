@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import jimp from 'jimp';
 import logger from './logger';
 
 export default class SnapShotter {
@@ -133,6 +134,13 @@ export default class SnapShotter {
     return this._driver.findElement(this._By.css(selector)).getRect();
   }
 
+  saveCroppedScreenshot(filename, screenshot, { x, y, width, height }) {
+    return jimp
+      .read(new Buffer(screenshot, 'base64'))
+      .then(image => image.crop(x, y, width, height))
+      .then(cropped => cropped.write(filename));
+  }
+
   async takeSnap() {
     try {
       logger.info(
@@ -161,21 +169,26 @@ export default class SnapShotter {
 
       if (this.wait) await this.snooze(this.wait);
 
+      const filename = `${this._latest}/${this._label}-${
+        this._viewportLabel
+      }.png`;
       const screenshot = await this.driver.takeScreenshot();
 
       if (this._snapSelector) {
         const elementDimensions = await this.getElementDimensions(
           this._snapSelector
         );
-        console.log(elementDimensions);
-        //TODO: Crop screenshot using x,y,width,height from dimensions.
+        if (!elementDimensions)
+          throw new Error('Snap Selector could not be found on the page.');
+        //TODO: Throw an error if there are multiple elements.
+        await this.saveCroppedScreenshot(
+          filename,
+          screenshot,
+          elementDimensions
+        );
+      } else {
+        fs.writeFileSync(filename, screenshot, 'base64');
       }
-
-      fs.writeFileSync(
-        `${this._latest}/${this._label}-${this._viewportLabel}.png`,
-        screenshot,
-        'base64'
-      );
     } catch (err) {
       logger.error(
         'snapshotter',
