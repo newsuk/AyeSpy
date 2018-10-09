@@ -16,7 +16,7 @@ export default class SnapShotter {
       browser = 'chrome',
       mobileDeviceName,
       cookies,
-      snapSelector,
+      cropToSelector,
       removeSelectors,
       waitForSelector,
       wait,
@@ -35,7 +35,7 @@ export default class SnapShotter {
     this._browser = browser;
     this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
-    this._snapSelector = snapSelector;
+    this._cropToSelector = cropToSelector;
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
     this._url = url;
@@ -131,14 +131,30 @@ export default class SnapShotter {
   }
 
   getElementDimensions(selector) {
-    return this._driver.findElement(this._By.css(selector)).getRect();
+    return this._driver
+      .findElement(this._By.css(selector))
+      .getRect()
+      .then(dimensions => {
+        if (!dimensions)
+          throw new Error(
+            `"cropToSelector" (${selector}') could not be found on the page.`
+          );
+        return dimensions;
+      });
   }
 
-  saveCroppedScreenshot(filename, screenshot, { x, y, width, height }) {
-    return jimp
-      .read(new Buffer(screenshot, 'base64'))
+  async writeCroppedScreenshot(filename, screenshot, selector) {
+    logger.info('Cropping', `selector: ${selector}`);
+    const { x, y, width, height } = await this.getElementDimensions(selector);
+
+    await jimp
+      .read(Buffer.from(screenshot, 'base64'))
       .then(image => image.crop(x, y, width, height))
       .then(cropped => cropped.write(filename));
+  }
+
+  writeScreenshot(filename, screenshot) {
+    fs.writeFileSync(filename, screenshot, 'base64');
   }
 
   async takeSnap() {
@@ -174,20 +190,14 @@ export default class SnapShotter {
       }.png`;
       const screenshot = await this.driver.takeScreenshot();
 
-      if (this._snapSelector) {
-        const elementDimensions = await this.getElementDimensions(
-          this._snapSelector
-        );
-        if (!elementDimensions)
-          throw new Error('Snap Selector could not be found on the page.');
-        //TODO: Throw an error if there are multiple elements.
-        await this.saveCroppedScreenshot(
+      if (this._cropToSelector) {
+        await this.writeCroppedScreenshot(
           filename,
           screenshot,
-          elementDimensions
+          this._cropToSelector
         );
       } else {
-        fs.writeFileSync(filename, screenshot, 'base64');
+        this.writeScreenshot(filename, screenshot);
       }
     } catch (err) {
       logger.error(
