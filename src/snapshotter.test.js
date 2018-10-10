@@ -1,10 +1,12 @@
 /* globals jest expect */
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
+import jimp from './__mocks__/jimp';
 import SnapShotter from './snapshotter';
 import seleniumMock from './__mocks__/seleniumMock';
 import logger from './logger';
 
 jest.mock('fs');
+jest.mock('jimp');
 
 describe('The snapshotter', () => {
   afterEach(() => {
@@ -71,7 +73,7 @@ describe('The snapshotter', () => {
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.wait.mock.calls.length).toBe(1);
     expect(mockSnapshot.driver.wait).toBeCalledWith(
-      config.waitForSelector,
+      { _selector: config.waitForSelector },
       10000
     );
   });
@@ -104,6 +106,19 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
+  });
+
+  it.only('takes a cropped screenshot', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      cropToSelector: '.thisIsASelector'
+    };
+
+    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    await mockSnapshot.takeSnap();
+    expect(jimp.read).toHaveBeenCalled();
   });
 
   it('implicitly waits if specified', async () => {
