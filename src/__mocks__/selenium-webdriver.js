@@ -1,5 +1,24 @@
 /* globals jest */
 
+class Element {
+  constructor(selector) {
+    this._selector = selector;
+  }
+
+  get selector() {
+    return this._selector;
+  }
+
+  getRect() {
+    return Promise.resolve({
+      x: 100,
+      y: 200,
+      width: 300,
+      height: 400
+    });
+  }
+}
+
 class Builder {
   usingServer() {
     return this;
@@ -17,10 +36,11 @@ class Builder {
       window: () => {
         return wrap;
       },
-      findElement: element => Promise.resolve(element),
+      findElement: element => new Element(element),
       setRect: jest.fn(),
+      getRect: jest.fn(),
       get: jest.fn(),
-      takeScreenshot: jest.fn(),
+      takeScreenshot: jest.fn().mockReturnValue('screenshot-data'),
       wait: jest.fn(),
       quit: jest.fn(),
       executeScript: jest.fn(),

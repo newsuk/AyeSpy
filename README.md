@@ -66,6 +66,7 @@ Example config to run Aye Spy:
       {
         "url": "http://thetimes.co.uk/",
         "label": "homepage",
+        "cropToSelector": ".flickity-slider", // crop the screenshot to a specific selector
         "removeSelectors": ["#ad-header"], // remove elements that are not static on refresh such as adverts
         "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
         "cookies": [

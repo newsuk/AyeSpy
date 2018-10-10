@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import jimp from 'jimp';
 import logger from './logger';
 
 export default class SnapShotter {
@@ -15,6 +16,7 @@ export default class SnapShotter {
       browser = 'chrome',
       mobileDeviceName,
       cookies,
+      cropToSelector,
       removeSelectors,
       waitForSelector,
       wait,
@@ -33,6 +35,7 @@ export default class SnapShotter {
     this._browser = browser;
     this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
+    this._cropToSelector = cropToSelector;
     this._removeSelectors = removeSelectors;
     this._waitForSelector = waitForSelector;
     this._url = url;
@@ -127,6 +130,33 @@ export default class SnapShotter {
     }
   }
 
+  getElementDimensions(selector) {
+    return this._driver
+      .findElement(this._By.css(selector))
+      .getRect()
+      .then(dimensions => {
+        if (!dimensions)
+          throw new Error(
+            `"cropToSelector" (${selector}') could not be found on the page.`
+          );
+        return dimensions;
+      });
+  }
+
+  async writeCroppedScreenshot(filename, screenshot, selector) {
+    logger.info('Cropping', `selector: ${selector}`);
+    const { x, y, width, height } = await this.getElementDimensions(selector);
+
+    await jimp
+      .read(Buffer.from(screenshot, 'base64'))
+      .then(image => image.crop(x, y, width, height))
+      .then(cropped => cropped.write(filename));
+  }
+
+  writeScreenshot(filename, screenshot) {
+    fs.writeFileSync(filename, screenshot, 'base64');
+  }
+
   async takeSnap() {
     try {
       logger.info(
@@ -155,11 +185,20 @@ export default class SnapShotter {
 
       if (this.wait) await this.snooze(this.wait);
 
-      fs.writeFileSync(
-        `${this._latest}/${this._label}-${this._viewportLabel}.png`,
-        await this.driver.takeScreenshot(),
-        'base64'
-      );
+      const filename = `${this._latest}/${this._label}-${
+        this._viewportLabel
+      }.png`;
+      const screenshot = await this.driver.takeScreenshot();
+
+      if (this._cropToSelector) {
+        await this.writeCroppedScreenshot(
+          filename,
+          screenshot,
+          this._cropToSelector
+        );
+      } else {
+        this.writeScreenshot(filename, screenshot);
+      }
     } catch (err) {
       logger.error(
         'snapshotter',
