@@ -8,7 +8,7 @@
 
 Aye Spy is a high performance visual regression tool to catch UI regressions. 
 
-![](https://cdn-images-1.medium.com/max/2000/0*TaFe8aJaW3569cES.png)
+![](https://i.imgur.com/3jQXR48.png)
 
 
 ## Inspiration
