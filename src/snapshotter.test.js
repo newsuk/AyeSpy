@@ -2,7 +2,7 @@
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import jimp from './__mocks__/jimp';
 import SnapShotter from './snapshotter';
-import seleniumMock from './__mocks__/seleniumMock';
+import seleniumMock from './__mocks__/onReadyScriptMock';
 import logger from './logger';
 
 jest.mock('fs');
@@ -162,7 +162,7 @@ describe('The snapshotter', () => {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
       label: '1homepage',
-      onBeforeScript: './src/__mocks__/seleniumMock.js'
+      onBeforeScript: './src/__mocks__/onReadyScriptMock.js'
     };
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
@@ -175,7 +175,7 @@ describe('The snapshotter', () => {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
       label: '1homepage',
-      onReadyScript: './src/__mocks__/seleniumMock.js'
+      onReadyScript: './src/__mocks__/onReadyScriptMock.js'
     };
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
