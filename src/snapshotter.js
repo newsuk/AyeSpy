@@ -206,6 +206,8 @@ export default class SnapShotter {
           this._viewportLabel
         }! ❌   : ${err}`
       );
+
+      process.exitCode = 1;
     } finally {
       await this.driver.quit();
     }

@@ -28,7 +28,6 @@ function handleError(err) {
   );
   console.error(err);
   process.exitCode = 1;
-  process.exit();
 }
 
 program
