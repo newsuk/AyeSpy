@@ -16,6 +16,7 @@ import {
   clearDirectories,
   fetchRemoteComparisonImages
 } from '../comparisonActions';
+import filterScenario from '../scenarioFilter';
 import validateConfig from '../configValidator';
 import Reporter from '../reporter';
 
@@ -38,12 +39,18 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('f, --run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
+
+      if (options.run)
+        filterScenario(config, options.run).then(
+          scenario => (config.scenarios = scenario)
+        );
 
       validateConfig(config, options.remote);
 
@@ -64,12 +71,18 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('f, --run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
+
+      if (options.run)
+        filterScenario(config, options.run).then(
+          scenario => (config.scenarios = scenario)
+        );
 
       validateConfig(config, options.remote);
 
@@ -90,12 +103,19 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('f, --run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
+
+      if (options.run)
+        filterScenario(config, options.run).then(
+          scenario => (config.scenarios = scenario)
+        );
+
       config.remote = options.remote;
       validateConfig(config, config.remote);
 
