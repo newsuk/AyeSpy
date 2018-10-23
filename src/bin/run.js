@@ -39,7 +39,7 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
-  .option('f, --run [optional]', 'Filter scenarios based on label name')
+  .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
@@ -71,7 +71,7 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
-  .option('f, --run [optional]', 'Filter scenarios based on label name')
+  .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
@@ -103,7 +103,7 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
-  .option('f, --run [optional]', 'Filter scenarios based on label name')
+  .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
