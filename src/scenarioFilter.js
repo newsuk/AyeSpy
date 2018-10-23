@@ -1,21 +1,15 @@
-import logger from './logger';
+const filterToScenario = (config, filter) => {
+  const filteredScenario = Object.values(config.scenarios).filter(
+    scenario => scenario.label === filter
+  );
 
-const filterScenario = (config, filter) => {
-  return new Promise(resolve => {
-    const filteredScenario = Object.values(config.scenarios).filter(
-      scenario => scenario.label === filter
+  if (filteredScenario.length === 0) {
+    throw new Error(
+      `❗️ ${filter}  not found on your scenarios. Exiting Aye Spy`
     );
+  }
 
-    if (filteredScenario.length === 0) {
-      logger.info(
-        'filterConfig',
-        `❗️ ${filter}  not found on your scenarios. Exiting Aye Spy`
-      );
-      process.exitCode = 1;
-      process.exit();
-    }
-    resolve(filteredScenario);
-  });
+  return filteredScenario;
 };
 
-export default filterScenario;
+export default filterToScenario;

@@ -16,7 +16,7 @@ import {
   clearDirectories,
   fetchRemoteComparisonImages
 } from '../comparisonActions';
-import filterScenario from '../scenarioFilter';
+import filterToScenario from '../scenarioFilter';
 import validateConfig from '../configValidator';
 import Reporter from '../reporter';
 
@@ -47,12 +47,9 @@ program
 
       if (options.browser) config.browser = options.browser;
 
-      if (options.run)
-        filterScenario(config, options.run).then(
-          scenario => (config.scenarios = scenario)
-        );
-
       validateConfig(config, options.remote);
+
+      if (options.run) config.scenarios = filterToScenario(config, options.run);
 
       logger.info('run', 'Getting snapshots... 📸 ');
       await createDirectories(fs, config);
@@ -79,12 +76,9 @@ program
 
       if (options.browser) config.browser = options.browser;
 
-      if (options.run)
-        filterScenario(config, options.run).then(
-          scenario => (config.scenarios = scenario)
-        );
-
       validateConfig(config, options.remote);
+
+      if (options.run) config.scenarios = filterToScenario(config, options.run);
 
       createDirectories(fs, config);
       await updateBaselineShots(fs, config).catch(error => {
@@ -111,13 +105,10 @@ program
 
       if (options.browser) config.browser = options.browser;
 
-      if (options.run)
-        filterScenario(config, options.run).then(
-          scenario => (config.scenarios = scenario)
-        );
-
       config.remote = options.remote;
       validateConfig(config, config.remote);
+
+      if (options.run) config.scenarios = filterToScenario(config, options.run);
 
       createDirectories(fs, config);
       clearDirectories(fs, config);

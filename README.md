@@ -135,7 +135,7 @@ Run the comparison between baseline and latest:
 
 Run a single scenario based on label name:
 
-`ayespy snap --browser chrome --config config.json --remote --run scenarioName`
+`ayespy snap --browser chrome --config config.json --remote --run "scenarioName"`
 
 ## Visual Regression Tips and Tricks
 

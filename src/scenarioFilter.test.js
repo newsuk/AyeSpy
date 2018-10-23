@@ -1,9 +1,9 @@
-/* globals jest expect */
+/* globals expect */
 
 import filterScenario from './scenarioFilter';
 
 describe('Scenario filter', () => {
-  it('Filters scenario correctly', () => {
+  it('Filters to a scenario correctly', () => {
     const config = {
       gridUrl: 'http://selenium.com:4444/wd/hub',
       scenarios: [
@@ -18,9 +18,7 @@ describe('Scenario filter', () => {
       ]
     };
 
-    filterScenario(config, 'test').then(scenario => {
-      expect(scenario.length).toBe(1);
-    });
+    expect(filterScenario(config, 'test')[0]).toEqual(config.scenarios[1]);
   });
 
   it('Throws an error if scenario is not found', () => {
@@ -37,8 +35,7 @@ describe('Scenario filter', () => {
         }
       ]
     };
-    process.exit = jest.fn();
-    filterScenario(config, 'lol');
-    expect(process.exit.mock.calls.length).toBe(1);
+
+    expect(() => filterScenario(config, 'lol')).toThrow();
   });
 });
