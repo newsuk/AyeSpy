@@ -16,6 +16,7 @@ import {
   clearDirectories,
   fetchRemoteComparisonImages
 } from '../comparisonActions';
+import filterToScenario from '../scenarioFilter';
 import validateConfig from '../configValidator';
 import Reporter from '../reporter';
 
@@ -38,6 +39,7 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
@@ -46,6 +48,8 @@ program
       if (options.browser) config.browser = options.browser;
 
       validateConfig(config, options.remote);
+
+      if (options.run) config.scenarios = filterToScenario(config, options.run);
 
       logger.info('run', 'Getting snapshots... 📸 ');
       await createDirectories(fs, config);
@@ -64,6 +68,7 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
@@ -72,6 +77,8 @@ program
       if (options.browser) config.browser = options.browser;
 
       validateConfig(config, options.remote);
+
+      if (options.run) config.scenarios = filterToScenario(config, options.run);
 
       createDirectories(fs, config);
       await updateBaselineShots(fs, config).catch(error => {
@@ -90,14 +97,18 @@ program
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
   .option('c, --config [config]', 'Path to your config')
+  .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
+
       config.remote = options.remote;
       validateConfig(config, config.remote);
+
+      if (options.run) config.scenarios = filterToScenario(config, options.run);
 
       createDirectories(fs, config);
       clearDirectories(fs, config);

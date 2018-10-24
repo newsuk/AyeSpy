@@ -133,6 +133,10 @@ Run the comparison between baseline and latest:
 
 `ayespy compare --browser chrome --config config.json --remote`
 
+Run a single scenario based on label name:
+
+`ayespy snap --browser chrome --config config.json --remote --run "scenarioName"`
+
 ## Visual Regression Tips and Tricks
 
 To make your visual regression tests as robust as possible there are a few points to consider.
