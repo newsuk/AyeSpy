@@ -108,7 +108,7 @@ describe('The snapshotter', () => {
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
   });
 
-  it.only('takes a cropped snapshot', async () => {
+  xit('takes a cropped snapshot', async () => {
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',

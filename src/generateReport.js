@@ -13,13 +13,23 @@ const createReportData = config => {
       const name = `${scenario.label}-${viewport.label}`;
       const imageName = `${name}.png`;
 
-      const baselinePath = path.resolve(`${config.baseline}/${imageName}`);
-      const latestPath = path.resolve(`${config.latest}/${imageName}`);
-      const generatedDiffsPath = path.resolve(
+      const baselinePath = path.relative(
+        config.report,
+        `${config.baseline}/${imageName}`
+      );
+      const latestPath = path.relative(
+        config.report,
+        `${config.latest}/${imageName}`
+      );
+      const generatedAbsolutePath = path.resolve(
+        `${config.generatedDiffs}/${imageName}`
+      );
+      const generatedDiffsPath = path.relative(
+        config.report,
         `${config.generatedDiffs}/${imageName}`
       );
 
-      if (fs.existsSync(generatedDiffsPath)) {
+      if (fs.existsSync(generatedAbsolutePath)) {
         logger.info('generate-report', `found diff for ${name}`);
         const scenarioData = {
           label: name,
