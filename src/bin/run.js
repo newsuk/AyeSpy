@@ -19,6 +19,7 @@ import {
 import filterToScenario from '../scenarioFilter';
 import validateConfig from '../configValidator';
 import Reporter from '../reporter';
+import init from '../init';
 
 setupLogger();
 
@@ -131,6 +132,8 @@ program
       handleError(err);
     }
   });
+
+program.command('init').action(init);
 
 program.on('command:*', () => {
   program.help();

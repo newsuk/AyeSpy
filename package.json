@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/newsuk/AyeSpy#readme",
   "dependencies": {
+    "inquirer": "6.2.0",
     "aws-sdk": "^2.252.1",
     "commander": "^2.15.1",
     "jimp": "^0.5.3",
