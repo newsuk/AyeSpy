@@ -51,6 +51,8 @@ To install the package:
 `npm i -g aye-spy`
 
 
+    ayespy init 
+
 Example config to run Aye Spy:
 
 ```
