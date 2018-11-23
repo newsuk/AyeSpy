@@ -132,4 +132,16 @@ program
     }
   });
 
+program.on('command:*', () => {
+  program.help();
+  process.exitCode = 1;
+});
+
 program.parse(process.argv);
+
+const NO_COMMAND_SPECIFIED = program.args.length === 0;
+
+if (NO_COMMAND_SPECIFIED) {
+  program.help();
+  process.exitCode = 1;
+}
