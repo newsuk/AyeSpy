@@ -12,23 +12,26 @@ const questions = [
   {
     type: 'input',
     name: 'baselineDir',
-    message: 'Where is your baseline image directory? \n  Example: ./baseline\n'
+    message:
+      'Where would you like your baseline image directory? \n  Example: ./baseline\n'
   },
   {
     type: 'input',
     name: 'latestDir',
-    message: 'Where is your latest image directory? \n  Example: ./latest\n'
+    message:
+      'Where would you like your latest image directory? \n  Example: ./latest\n'
   },
   {
     type: 'input',
     name: 'generatedDir',
     message:
-      'Where is your generated differences image directory? \n  Example: ./generatedDiffs\n'
+      'Where would you like your generated differences image directory? \n  Example: ./generatedDiffs\n'
   },
   {
     type: 'input',
     name: 'reportdDir',
-    message: 'Where is your report directory? \n  Example: ./report\n'
+    message:
+      'Where would you like your report directory? \n  Example: ./report\n'
   }
 ];
 
