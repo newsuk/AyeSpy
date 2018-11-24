@@ -124,7 +124,7 @@ export default class SnapShotter {
   async executeScript(script) {
     try {
       const scriptToExecute = require(path.resolve(script));
-      await scriptToExecute(this._driver);
+      await scriptToExecute(this._driver, this._By);
     } catch (error) {
       logger.error('snapshotter', `❌  Unable to run script due to: ${error}`);
     }
