@@ -104,7 +104,7 @@ Only es5 is currently supported so please transpile.
 Example script:
 
 ```
-const landingPageNoErrors = async (browser, By) => {
+async function clickElement (browser, By) {
     await browser.wait(until.elementIsVisible(browser.findElement(By.css(utils.getFirstName()))), 10000);
     await browser.findElement(By.id("firstName")).sendKeys("Bobby");
     await browser.findElement(By.css(".dob-day-option-field")).sendKeys("10");
