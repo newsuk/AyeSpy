@@ -18,7 +18,7 @@ export default class SnapShotter {
       cookies,
       cropToSelector,
       removeElements,
-      waitForSelector,
+      waitForElement,
       wait,
       url = 'http://localhost:80',
       viewportLabel = 'viewportLabel',
@@ -37,7 +37,7 @@ export default class SnapShotter {
     this._cookies = cookies;
     this._cropToSelector = cropToSelector;
     this._removeElements = removeElements;
-    this._waitForSelector = waitForSelector;
+    this._waitForElement = waitForElement;
     this._url = url;
     this.wait = wait;
     this._onBeforeScript = onBeforeScript;
@@ -105,10 +105,10 @@ export default class SnapShotter {
     await this.driver.get(this._url);
   }
 
-  async waitForSelector() {
+  async waitForElement() {
     const timeout = 10000;
     const element = await this.driver.findElement(
-      this._By.css(this._waitForSelector)
+      this._By.css(this._waitForElement)
     );
 
     try {
@@ -116,7 +116,7 @@ export default class SnapShotter {
     } catch (error) {
       logger.error(
         'snapshotter',
-        `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+        `❌  Unable to find the specified waitForElement element on the page! ❌ ${error}`
       );
     }
   }
@@ -177,7 +177,7 @@ export default class SnapShotter {
 
       if (this._cookies) await this.applyCookies();
 
-      if (this._waitForSelector) await this.waitForSelector();
+      if (this._waitForElement) await this.waitForElement();
 
       if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 

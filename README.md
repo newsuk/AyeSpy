@@ -77,7 +77,7 @@ Example config to run Aye Spy:
             "value": "cookie_value"
           }
         ],
-        "waitForSelector": "#section-news", // explicitly wait for a selector to be visible before snap
+        "waitForElement": "#section-news", // explicitly wait for a selector to be visible before snap
         "onReadyScript": "./scripts/clickSelector.js", // run a script before snap
         "wait": 2000 // implicitly wait before taking a snap
       }

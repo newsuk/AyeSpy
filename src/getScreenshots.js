@@ -21,7 +21,7 @@ export default (SnapShotter, config) =>
             cookies: scenario.cookies,
             cropToSelector: scenario.cropToSelector,
             removeElements: scenario.removeElements,
-            waitForSelector: scenario.waitForSelector,
+            waitForElement: scenario.waitForElement,
             url: scenario.url,
             onBeforeScript: scenario.onBeforeScript,
             onReadyScript: scenario.onReadyScript,
