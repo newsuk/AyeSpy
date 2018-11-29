@@ -17,7 +17,7 @@ export default class SnapShotter {
       mobileDeviceName,
       cookies,
       cropToSelector,
-      removeSelectors,
+      removeElements,
       waitForSelector,
       wait,
       url = 'http://localhost:80',
@@ -36,7 +36,7 @@ export default class SnapShotter {
     this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
     this._cropToSelector = cropToSelector;
-    this._removeSelectors = removeSelectors;
+    this._removeElements = removeElements;
     this._waitForSelector = waitForSelector;
     this._url = url;
     this.wait = wait;
@@ -83,9 +83,9 @@ export default class SnapShotter {
   }
 
   async removeTheSelectors() {
-    for (let i = 0; i < this._removeSelectors.length; i++) {
+    for (let i = 0; i < this._removeElements.length; i++) {
       const script = `document.querySelectorAll('${
-        this._removeSelectors[i]
+        this._removeElements[i]
       }').forEach(element => element.remove())`;
 
       await this.driver.executeScript(script);
@@ -181,7 +181,7 @@ export default class SnapShotter {
 
       if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 
-      if (this._removeSelectors) await this.removeTheSelectors();
+      if (this._removeElements) await this.removeTheSelectors();
 
       if (this.wait) await this.snooze(this.wait);
 

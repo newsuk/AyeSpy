@@ -20,7 +20,7 @@ export default (SnapShotter, config) =>
             viewportLabel: viewport.label,
             cookies: scenario.cookies,
             cropToSelector: scenario.cropToSelector,
-            removeSelectors: scenario.removeSelectors,
+            removeElements: scenario.removeElements,
             waitForSelector: scenario.waitForSelector,
             url: scenario.url,
             onBeforeScript: scenario.onBeforeScript,

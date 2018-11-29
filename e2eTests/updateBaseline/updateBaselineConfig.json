@@ -10,7 +10,7 @@
       {
         "url": "http://cps-render-ci.elb.tnl-dev.ntch.co.uk/",
         "label": "homepage",
-        "removeSelectors": ["#ad-header", ".AD"],
+        "removeElements": ["#ad-header", ".AD"],
         "cookies": [
           {
             "name": "acs_tnl",

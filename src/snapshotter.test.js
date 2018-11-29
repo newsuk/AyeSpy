@@ -100,7 +100,7 @@ describe('The snapshotter', () => {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
       label: '1homepage',
-      removeSelectors: ['selector1', 'selector2']
+      removeElements: ['selector1', 'selector2']
     };
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
