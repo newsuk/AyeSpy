@@ -1,14 +1,13 @@
 import webdriver, { By, until } from 'selenium-webdriver';
 import scenarioValidator from './scenarioValidator';
 
-export default (SnapShotter, config) =>
-  Promise.all(
-    config.scenarios.map(scenario => {
-      scenarioValidator(scenario);
+const generateSnapShotsPromises = (SnapShotter, config) =>
+  config.scenarios.reduce((accum, scenario) => {
+    scenarioValidator(scenario);
 
-      const promises = [];
-      scenario.viewports.forEach(viewport => {
-        const snap = new SnapShotter(
+    scenario.viewports.forEach(viewport => {
+      accum.push(
+        new SnapShotter(
           {
             label: scenario.label,
             latest: config.latest,
@@ -28,11 +27,29 @@ export default (SnapShotter, config) =>
             wait: scenario.wait
           },
           { webdriver, By, until }
-        );
+        )
+      );
+    });
+    return accum;
+  }, []);
 
-        promises.push(snap.takeSnap());
-      });
+function getScreenshots(SnapShotter, config, requestLimit) {
+  return new Promise(resolve => {
+    const promises = generateSnapShotsPromises(SnapShotter, config);
+    const limit = requestLimit || promises.length;
 
-      return Promise.all(promises);
-    })
-  );
+    const iterationsToPerform = Math.ceil(promises.length / requestLimit);
+    let iterations = 0;
+
+    while (iterations !== iterationsToPerform) {
+      const splice = promises.splice(0, limit);
+
+      Promise.all(splice.map(screenshot => screenshot.takeSnap()));
+      iterations++;
+    }
+
+    resolve();
+  });
+}
+
+export default getScreenshots;
