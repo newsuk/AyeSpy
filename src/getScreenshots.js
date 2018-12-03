@@ -1,7 +1,7 @@
 import webdriver, { By, until } from 'selenium-webdriver';
 import scenarioValidator from './scenarioValidator';
 
-const generateSnapShotsPromises = (SnapShotter, config) =>
+const generateSnapShotPromises = (SnapShotter, config) =>
   config.scenarios.reduce((accum, scenario) => {
     scenarioValidator(scenario);
 
@@ -35,7 +35,7 @@ const generateSnapShotsPromises = (SnapShotter, config) =>
 
 async function getScreenshots(SnapShotter, config) {
   return new Promise(async resolve => {
-    const promises = generateSnapShotsPromises(SnapShotter, config);
+    const promises = generateSnapShotPromises(SnapShotter, config);
     const requestLimit =
       config.limitAmountOfParallelScenarios || promises.length;
 

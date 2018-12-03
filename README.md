@@ -64,6 +64,7 @@ Example config to run Aye Spy:
     "report": "./reports",
     "remoteBucketName": "aye-spy-example", 
     "remoteRegion": "eu-west-1",
+    "limitAmountOfParallelScenarios": 10, // if you are killing your selenium grid use this to batch up scenarios
     "scenarios": [
       {
         "url": "http://thetimes.co.uk/",
