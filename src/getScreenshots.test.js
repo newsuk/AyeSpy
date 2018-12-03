@@ -11,9 +11,13 @@ class MockSnapshotter {
   constructor({ label, viewportLabel }) {
     this.scenarioName = `${label}-${viewportLabel}`;
   }
+
   takeSnap() {
-    console.log('calling - ' + this.scenarioName);
-    return Promise.resolve();
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, 200);
+    });
   }
 }
 
@@ -29,6 +33,6 @@ describe.only('gets Screenshots', () => {
     };
 
     const requestLimit = 10;
-    getSreenshots(MockSnapshotter, config, requestLimit);
+    return getSreenshots(MockSnapshotter, config, requestLimit);
   });
 });

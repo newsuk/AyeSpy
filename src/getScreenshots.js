@@ -33,19 +33,18 @@ const generateSnapShotsPromises = (SnapShotter, config) =>
     return accum;
   }, []);
 
-function getScreenshots(SnapShotter, config, requestLimit) {
-  return new Promise(resolve => {
+async function getScreenshots(SnapShotter, config, requestLimit) {
+  return new Promise(async resolve => {
     const promises = generateSnapShotsPromises(SnapShotter, config);
     const limit = requestLimit || promises.length;
 
     const iterationsToPerform = Math.ceil(promises.length / requestLimit);
-    let iterations = 0;
 
-    while (iterations !== iterationsToPerform) {
+    for (let i = 0; i < iterationsToPerform; i++) {
       const splice = promises.splice(0, limit);
 
-      Promise.all(splice.map(screenshot => screenshot.takeSnap()));
-      iterations++;
+      const executingPromises = splice.map(screenshot => screenshot.takeSnap());
+      await Promise.all(executingPromises);
     }
 
     resolve();
