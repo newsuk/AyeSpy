@@ -47,6 +47,7 @@
     "looks-same": "^3.3.0",
     "npmlog": "^4.1.2",
     "pug": "^2.0.3",
+    "p-limit": "2.0.0",
     "release-documentation-cli": "^1.8.0",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },

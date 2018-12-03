@@ -3,6 +3,7 @@
 import program from 'commander';
 import path from 'path';
 import fs from 'fs';
+import pLimit from 'p-limit';
 import logger, { setupLogger } from '../logger';
 import SnapShotter from '../snapshotter';
 import getScreenshots from '../getScreenshots';
@@ -39,6 +40,7 @@ program
     '-b, --browser [browser]',
     'Select the browser to run your tests on. E.G. chrome, firefox, etc.'
   )
+  .option('-gl, --gridLimit [gridLimit]', 'Grid limit specification')
   .option('c, --config [config]', 'Path to your config')
   .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
@@ -48,6 +50,10 @@ program
 
       if (options.browser) config.browser = options.browser;
 
+      if (options.gridLimit) config.gridLimit = options.gridLimit;
+
+      const limit = pLimit(config.gridLimit);
+
       validateConfig(config, options.remote);
 
       if (options.run) config.scenarios = filterToScenario(config, options.run);
@@ -55,7 +61,7 @@ program
       logger.info('run', 'Getting snapshots... 📸 ');
       await createDirectories(fs, config);
       await createBucket(config);
-      await getScreenshots(SnapShotter, config);
+      await getScreenshots(SnapShotter, config, limit);
       if (options.remote) await uploadRemoteKeys('latest', config);
     } catch (err) {
       handleError(err);

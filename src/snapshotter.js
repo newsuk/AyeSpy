@@ -11,6 +11,7 @@ export default class SnapShotter {
       label = 'label',
       latest = __dirname,
       gridUrl = 'http://localhost:4444',
+      gridLimit,
       width = 700,
       height = 1024,
       browser = 'chrome',
@@ -30,6 +31,7 @@ export default class SnapShotter {
     this._label = label;
     this._latest = latest;
     this._gridUrl = gridUrl;
+    this._gridLimit = gridLimit;
     this._width = width;
     this._height = height;
     this._browser = browser;

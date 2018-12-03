@@ -137,6 +137,10 @@ Run a single scenario based on label name:
 
 `ayespy snap --browser chrome --config config.json --remote --run "scenarioName"`
 
+Set a limit on how many parallel scenarios you can run:
+
+`ayespy snap --browser chrome --config config.json --remote --gridLimit=5`
+
 ## Visual Regression Tips and Tricks
 
 To make your visual regression tests as robust as possible there are a few points to consider.
