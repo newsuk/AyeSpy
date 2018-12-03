@@ -1,38 +1,41 @@
+/* globals expect jest */
 import getSreenshots from './getScreenshots';
 
 const scenarioBuilder = scenariosToGenerate =>
   new Array(scenariosToGenerate).fill(null).map((_, index) => ({
     url: 'http://lol.co.uk/',
     label: `scenario-${index}`,
-    viewports: [{ height: 2400, width: 1024, label: 'large' }]
+    viewports: [
+      { height: 2400, width: 1024, label: 'large' },
+      { height: 2400, width: 14, label: 'small' }
+    ]
   }));
 
-class MockSnapshotter {
-  constructor({ label, viewportLabel }) {
-    this.scenarioName = `${label}-${viewportLabel}`;
-  }
+describe('gets Screenshots', () => {
+  it('queues up the expected number of snapshots', () => {
+    let callCount = 0;
+    class MockSnapshotter {
+      takeSnap() {
+        callCount++;
+        return jest.fn().mockImplementation(() => Promise.resolve());
+      }
+    }
 
-  takeSnap() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 200);
-    });
-  }
-}
-
-describe.only('gets Screenshots', () => {
-  it('Limits the amount of parallel requests to the grid', () => {
+    const scenarioCount = 22;
     const config = {
       gridUrl: 'http://selenium-grid:4444/wd/hub',
       baseline: './baseline',
       latest: './latest',
       generatedDiffs: './generatedDiffs',
       report: './reports',
-      scenarios: scenarioBuilder(110)
+      scenarios: scenarioBuilder(scenarioCount)
     };
 
-    const requestLimit = 10;
-    return getSreenshots(MockSnapshotter, config, requestLimit);
+    const scenariosAndViewports =
+      scenarioCount * config.scenarios[0].viewports.length;
+
+    return getSreenshots(MockSnapshotter, config).then(() => {
+      return expect(callCount).toBe(scenariosAndViewports);
+    });
   });
 });
