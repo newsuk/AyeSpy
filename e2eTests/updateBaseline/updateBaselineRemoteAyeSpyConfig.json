@@ -11,7 +11,7 @@
     {
       "url": "http://www.google.com",
       "label": "homepage",
-      "removeSelectors": ["#ad-header", ".AD"],
+      "removeElements": ["#ad-header", ".AD"],
       "cookies": [
         {
           "name": "acs_tnl",

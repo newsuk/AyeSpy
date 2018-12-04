@@ -11,7 +11,7 @@
       "url": "http://test.co.uk/",
       "label": "pass",
       "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
-      "removeSelectors": ["#ad-header", ".AD"],
+      "removeElements": ["#ad-header", ".AD"],
       "cookies": [
         {
           "name": "acs_tnl",
@@ -23,7 +23,7 @@
       "url": "http://test.co.uk/",
       "label": "fail",
       "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
-      "removeSelectors": ["#ad-header", ".AD"],
+      "removeElements": ["#ad-header", ".AD"],
       "cookies": [
         {
           "name": "acs_tnl",

@@ -17,8 +17,8 @@ export default class SnapShotter {
       mobileDeviceName,
       cookies,
       cropToSelector,
-      removeSelectors,
-      waitForSelector,
+      removeElements,
+      waitForElement,
       wait,
       url = 'http://localhost:80',
       viewportLabel = 'viewportLabel',
@@ -36,8 +36,8 @@ export default class SnapShotter {
     this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
     this._cropToSelector = cropToSelector;
-    this._removeSelectors = removeSelectors;
-    this._waitForSelector = waitForSelector;
+    this._removeElements = removeElements;
+    this._waitForElement = waitForElement;
     this._url = url;
     this.wait = wait;
     this._onBeforeScript = onBeforeScript;
@@ -83,9 +83,9 @@ export default class SnapShotter {
   }
 
   async removeTheSelectors() {
-    for (let i = 0; i < this._removeSelectors.length; i++) {
+    for (let i = 0; i < this._removeElements.length; i++) {
       const script = `document.querySelectorAll('${
-        this._removeSelectors[i]
+        this._removeElements[i]
       }').forEach(element => element.remove())`;
 
       await this.driver.executeScript(script);
@@ -105,10 +105,10 @@ export default class SnapShotter {
     await this.driver.get(this._url);
   }
 
-  async waitForSelector() {
+  async waitForElement() {
     const timeout = 10000;
     const element = await this.driver.findElement(
-      this._By.css(this._waitForSelector)
+      this._By.css(this._waitForElement)
     );
 
     try {
@@ -116,7 +116,7 @@ export default class SnapShotter {
     } catch (error) {
       logger.error(
         'snapshotter',
-        `❌  Unable to find the specified waitForSelector element on the page! ❌ ${error}`
+        `❌  Unable to find the specified waitForElement element on the page! ❌ ${error}`
       );
     }
   }
@@ -177,11 +177,11 @@ export default class SnapShotter {
 
       if (this._cookies) await this.applyCookies();
 
-      if (this._waitForSelector) await this.waitForSelector();
+      if (this._waitForElement) await this.waitForElement();
 
       if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 
-      if (this._removeSelectors) await this.removeTheSelectors();
+      if (this._removeElements) await this.removeTheSelectors();
 
       if (this.wait) await this.snooze(this.wait);
 
