@@ -38,4 +38,32 @@ describe('gets Screenshots', () => {
       return expect(callCount).toBe(scenariosAndViewports);
     });
   });
+
+  it('limits the amount of scenarios to execute at one time', () => {
+    const assertString = 'I am called';
+    class MockSnapshotter {
+      takeSnap() {
+        return assertString;
+      }
+    }
+
+    Promise.all = jest.fn().mockImplementation(() => Promise.resolve());
+
+    const scenarioCount = 6;
+    const config = {
+      gridUrl: 'http://selenium-grid:4444/wd/hub',
+      baseline: './baseline',
+      latest: './latest',
+      generatedDiffs: './generatedDiffs',
+      report: './reports',
+      scenarios: scenarioBuilder(scenarioCount),
+      limitAmountOfParallelScenarios: 2
+    };
+
+    return getSreenshots(MockSnapshotter, config).then(() => {
+      return expect(Promise.all.mock.calls[0]).toEqual([
+        [assertString, assertString]
+      ]);
+    });
+  });
 });
