@@ -1,5 +1,5 @@
 /* globals expect jest */
-import getSreenshots from './getScreenshots';
+import getScreenshots from './getScreenshots';
 
 const scenarioBuilder = scenariosToGenerate =>
   new Array(scenariosToGenerate).fill(null).map((_, index) => ({
@@ -34,7 +34,7 @@ describe('gets Screenshots', () => {
     const scenariosAndViewports =
       scenarioCount * config.scenarios[0].viewports.length;
 
-    return getSreenshots(MockSnapshotter, config).then(() => {
+    return getScreenshots(MockSnapshotter, config).then(() => {
       return expect(callCount).toBe(scenariosAndViewports);
     });
   });
@@ -60,7 +60,7 @@ describe('gets Screenshots', () => {
       limitAmountOfParallelScenarios: 2
     };
 
-    return getSreenshots(MockSnapshotter, config).then(() => {
+    return getScreenshots(MockSnapshotter, config).then(() => {
       return expect(Promise.all.mock.calls[0]).toEqual([
         [assertString, assertString]
       ]);
