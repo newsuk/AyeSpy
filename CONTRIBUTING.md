@@ -15,7 +15,7 @@ Ensure every new module has sufficient testing in place, ideally aiming for 100%
 
 Where appropriate (i.e. new features) there should also be a new e2e example created
 
-On submitting a PR all unit, integration and e2e tests will run. If a failure occurs your PR will not be approved.
+On submitting a PR all unit, integration and e2e tests will run. If a failure occurs your PR will not be approved until the build passes.
 
 Commit messages
 When committing please follow the set convention below:
@@ -28,6 +28,6 @@ refactor: A code change that neither fixes a bug nor adds a feature
 perf: A code change that improves performance
 test: Adding missing or correcting existing tests
 chore: Changes to the build process or auxiliary tools and libraries such as documentation generation
-
+BREAKING CHANGE: Whenever you add new functionality that will break existing user experience
 
 Aye Spy uses an auto publishing feature that uses this commit convention to work out the bump version.
