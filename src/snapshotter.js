@@ -126,7 +126,12 @@ export default class SnapShotter {
       const scriptToExecute = require(path.resolve(script));
       await scriptToExecute(this._driver, this._By);
     } catch (error) {
-      logger.error('snapshotter', `❌  Unable to run script due to: ${error}`);
+      logger.error(
+        'snapshotter',
+        `❌  Unable to run script for scenario: ${
+          this.label
+        } \n  due to: ${error}`
+      );
     }
   }
 
