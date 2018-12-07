@@ -36,6 +36,8 @@ describe('e2e Tests remove elements', () => {
       ).toString();
       console.log(compareOutput);
     } catch (err) {
+      console.log(err.stdout.toString());
+      console.log(err.stderr.toString());
       exitCode = err.status;
     }
 
