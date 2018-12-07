@@ -1,5 +1,5 @@
 {
-  "gridUrl": "http://localhost:4444/wd/hub",
+  "gridUrl": "http://hub:4444/wd/hub",
   "baseline": "./e2eTests/removeElements/baselineMockImages",
   "latest": "./e2eTests/removeElements/latestMockImages",
   "generatedDiffs": "./e2eTests/removeElements/generatedDiffs",
