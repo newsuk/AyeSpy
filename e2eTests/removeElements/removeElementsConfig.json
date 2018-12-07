@@ -1,0 +1,17 @@
+{
+  "gridUrl": "http://localhost:4444/wd/hub",
+  "baseline": "./e2eTests/removeElements/baselineMockImages",
+  "latest": "./e2eTests/removeElements/latestMockImages",
+  "generatedDiffs": "./e2eTests/removeElements/generatedDiffs",
+  "report": "./e2eTests/removeElements/reports",
+  "remoteBucketName": "aye-spy-e2e-tests",
+  "remoteRegion": "eu-west-1",
+  "scenarios": [
+    {
+      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/chrome/report/index.html",
+      "label": "pass",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "removeElements": [".screenshot"]
+    }
+  ]
+}
