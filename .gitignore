@@ -29,3 +29,4 @@ e2eTests/snap/latest/*
 
 e2eTests/compare/generatedDiffs/*
 
+e2eTests/removeElements/latestMockImages/*
