@@ -1,5 +1,5 @@
 {
-  "gridUrl": "http://localhost:4444/wd/hub",
+  "gridUrl": "http://hub:4444/wd/hub",
   "baseline": "./e2eTests/snap/baseline",
   "latest": "./e2eTests/snap/latest",
   "generatedDiffs": "./e2eTests/snap/generatedDiffs",
@@ -11,42 +11,5 @@
       "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
       "label": "image",
       "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "a",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "s",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "d",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "f",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "g",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "h",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    },
-    {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
-      "label": "j",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
-    }
-  
-  ]
+    }]
 }
