@@ -147,6 +147,29 @@ To make your visual regression tests as robust as possible there are a few point
   - The application under test: ayespy is really effective when loading a page and screenshotting. You start to loose that value when you perform complicated setup journeys such as going through a checkout. Although possible with `onReadyScript` this should only be used for cases such as closing a cookie message.
   - The selenium grid: We recommend using the container versions of selenium available from dockerhub. This ensures repeatable consistent state across test runs.
 
+
+## Running All Aye Spy Tests
+
+Aye spy comes packaged up with a comprehensive set of tests adhering to the test pyramid to give a high level of confidence that the application is working as expected.
+
+### Unit & Integration tests
+
+`yarn test`
+
+
+### End to End Tests
+
+Inside the e2eTest folder there are a number of scenarios covering Aye Spy end to end.
+
+We use Docker to package Aye Spy and then Docker Compose to spin up dependencies such as a Selenium Grid and NGINX to host a test website (/testSite) for aye spy to interact with.
+
+To run the e2e tests run 
+
+`yarn test:e2e:build`
+
+`yarn test:e2e:run`
+
+
 ## Contributing
 
 [To contribute please checkout CONTRIBUTING](./CONTRIBUTING.md)
