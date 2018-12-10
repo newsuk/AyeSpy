@@ -56,6 +56,7 @@ program
       await createDirectories(fs, config);
       await createBucket(config);
       await getScreenshots(SnapShotter, config);
+      logger.info('run', 'Finished getting snapshots 👀');
       if (options.remote) await uploadRemoteKeys('latest', config);
     } catch (err) {
       handleError(err);

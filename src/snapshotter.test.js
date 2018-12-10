@@ -8,6 +8,12 @@ import logger from './logger';
 jest.mock('fs');
 jest.mock('jimp');
 
+const mockProgressBar = {
+  subscribe: () => {},
+  start: () => {},
+  tick: () => {}
+};
+
 describe('The snapshotter', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -20,7 +26,11 @@ describe('The snapshotter', () => {
       url: 'http://lolcats.com'
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
 
     expect(mockSnapshot.driver.get).toBeCalledWith(config.url);
@@ -32,7 +42,11 @@ describe('The snapshotter', () => {
       gridUrl: 'https://lol.com'
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.setRect).toBeCalledWith({
       height: 1024,
@@ -46,7 +60,8 @@ describe('The snapshotter', () => {
         gridUrl: 'https://lol.com',
         browser: 'firefox'
       },
-      { webdriver, By, until }
+      { webdriver, By, until },
+      mockProgressBar
     );
 
     new SnapShotter(
@@ -54,7 +69,8 @@ describe('The snapshotter', () => {
         gridUrl: 'https://lol.com',
         browser: 'chrome'
       },
-      { webdriver, By, until }
+      { webdriver, By, until },
+      mockProgressBar
     );
 
     expect(webdriver.Capabilities.chrome.mock.calls.length).toBe(1);
@@ -69,7 +85,11 @@ describe('The snapshotter', () => {
       waitForElement: 'selector'
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.wait.mock.calls.length).toBe(1);
     expect(mockSnapshot.driver.wait).toBeCalledWith(
@@ -90,7 +110,11 @@ describe('The snapshotter', () => {
       throw new Error('sad times');
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.quit.mock.calls.length).toBe(1);
   });
@@ -103,7 +127,11 @@ describe('The snapshotter', () => {
       removeElements: ['selector1', 'selector2']
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
   });
@@ -116,7 +144,11 @@ describe('The snapshotter', () => {
       cropToSelector: '.thisIsASelector'
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(jimp.read).toHaveBeenCalled();
   });
@@ -129,7 +161,11 @@ describe('The snapshotter', () => {
       wait: 2000
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     mockSnapshot.snooze = jest.fn();
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.snooze.mock.calls.length).toBe(1);
@@ -152,7 +188,11 @@ describe('The snapshotter', () => {
       ]
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.addCookie.mock.calls.length).toBe(2);
   });
@@ -165,7 +205,11 @@ describe('The snapshotter', () => {
       onBeforeScript: './src/__mocks__/onReadyScriptMock.js'
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(seleniumMock).toBeCalledWith(mockSnapshot.driver, By);
   });
@@ -178,7 +222,11 @@ describe('The snapshotter', () => {
       onReadyScript: './src/__mocks__/onReadyScriptMock.js'
     };
 
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(seleniumMock).toBeCalledWith(mockSnapshot.driver, By);
   });
@@ -192,7 +240,11 @@ describe('The snapshotter', () => {
     };
 
     logger.error = jest.fn();
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      mockProgressBar
+    );
     await mockSnapshot.takeSnap();
     expect(logger.error.mock.calls.length).toBe(1);
   });
@@ -204,7 +256,8 @@ describe('The snapshotter', () => {
         gridUrl: 'https://lol.com',
         mobileDeviceName: 'test'
       },
-      { webdriver, By, until }
+      { webdriver, By, until },
+      mockProgressBar
     );
 
     expect(mockSnapshot.mock.calls.length).toBe(1);
@@ -217,7 +270,8 @@ describe('The snapshotter', () => {
         gridUrl: 'https://lol.com',
         browser: 'chrome'
       },
-      { webdriver, By, until }
+      { webdriver, By, until },
+      mockProgressBar
     );
 
     expect(mockSnapshot.mock.calls.length).toBe(0);
