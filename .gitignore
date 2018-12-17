@@ -18,14 +18,12 @@ lib/**
 # jest 
 coverage/*
 
-latest/
-baseline/
-generatedDiffs
-reports/
-
 # e2eTest folders 
 e2eTests/updateBaseline/baseline/*
 e2eTests/snap/latest/*
 
 e2eTests/compare/generatedDiffs/*
+e2eTests/compare/reports/*
 
+
+e2eTests/removeElements/latest/*

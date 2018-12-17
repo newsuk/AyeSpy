@@ -1,0 +1,15 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/removeElements/baseline",
+  "latest": "./e2eTests/removeElements/latest",
+  "generatedDiffs": "./e2eTests/removeElements/generatedDiffs",
+  "report": "./e2eTests/removeElements/reports",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:80",
+      "label": "pass",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "removeElements": [".screenshot"]
+    }
+  ]
+}
