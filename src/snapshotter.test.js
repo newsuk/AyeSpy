@@ -8,11 +8,7 @@ import logger from './logger';
 jest.mock('fs');
 jest.mock('jimp');
 
-const mockProgressBar = {
-  subscribe: () => {},
-  start: () => {},
-  tick: () => {}
-};
+const onComplete = () => {};
 
 describe('The snapshotter', () => {
   afterEach(() => {
@@ -29,7 +25,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
 
@@ -45,7 +41,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.setRect).toBeCalledWith({
@@ -61,7 +57,7 @@ describe('The snapshotter', () => {
         browser: 'firefox'
       },
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
 
     new SnapShotter(
@@ -70,7 +66,7 @@ describe('The snapshotter', () => {
         browser: 'chrome'
       },
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
 
     expect(webdriver.Capabilities.chrome.mock.calls.length).toBe(1);
@@ -88,7 +84,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.wait.mock.calls.length).toBe(1);
@@ -113,7 +109,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.quit.mock.calls.length).toBe(1);
@@ -130,7 +126,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
@@ -147,7 +143,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(jimp.read).toHaveBeenCalled();
@@ -164,7 +160,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     mockSnapshot.snooze = jest.fn();
     await mockSnapshot.takeSnap();
@@ -191,7 +187,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.addCookie.mock.calls.length).toBe(2);
@@ -208,7 +204,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(seleniumMock).toBeCalledWith(mockSnapshot.driver, By);
@@ -225,7 +221,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(seleniumMock).toBeCalledWith(mockSnapshot.driver, By);
@@ -243,7 +239,7 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
     await mockSnapshot.takeSnap();
     expect(logger.error.mock.calls.length).toBe(1);
@@ -257,7 +253,7 @@ describe('The snapshotter', () => {
         mobileDeviceName: 'test'
       },
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
 
     expect(mockSnapshot.mock.calls.length).toBe(1);
@@ -271,7 +267,7 @@ describe('The snapshotter', () => {
         browser: 'chrome'
       },
       { webdriver, By, until },
-      mockProgressBar
+      onComplete
     );
 
     expect(mockSnapshot.mock.calls.length).toBe(0);

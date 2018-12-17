@@ -18,8 +18,8 @@ class ProgressBar {
     this._tick = 0;
   }
 
-  subscribe() {
-    this._sizeOfProgressBar++;
+  setLength(length) {
+    this._sizeOfProgressBar = length;
   }
 
   start() {

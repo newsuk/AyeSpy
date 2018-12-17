@@ -2,6 +2,8 @@ import webdriver, { By, until } from 'selenium-webdriver';
 import scenarioValidator from './scenarioValidator';
 import ProgressBar from './progressBar';
 
+const onComplete = () => ProgressBar.tick();
+
 const generateSnapShotPromises = (SnapShotter, config) =>
   config.scenarios.reduce((accum, scenario) => {
     scenarioValidator(scenario);
@@ -28,7 +30,7 @@ const generateSnapShotPromises = (SnapShotter, config) =>
             wait: scenario.wait
           },
           { webdriver, By, until },
-          ProgressBar
+          onComplete
         )
       );
     });
@@ -38,6 +40,9 @@ const generateSnapShotPromises = (SnapShotter, config) =>
 async function getScreenshots(SnapShotter, config) {
   return new Promise(async resolve => {
     const promises = generateSnapShotPromises(SnapShotter, config);
+
+    ProgressBar.setLength(promises.length);
+
     const requestLimit =
       config.limitAmountOfParallelScenarios || promises.length;
 

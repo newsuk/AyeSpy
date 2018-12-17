@@ -26,7 +26,7 @@ export default class SnapShotter {
       onReadyScript
     },
     selenium,
-    ProgressBar
+    onComplete
   ) {
     this._label = label;
     this._latest = latest;
@@ -47,9 +47,7 @@ export default class SnapShotter {
     this._By = selenium.By;
     this._until = selenium.until;
     this._webdriver = selenium.webdriver;
-    this._ProgressBar = ProgressBar;
-
-    this._ProgressBar.subscribe();
+    this._onComplete = onComplete;
 
     const browserCapability = browser.includes('chrome')
       ? this._webdriver.Capabilities.chrome
@@ -218,7 +216,7 @@ export default class SnapShotter {
 
       process.exitCode = 1;
     } finally {
-      this._ProgressBar.tick();
+      this._onComplete();
       await this.driver.quit();
     }
   }
