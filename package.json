@@ -40,17 +40,18 @@
   },
   "homepage": "https://github.com/newsuk/AyeSpy#readme",
   "dependencies": {
-    "inquirer": "6.2.0",
     "aws-sdk": "^2.252.1",
     "commander": "^2.15.1",
+    "inquirer": "6.2.0",
     "jimp": "^0.5.3",
     "looks-same": "^3.3.0",
     "npmlog": "^4.1.2",
     "pug": "^2.0.3",
-    "release-documentation-cli": "^1.8.0",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "devDependencies": {
+    "snyk": "^1.118.0",
+    "release-documentation-cli": "2.4.4",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
