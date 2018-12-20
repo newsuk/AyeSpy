@@ -8,7 +8,7 @@
   "remoteRegion": "eu-west-1",
   "scenarios": [
     {
-      "url": "http://ayespy_report:80",
+      "url": "http://ayespy_report:4000",
       "label": "image",
       "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
     }]
