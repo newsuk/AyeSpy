@@ -2,7 +2,7 @@ version: '3'
 
 services:
   hub:
-    image: selenium/standalone-chrome:latest
+    image: selenium/standalone-firefox:latest
     ports:
       - "4444:4444"
     networks:
@@ -27,9 +27,9 @@ services:
       - ./testSite:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
-       - "80:80"
+       - "4000:4000"
     environment:
-      - NGINX_PORT=80
+      - NGINX_PORT=4000
     networks:
       - selenium-grid
 

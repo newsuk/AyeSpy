@@ -28,7 +28,7 @@ describe('e2e Tests compare shots locally', () => {
   it('Compares the latest images with the baseline images and generate a report', () => {
     try {
       execSync(
-        'node ./lib/bin/run.js compare --browser chrome --config e2eTests/compare/compareConfig.json'
+        'node ./lib/bin/run.js compare --browser firefox --config e2eTests/compare/compareConfig.json'
       ).toString();
     } catch (err) {
       expect(err.status).toBe(1);
