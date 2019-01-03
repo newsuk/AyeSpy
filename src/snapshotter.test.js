@@ -272,4 +272,26 @@ describe('The snapshotter', () => {
 
     expect(mockSnapshot.mock.calls.length).toBe(0);
   });
+
+  it('runs the on-complete callback after an error screenshot', async () => {
+    const mockOnComplete = jest.fn();
+
+    SnapShotter.prototype.executeScript = () => {
+      throw new Error('sad');
+    };
+
+    try {
+      await new SnapShotter(
+        {
+          gridUrl: 'https://lol.com',
+          browser: 'chrome',
+          onBeforeScript: 'willthrow'
+        },
+        { webdriver, By, until },
+        mockOnComplete
+      ).takeSnap();
+    } finally {
+      expect(mockOnComplete.mock.calls.length).toBe(1);
+    }
+  });
 });

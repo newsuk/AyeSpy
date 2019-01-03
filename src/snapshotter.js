@@ -216,8 +216,8 @@ export default class SnapShotter {
 
       process.exitCode = 1;
     } finally {
-      this._onComplete();
       await this.driver.quit();
+      this._onComplete();
     }
   }
 }
