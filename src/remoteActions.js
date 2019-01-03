@@ -122,7 +122,7 @@ const fetchRemoteKeys = (config, key, imageName) =>
     const params = { Bucket: config.remoteBucketName, Key: remoteFileName };
 
     s3.getObject(params, (error, data) => {
-      if (error) return reject(error);
+      if (error) return reject(`Unable to find remote Image: ${imageName}`);
       fs.writeFileSync(fileName, data.Body);
       resolve();
     });
