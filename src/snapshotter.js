@@ -25,7 +25,8 @@ export default class SnapShotter {
       onBeforeScript,
       onReadyScript
     },
-    selenium
+    selenium,
+    onComplete
   ) {
     this._label = label;
     this._latest = latest;
@@ -46,6 +47,7 @@ export default class SnapShotter {
     this._By = selenium.By;
     this._until = selenium.until;
     this._webdriver = selenium.webdriver;
+    this._onComplete = onComplete;
 
     const browserCapability = browser.includes('chrome')
       ? this._webdriver.Capabilities.chrome
@@ -149,7 +151,7 @@ export default class SnapShotter {
   }
 
   async writeCroppedScreenshot(filename, screenshot, selector) {
-    logger.info('Cropping', `selector: ${selector}`);
+    logger.verbose('Cropping', `selector: ${selector}`);
     const { x, y, width, height } = await this.getElementDimensions(selector);
 
     await jimp
@@ -164,7 +166,7 @@ export default class SnapShotter {
 
   async takeSnap() {
     try {
-      logger.info(
+      logger.verbose(
         'Snapshotting',
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
@@ -215,6 +217,7 @@ export default class SnapShotter {
       process.exitCode = 1;
     } finally {
       await this.driver.quit();
+      this._onComplete();
     }
   }
 }

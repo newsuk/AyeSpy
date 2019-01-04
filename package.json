@@ -41,6 +41,7 @@
   "homepage": "https://github.com/newsuk/AyeSpy#readme",
   "dependencies": {
     "aws-sdk": "^2.252.1",
+    "cli-progress":"2.1.1",
     "commander": "^2.15.1",
     "inquirer": "6.2.0",
     "jimp": "^0.5.3",

@@ -56,7 +56,12 @@ program
       await createDirectories(fs, config);
       await createBucket(config);
       await getScreenshots(SnapShotter, config);
+
+      console.log(''); // eslint-disable-line no-console // space for progress bar
+
       if (options.remote) await uploadRemoteKeys('latest', config);
+
+      logger.info('run', 'Finished getting snapshots 👀');
     } catch (err) {
       handleError(err);
     }
