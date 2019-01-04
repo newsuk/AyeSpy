@@ -1,6 +1,6 @@
 {
   "name": "aye-spy",
-  "version": "2.3.2",
+  "version": "2.5.0",
   "description": "A visual regression tool",
   "main": "lib/bin/run.js",
   "scripts": {
@@ -41,7 +41,7 @@
   "homepage": "https://github.com/newsuk/AyeSpy#readme",
   "dependencies": {
     "aws-sdk": "^2.252.1",
-    "cli-progress":"2.1.1",
+    "cli-progress": "2.1.1",
     "commander": "^2.15.1",
     "inquirer": "6.2.0",
     "jimp": "^0.5.3",
