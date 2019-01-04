@@ -21,7 +21,7 @@ class ProgressBar {
   }
 
   start() {
-    console.log(''); // eslint-disable-line no-console
+    console.log(''); // eslint-disable-line no-console // space for progress bar
     this._cliProgress.start(this._sizeOfProgressBar, 0);
   }
 
