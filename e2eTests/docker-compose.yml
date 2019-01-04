@@ -2,9 +2,27 @@ version: '3'
 
 services:
   hub:
-    image: selenium/standalone-firefox:latest
+    image: selenium/hub
     ports:
       - "4444:4444"
+    networks:
+      - selenium-grid
+  firefox:
+    image: selenium/node-firefox
+    environment:
+      - NODE_MAX_INSTANCES=2
+      - NODE_MAX_SESSION=2
+    links:
+      - hub
+    networks:
+      - selenium-grid
+  chrome:
+    image: selenium/node-chrome
+    environment:
+      - NODE_MAX_INSTANCES=2
+      - NODE_MAX_SESSION=2
+    links:
+      - hub
     networks:
       - selenium-grid
 
