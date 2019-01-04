@@ -151,7 +151,7 @@ export default class SnapShotter {
   }
 
   async writeCroppedScreenshot(filename, screenshot, selector) {
-    logger.info('Cropping', `selector: ${selector}`);
+    logger.debug('Cropping', `selector: ${selector}`);
     const { x, y, width, height } = await this.getElementDimensions(selector);
 
     await jimp

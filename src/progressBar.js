@@ -7,10 +7,8 @@ class ProgressBar {
         barsize: 65,
         stopOnComplete: true,
         stream: process.stderr,
-        linewrap: true,
-        clearOnComplete: false,
         format:
-          '\n Progress [{bar}] {percentage}% | ETA: {eta}s | Snapped {value}/{total} \n'
+          '   Progress [{bar}] {percentage}% | ETA: {eta}s | Snapped {value}/{total}'
       },
       cliProgress.Presets.legacy
     );
@@ -23,6 +21,7 @@ class ProgressBar {
   }
 
   start() {
+    console.log(''); // eslint-disable-line no-console
     this._cliProgress.start(this._sizeOfProgressBar, 0);
   }
 
