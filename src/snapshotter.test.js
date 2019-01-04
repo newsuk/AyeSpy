@@ -1,6 +1,6 @@
 /* globals jest expect */
+import jimp from 'jimp';
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
-import jimp from './__mocks__/jimp';
 import SnapShotter from './snapshotter';
 import seleniumMock from './__mocks__/onReadyScriptMock';
 import logger from './logger';
@@ -78,6 +78,19 @@ describe('The snapshotter', () => {
     );
   });
 
+  it('takes a cropped snapshot', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      cropToSelector: '.thisIsASelector'
+    };
+
+    await new SnapShotter(config, { webdriver, By, until }).takeSnap();
+
+    expect(jimp.read).toHaveBeenCalled();
+  });
+
   it('Closes the browser if an error is thrown', async () => {
     const config = {
       gridUrl: 'https://lol.com',
@@ -86,9 +99,9 @@ describe('The snapshotter', () => {
       waitForElement: 'selector'
     };
 
-    By.css = () => {
+    By.css = jest.fn().mockImplementationOnce(() => {
       throw new Error('sad times');
-    };
+    });
 
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
@@ -106,19 +119,6 @@ describe('The snapshotter', () => {
     const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
     await mockSnapshot.takeSnap();
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
-  });
-
-  xit('takes a cropped snapshot', async () => {
-    const config = {
-      gridUrl: 'https://lol.com',
-      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
-      label: '1homepage',
-      cropToSelector: '.thisIsASelector'
-    };
-
-    const mockSnapshot = new SnapShotter(config, { webdriver, By, until });
-    await mockSnapshot.takeSnap();
-    expect(jimp.read).toHaveBeenCalled();
   });
 
   it('implicitly waits if specified', async () => {
