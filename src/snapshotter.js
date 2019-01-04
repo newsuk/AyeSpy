@@ -25,8 +25,7 @@ export default class SnapShotter {
       onBeforeScript,
       onReadyScript
     },
-    selenium,
-    onComplete
+    selenium
   ) {
     this._label = label;
     this._latest = latest;
@@ -47,7 +46,6 @@ export default class SnapShotter {
     this._By = selenium.By;
     this._until = selenium.until;
     this._webdriver = selenium.webdriver;
-    this._onComplete = onComplete;
 
     const browserCapability = browser.includes('chrome')
       ? this._webdriver.Capabilities.chrome
@@ -166,7 +164,7 @@ export default class SnapShotter {
 
   async takeSnap() {
     try {
-      logger.verbose(
+      logger.info(
         'Snapshotting',
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
@@ -217,7 +215,6 @@ export default class SnapShotter {
       process.exitCode = 1;
     } finally {
       await this.driver.quit();
-      this._onComplete();
     }
   }
 }

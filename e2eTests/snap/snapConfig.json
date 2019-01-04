@@ -8,7 +8,7 @@
   "remoteRegion": "eu-west-1",
   "scenarios": [
     {
-      "url": "https://s3-eu-west-1.amazonaws.com/aye-spy-e2e-tests/image.png",
+      "url": "http://ayespy_report:4000",
       "label": "image",
       "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
     }]

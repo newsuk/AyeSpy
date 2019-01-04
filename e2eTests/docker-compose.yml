@@ -2,21 +2,9 @@ version: '3'
 
 services:
   hub:
-    image: selenium/hub:latest
-    expose:
-      - 4444
-    networks:
-      - selenium-grid
-
-  chrome:
-    image: selenium/node-chrome-debug:latest
-    environment:
-      - HUB_PORT_4444_TCP_ADDR=hub
-      - HUB_PORT_4444_TCP_PORT=4444
+    image: selenium/standalone-firefox:latest
     ports:
-      - 5900:5900
-    depends_on:
-      - hub
+      - "4444:4444"
     networks:
       - selenium-grid
 
@@ -28,7 +16,20 @@ services:
       - AWS_SECRET_ACCESS_KEY
       - AWS_ACCESS_KEY_ID
     depends_on:
-      - chrome  
+      - hub 
+      - ayespy_report
+    networks:
+      - selenium-grid
+
+  ayespy_report:
+    image: nginx
+    volumes:
+      - ./testSite:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+       - "4000:4000"
+    environment:
+      - NGINX_PORT=4000
     networks:
       - selenium-grid
 
