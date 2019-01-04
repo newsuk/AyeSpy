@@ -12,8 +12,10 @@ services:
     environment:
       - NODE_MAX_INSTANCES=2
       - NODE_MAX_SESSION=2
-    links:
-      - hub
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
     networks:
       - selenium-grid
   chrome:
@@ -21,8 +23,10 @@ services:
     environment:
       - NODE_MAX_INSTANCES=2
       - NODE_MAX_SESSION=2
-    links:
-      - hub
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
     networks:
       - selenium-grid
 
