@@ -23,7 +23,7 @@ const createDiffImage = imageData =>
           reject(error);
         }
 
-        logger.info('createDiffs', `Diff generated for ${imageData.label}`);
+        logger.verbose('createDiffs', `Diff generated for ${imageData.label}`);
         resolve();
       }
     );
