@@ -23,7 +23,7 @@ describe('e2e Tests taking snaps locally', () => {
 
     try {
       const stdout = execSync(
-        'node ./lib/bin/run.js snap --browser chrome --config e2eTests/snap/snapConfig.json'
+        'node ./lib/bin/run.js snap --browser chrome --config e2eTests/chrome/snap/snapConfig.json'
       ).toString();
       //pipe stdout to Jest console
       console.log(stdout);

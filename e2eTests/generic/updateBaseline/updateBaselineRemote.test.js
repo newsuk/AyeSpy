@@ -7,7 +7,7 @@ import {
   deleteRemoteBucket,
   deleteRemoteKeys,
   listRemoteKeys
-} from '../../lib/remoteActions';
+} from '../../../lib/remoteActions';
 
 jest.unmock('aws-sdk');
 
