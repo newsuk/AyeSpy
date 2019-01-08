@@ -7,6 +7,7 @@ services:
       - "4444:4444"
     networks:
       - selenium-grid
+    container_name: hub
   firefox:
     image: selenium/node-firefox:latest
     environment:
@@ -14,6 +15,7 @@ services:
       - NODE_MAX_SESSION=2
       - HUB_PORT_4444_TCP_ADDR=hub
       - HUB_PORT_4444_TCP_PORT=4444
+      - HUB_HOST=hub
     volumes:
       - /dev/shm:/dev/shm
     networks:
@@ -27,6 +29,7 @@ services:
       - NODE_MAX_SESSION=2
       - HUB_PORT_4444_TCP_ADDR=hub
       - HUB_PORT_4444_TCP_PORT=4444
+      - HUB_HOST=hub
     volumes:
       - /dev/shm:/dev/shm
     networks:
