@@ -1,0 +1,15 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/chrome/removeElements/baseline",
+  "latest": "./e2eTests/chrome/removeElements/latest",
+  "generatedDiffs": "./e2eTests/chrome/removeElements/generatedDiffs",
+  "report": "./e2eTests/chrome/removeElements/reports",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:4000",
+      "label": "remove-element",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "removeElements": [".screenshot"]
+    }
+  ]
+}

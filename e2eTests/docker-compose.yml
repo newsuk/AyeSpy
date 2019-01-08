@@ -2,11 +2,37 @@ version: '3'
 
 services:
   hub:
-    image: selenium/standalone-firefox:latest
+    image: selenium/hub
     ports:
       - "4444:4444"
     networks:
       - selenium-grid
+  firefox:
+    image: selenium/node-firefox
+    environment:
+      - NODE_MAX_INSTANCES=2
+      - NODE_MAX_SESSION=2
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - selenium-grid
+    depends_on:
+      - hub
+  chrome:
+    image: selenium/node-chrome
+    environment:
+      - NODE_MAX_INSTANCES=2
+      - NODE_MAX_SESSION=2
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - selenium-grid
+    depends_on:
+      - hub 
 
   e2e:
     build:
@@ -18,6 +44,8 @@ services:
     depends_on:
       - hub 
       - ayespy_report
+      - firefox
+      - chrome
     networks:
       - selenium-grid
 

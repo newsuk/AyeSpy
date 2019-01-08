@@ -1,9 +1,9 @@
 {
   "gridUrl": "http://hub:4444/wd/hub",
-  "baseline": "./e2eTests/snap/baseline",
-  "latest": "./e2eTests/snap/latest",
-  "generatedDiffs": "./e2eTests/snap/generatedDiffs",
-  "report": "./e2eTests/reports",
+  "baseline": "./e2eTests/firefox/snap/baseline",
+  "latest": "./e2eTests/firefox/snap/latest",
+  "generatedDiffs": "./e2eTests/firefox/snap/generatedDiffs",
+  "report": "./e2eTests/firefox/snap/reports",
   "remoteBucketName": "aye-spy",
   "remoteRegion": "eu-west-1",
   "scenarios": [

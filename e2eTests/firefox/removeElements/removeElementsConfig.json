@@ -1,9 +1,9 @@
 {
   "gridUrl": "http://hub:4444/wd/hub",
-  "baseline": "./e2eTests/removeElements/baseline",
-  "latest": "./e2eTests/removeElements/latest",
-  "generatedDiffs": "./e2eTests/removeElements/generatedDiffs",
-  "report": "./e2eTests/removeElements/reports",
+  "baseline": "./e2eTests/firefox/removeElements/baseline",
+  "latest": "./e2eTests/firefox/removeElements/latest",
+  "generatedDiffs": "./e2eTests/firefox/removeElements/generatedDiffs",
+  "report": "./e2eTests/firefox/removeElements/reports",
   "scenarios": [
     {
       "url": "http://ayespy_report:4000",
