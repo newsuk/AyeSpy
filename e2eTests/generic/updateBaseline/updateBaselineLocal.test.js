@@ -20,7 +20,7 @@ describe('e2e Tests updating baseline shots locally', () => {
 
   it('Updates the baseline directory', async () => {
     const stdout = await execSync(
-      'node ./lib/bin/run.js update-baseline --browser firefox --config e2eTests/updateBaseline/updateBaselineConfig.json'
+      'node ./lib/bin/run.js update-baseline --browser firefox --config e2eTests/generic/updateBaseline/updateBaselineConfig.json'
     ).toString();
 
     //pipe stdout to Jest console

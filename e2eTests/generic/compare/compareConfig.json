@@ -1,9 +1,9 @@
 {
   "gridUrl": "http://selenium-grid.tnl-dev.ntch.co.uk:4444/wd/hub",
-  "baseline": "./e2eTests/compare/baselineMockImages",
-  "latest": "./e2eTests/compare/latestMockImages",
-  "generatedDiffs": "./e2eTests/compare/generatedDiffs",
-  "report": "./e2eTests/compare/reports",
+  "baseline": "./e2eTests/generic/compare/baselineMockImages",
+  "latest": "./e2eTests/generic/compare/latestMockImages",
+  "generatedDiffs": "./e2eTests/generic/compare/generatedDiffs",
+  "report": "./e2eTests/generic/compare/reports",
   "remoteBucketName": "aye-spy",
   "remoteRegion": "eu-west-1",
   "scenarios": [

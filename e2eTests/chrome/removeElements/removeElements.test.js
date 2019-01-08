@@ -27,12 +27,12 @@ describe('e2e Tests remove elements', () => {
 
     try {
       const snapOutput = execSync(
-        'node ./lib/bin/run.js snap --browser firefox --config e2eTests/removeElements/removeElementsConfig.json'
+        'node ./lib/bin/run.js snap --browser chrome --config e2eTests/chrome/removeElements/removeElementsConfig.json'
       ).toString();
       console.log(snapOutput);
 
       const compareOutput = execSync(
-        'node ./lib/bin/run.js compare --browser firefox --config e2eTests/removeElements/removeElementsConfig.json'
+        'node ./lib/bin/run.js compare --browser chrome --config e2eTests/chrome/removeElements/removeElementsConfig.json'
       ).toString();
       console.log(compareOutput);
     } catch (err) {

@@ -1,0 +1,15 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/chrome/snap/baseline",
+  "latest": "./e2eTests/chrome/snap/latest",
+  "generatedDiffs": "./e2eTests/chrome/snap/generatedDiffs",
+  "report": "./e2eTests/chrome/snap/reports",
+  "remoteBucketName": "aye-spy",
+  "remoteRegion": "eu-west-1",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:4000",
+      "label": "image",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
+    }]
+}
