@@ -148,6 +148,10 @@ To make your visual regression tests as robust as possible there are a few point
   - The selenium grid: We recommend using the container versions of selenium available from dockerhub. This ensures repeatable consistent state across test runs.
 
 
+## Limitations 
+
+As of yet Aye Spy does not support switching contexts to iFrames
+
 ## Running All Aye Spy Tests
 
 Aye Spy comes packaged up with a comprehensive set of tests adhering to the test pyramid to give a high level of confidence that the application is working as expected.
