@@ -3285,10 +3285,10 @@ googleapis@^33.0.0:
     google-auth-library "^1.6.0"
     googleapis-common "^0.2.0"
 
-googlesheetcomment@1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/googlesheetcomment/-/googlesheetcomment-1.5.5.tgz#eed3770831253da50bbffb27576b1a4a43574d86"
-  integrity sha512-b0Eb1gFvdtuK9VYUKi5R7QSA2Nq/QfDa1ry5g463YTzcdc59m0B+hSxo8Ch2+h54nAgsXGPMTMU6zLNjWJAjBQ==
+googlesheetcomment@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/googlesheetcomment/-/googlesheetcomment-1.6.0.tgz#81f0ed9cc208f73c774ce36a70c0416f890b2048"
+  integrity sha512-4XO7370La87mUR5C6nEH99AqQ2XjxBIMQVuNz5BYUX5zI+whFKXVSCBIR8fbuzrjuk7HrjP8q7EHht08HJBLhQ==
   dependencies:
     aws-sdk "^2.316.0"
     commander "^2.18.0"
@@ -6711,10 +6711,10 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-release-documentation-cli@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/release-documentation-cli/-/release-documentation-cli-2.5.0.tgz#5adab4c5bd53b49522b6bd2749cf2ea9cd98e916"
-  integrity sha512-XTLwqGa77gryBBSLkdUi/L7HBdXO994yO82/S23rgwiQ46KTXNTwQF5id2wszjjXJbM/ZcQlZQi8U2Pkjt6MWQ==
+release-documentation-cli@2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/release-documentation-cli/-/release-documentation-cli-2.5.3.tgz#d1a9429ffac423adbeffb700e4b188666a645951"
+  integrity sha512-i/cdcEaU4TKuYrWHK7C6bh7WjknjIASiDAAJw57IvlKQ3PAnP1oIJV7P51bhhYTdveIAhje1ZV0jrsFjXHnH9Q==
   dependencies:
     axios "^0.18.0"
     commander "^2.15.1"
@@ -6722,7 +6722,7 @@ release-documentation-cli@2.5.0:
     conventional-recommended-bump "^2.0.9"
     generate-changelog "^1.7.1"
     git-tags "^0.2.4"
-    googlesheetcomment "1.5.5"
+    googlesheetcomment "1.6.0"
     inquirer "^5.2.0"
     mkdirp "^0.5.1"
     moment "^2.22.1"
