@@ -1,4 +1,6 @@
 [![Build Status](https://app.bitrise.io/app/9477d3f47782ace9/status.svg?token=yuy5aC1nmPlz1rsMx7YuKA&branch=master)](https://app.bitrise.io/app/9477d3f47782ace9) [![npm version](https://badge.fury.io/js/aye-spy.svg)](https://badge.fury.io/js/aye-spy)
+[![Package Quality](https://npm.packagequality.com/shield/aye-spy.svg)](https://packagequality.com/#?package=aye-spy)
+[![Known Vulnerabilities](https://snyk.io/test/github/newsuk/AyeSpy/badge.svg?targetFile=package.json)](https://snyk.io/test/github/newsuk/AyeSpy?targetFile=package.json)
 
 # Aye Spy 🐛👀
 
