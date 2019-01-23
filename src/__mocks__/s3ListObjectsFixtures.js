@@ -9,7 +9,7 @@ export default {
       StorageClass: 'STANDARD'
     },
     {
-      Key: 'chrome/latest/1homepage.png',
+      Key: 'chrome/subfolder/latest/1homepage.png',
       LastModified: '2018-06-06T16:13:00.000Z',
       ETag: '9411edc59ac302c9a3e4bedcd5228cc3',
       Size: 1131356,
@@ -23,7 +23,7 @@ export default {
       StorageClass: 'STANDARD'
     },
     {
-      Key: 'chrome/latest/3homepage.png',
+      Key: 'chrome/subfolder/latest/3homepage.png',
       LastModified: '2018-06-06T16:13:00.000Z',
       ETag: '8d31b531d854aa4428fda148077bdb22',
       Size: 524244,

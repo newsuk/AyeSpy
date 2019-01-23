@@ -42,11 +42,21 @@ program
   .option('c, --config [config]', 'Path to your config')
   .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
+  .option(
+    'sf, --subfolder [subfolder]',
+    'Specific folder for generating reports'
+  )
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
+
+      if (options.subfolder) {
+        config.subfolder = options.subfolder;
+      } else {
+        config.subfolder = 'default';
+      }
 
       validateConfig(config, options.remote);
 
@@ -105,11 +115,20 @@ program
   .option('c, --config [config]', 'Path to your config')
   .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
+  .option(
+    'sf, --subfolder [subfolder]',
+    'Specific folder for generating reports'
+  )
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
+      if (options.subfolder) {
+        config.subfolder = options.subfolder;
+      } else {
+        config.subfolder = 'default';
+      }
 
       config.remote = options.remote;
       validateConfig(config, config.remote);

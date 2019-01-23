@@ -138,7 +138,7 @@ const listRemoteKeys = (key, config) => {
     .promise()
     .then(result => {
       return result.Contents.filter(item =>
-        item.Key.includes(`${config.browser}/${key}`)
+        item.Key.includes(`${config.browser}/${config.subfolder}/${key}`)
       );
     })
     .catch(err => logger.error('remote-actions', err));
@@ -169,14 +169,17 @@ const uploadRemoteKeys = async (key, config) => {
 
       const contentType = key === 'report' ? 'text/html' : 'image/png';
 
+      let dir = `${config.browser}/${config.subfolder}`;
+      if (key === 'baseline') dir = `${config.browser}`;
+
       logger.info(
         'remote-actions',
-        `Uploading to S3: ${config.browser}/${key}/${path.basename(file)}`
+        `Uploading to S3: ${dir}/${key}/${path.basename(file)}`
       );
 
       const uploadParams = {
         Bucket: config.remoteBucketName,
-        Key: `${config.browser}/${key}/${path.basename(file)}`,
+        Key: `${dir}/${key}/${path.basename(file)}`,
         Body: fileStream,
         ContentType: contentType
       };

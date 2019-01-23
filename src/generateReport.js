@@ -46,14 +46,14 @@ const createReportData = config => {
 };
 const createRemoteReportData = (url, diffs) =>
   diffs.map(diff => {
-    const [browser, key, scenario] = diff.Key.split('/'); //eslint-disable-line no-unused-vars
+    const [browser, subfolder, key, scenario] = diff.Key.split('/'); //eslint-disable-line no-unused-vars
     const scenarioName = scenario.split('.png')[0];
 
     return {
       label: scenarioName,
       baseline: `${url}${browser}/baseline/${scenario}`,
-      latest: `${url}${browser}/latest/${scenario}`,
-      generatedDiff: `${url}${browser}/generatedDiffs/${scenario}`
+      latest: `${url}${browser}/${subfolder}/latest/${scenario}`,
+      generatedDiff: `${url}${browser}/${subfolder}/generatedDiffs/${scenario}`
     };
   });
 
