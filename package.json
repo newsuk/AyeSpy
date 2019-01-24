@@ -15,6 +15,9 @@
     "prepare": "yarn build",
     "pre-commit": "yarn lint"
   },
+  "jest": {
+    "modulePathIgnorePatterns":["./lib"]
+  },
   "lint-staged": {
     "src/**/*.js": [
       "./node_modules/.bin/eslint src/* --fix",
