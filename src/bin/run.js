@@ -116,6 +116,7 @@ program
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
+      const reporter = new Reporter();
 
       if (options.browser) config.browser = options.browser;
       if (options.branch) {
@@ -133,9 +134,9 @@ program
       clearDirectories(fs, config);
       await createBucket(config);
       await fetchRemoteComparisonImages(config);
-      await createComparisons(fs, config);
+      await createComparisons(fs, config, reporter);
 
-      if (Reporter.state.failed.count) {
+      if (reporter.state.failed.count) {
         const generateReport = config.remote
           ? generateRemoteReport
           : generateLocalReport;
