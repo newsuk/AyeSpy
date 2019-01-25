@@ -44,7 +44,7 @@ describe('Remote interactions', () => {
     const data = await listRemoteKeys(key, {
       remoteRegion: 'region',
       browser: 'chrome',
-      subfolder: 'subfolder'
+      branch: 'branch'
     });
     expect(data.every(obj => obj.Key.includes(key))).toBe(true);
     expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
@@ -55,7 +55,7 @@ describe('Remote interactions', () => {
     const data = await deleteRemoteKeys(key, {
       remoteRegion: 'region',
       browser: 'chrome',
-      subfolder: 'subfolder'
+      branch: 'branch'
     });
     expect(data.every(obj => obj.Key.includes(key))).toBe(true);
     expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
