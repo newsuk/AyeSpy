@@ -149,6 +149,23 @@ describe('The snapshotter', () => {
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
   });
 
+  it('Zero Opacity Selectors', async () => {
+    const config = {
+      gridUrl: 'https://lol.com',
+      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      label: '1homepage',
+      zeroOpacityElements: ['selector1', 'selector2']
+    };
+
+    const mockSnapshot = new SnapShotter(
+      config,
+      { webdriver, By, until },
+      onComplete
+    );
+    await mockSnapshot.takeSnap();
+    expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
+  });
+
   it('implicitly waits if specified', async () => {
     const config = {
       gridUrl: 'https://lol.com',

@@ -71,6 +71,7 @@ Example config to run Aye Spy:
         "label": "homepage",
         "cropToSelector": ".flickity-slider", // crop the screenshot to a specific selector
         "removeElements": ["#ad-header"], // remove elements that are not static on refresh such as adverts
+        "zeroOpacityElements": [".is-delayedImage"] // set zero opacity on elements, content will be still there but not visible
         "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
         "cookies": [
           {
@@ -143,7 +144,7 @@ Run a single scenario based on label name:
 To make your visual regression tests as robust as possible there are a few points to consider.
 
   - Data: Wherever you run Aye Spy you need to have complete ownership of data. Along with the ability to refresh the data back to a consistent state
-  - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeElements` array. You want your page under test to be static.
+  - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeElements` or `zeroOpacityElements` array. You want your page under test to be static.
   - The application under test: Aye Spy is really effective when loading a page and screenshotting. You start to loose that value when you perform complicated setup journeys such as going through a checkout. Although possible with `onReadyScript` this should only be used for cases such as closing a cookie message.
   - The selenium grid: We recommend using the container versions of selenium available from dockerhub. This ensures repeatable consistent state across test runs.
 
