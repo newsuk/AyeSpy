@@ -1,4 +1,5 @@
 [![Build Status](https://app.bitrise.io/app/9477d3f47782ace9/status.svg?token=yuy5aC1nmPlz1rsMx7YuKA&branch=master)](https://app.bitrise.io/app/9477d3f47782ace9) [![npm version](https://badge.fury.io/js/aye-spy.svg)](https://badge.fury.io/js/aye-spy)
+[![Coverage Status](https://coveralls.io/repos/github/newsuk/AyeSpy/badge.svg?branch=master)](https://coveralls.io/github/newsuk/AyeSpy?branch=master)
 
 # Aye Spy 🐛👀
 
