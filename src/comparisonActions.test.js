@@ -1,4 +1,4 @@
-/* globals jest expect */
+/* globals jest jasmine expect */
 
 import {
   createDirectories,
@@ -136,7 +136,10 @@ describe('The comparions actions', () => {
     };
 
     await createComparisons(mockFs, config, new StubReporter());
-    expect(createDiffImage).toHaveBeenCalledWith(expectedArgument);
+    expect(createDiffImage).toHaveBeenCalledWith(
+      expectedArgument,
+      jasmine.any(Function)
+    );
   });
 
   it('creates a remote bucket', async () => {

@@ -1,11 +1,7 @@
-import looksSame from 'looks-same';
-import { promisify } from 'util';
 import logger from './logger';
 
-const looksSameAsync = promisify(looksSame);
-
-const isEqual = imageData =>
-  looksSameAsync(imageData.baseline, imageData.latest, {
+const isEqual = (imageData, looksSame) =>
+  looksSame(imageData.baseline, imageData.latest, {
     tolerance: imageData.tolerance,
     ignoreCaret: true,
     ignoreAntialiasing: true
