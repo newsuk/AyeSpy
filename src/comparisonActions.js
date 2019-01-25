@@ -11,7 +11,6 @@ import {
 import createDiffImage from './createDiffs';
 import comparisonDataConstructor from './comparisonDataConstructor';
 import isEqual from './comparer';
-import Reporter from './reporter';
 import logger from './logger';
 
 const createBucket = async config => {
@@ -30,7 +29,7 @@ const createBucket = async config => {
   }
 };
 
-const createComparisons = async (fs, config) => {
+const createComparisons = async (fs, config, reporter) => {
   const comparisonData = await comparisonDataConstructor(fs, config);
   const looksSameAsync = promisify(looksSame);
 
@@ -39,9 +38,9 @@ const createComparisons = async (fs, config) => {
     const equal = await isEqual(scenario, looksSameAsync);
 
     if (equal) {
-      Reporter.pass(scenario.label);
+      reporter.pass(scenario.label);
     } else {
-      Reporter.fail(scenario.label);
+      reporter.fail(scenario.label);
       await createDiffImage(scenario, createDiff);
     }
   }
@@ -55,7 +54,7 @@ const createComparisons = async (fs, config) => {
         logger.error('upload-remote', `Error uploading files ❌  ${error}`)
       );
 
-  Reporter.generateReport();
+  reporter.generateReport();
 };
 
 const createDirectories = (fs, config) =>
