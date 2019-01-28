@@ -1,8 +1,7 @@
-import { createDiff } from 'looks-same';
 import path from 'path';
 import logger from './logger';
 
-const createDiffImage = imageData =>
+const createDiffImage = (imageData, createDiff) =>
   new Promise((resolve, reject) => {
     createDiff(
       {

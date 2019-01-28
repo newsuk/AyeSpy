@@ -1,4 +1,6 @@
 import path from 'path';
+import looksSame, { createDiff } from 'looks-same';
+import { promisify } from 'util';
 import {
   createRemote,
   deleteRemoteKeys,
@@ -29,16 +31,17 @@ const createBucket = async config => {
 
 const createComparisons = async (fs, config, reporter) => {
   const comparisonData = await comparisonDataConstructor(fs, config);
+  const looksSameAsync = promisify(looksSame);
 
   for (let i = 0; i < comparisonData.length; i++) {
     const scenario = comparisonData[i];
-    const equal = await isEqual(scenario);
+    const equal = await isEqual(scenario, looksSameAsync);
 
     if (equal) {
       reporter.pass(scenario.label);
     } else {
       reporter.fail(scenario.label);
-      await createDiffImage(scenario);
+      await createDiffImage(scenario, createDiff);
     }
   }
 
