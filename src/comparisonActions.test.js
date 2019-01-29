@@ -1,4 +1,4 @@
-/* globals jest expect */
+/* globals jest jasmine expect */
 
 import {
   createDirectories,
@@ -15,7 +15,6 @@ import {
 import createDiffImage from './createDiffs';
 
 jest.mock('fs');
-jest.mock('./reporter');
 jest.mock('./comparisonDataConstructor');
 jest.mock('./comparer');
 jest.mock('./createDiffs');
@@ -105,6 +104,13 @@ describe('The comparions actions', () => {
   });
 
   it('creates a diff image when comparison fails', async () => {
+    class StubReporter {
+      get state() {}
+      pass() {}
+      fail() {}
+      generateReport() {}
+    }
+
     const config = {
       baseline: './baselineTest',
       latest: './latestTest',
@@ -129,8 +135,11 @@ describe('The comparions actions', () => {
       unlinkSync: jest.fn()
     };
 
-    await createComparisons(mockFs, config);
-    expect(createDiffImage).toHaveBeenCalledWith(expectedArgument);
+    await createComparisons(mockFs, config, new StubReporter());
+    expect(createDiffImage).toHaveBeenCalledWith(
+      expectedArgument,
+      jasmine.any(Function)
+    );
   });
 
   it('creates a remote bucket', async () => {

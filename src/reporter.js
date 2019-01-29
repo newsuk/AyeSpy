@@ -53,4 +53,4 @@ Scenarios Failed: ${this.state.failed.count}
   }
 }
 
-export default new Reporter();
+export default Reporter;
