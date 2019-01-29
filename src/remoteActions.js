@@ -133,7 +133,7 @@ const listRemoteKeys = (key, config) => {
   const s3 = new AWS.S3();
   const params = { Bucket: config.remoteBucketName };
   let dir = `${config.browser}`;
-  if (config.branch !== '') {
+  if (config.branch !== undefined) {
     dir += `/${config.branch}`;
   }
   return s3
@@ -171,7 +171,7 @@ const uploadRemoteKeys = async (key, config) => {
       const contentType = key === 'report' ? 'text/html' : 'image/png';
 
       let dir = `${config.browser}`;
-      if (config.branch !== '') {
+      if (config.branch !== undefined) {
         dir += `/${config.branch}`;
       }
       if (key === 'baseline') dir = `${config.browser}`;

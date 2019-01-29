@@ -48,12 +48,7 @@ program
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
-
-      if (options.branch) {
-        config.branch = options.branch;
-      } else {
-        config.branch = '';
-      }
+      if (options.branch) config.branch = options.branch;
 
       validateConfig(config, options.remote);
 
@@ -119,11 +114,7 @@ program
       const reporter = new Reporter();
 
       if (options.browser) config.browser = options.browser;
-      if (options.branch) {
-        config.branch = options.branch;
-      } else {
-        config.branch = '';
-      }
+      if (options.branch) config.branch = options.branch;
 
       config.remote = options.remote;
       validateConfig(config, config.remote);
