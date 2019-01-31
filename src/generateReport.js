@@ -46,29 +46,20 @@ const createReportData = config => {
 };
 const createRemoteReportData = (url, diffs) =>
   diffs.map(diff => {
-    const params = {};
-    if (diff.Key.split('/').length === 3) {
-      [params.browser, params.key, params.scenario] = diff.Key.split('/');
-    } else {
-      [
-        params.browser,
-        params.branch,
-        params.key,
-        params.scenario
-      ] = diff.Key.split('/');
-    }
+    const data = diff.Key.split('/');
+    const [browser, branch, key, scenario] = //eslint-disable-line no-unused-vars
+      data.length === 3
+        ? [data[0], undefined, data[1], data[2]]
+        : [data[0], data[1], data[2], data[3]];
 
-    const scenarioName = params.scenario.split('.png')[0];
-    let dir = `${params.browser}`;
-    if (params.branch) {
-      dir += `/${params.branch}`;
-    }
+    const scenarioName = scenario.split('.png')[0];
+    const dir = branch !== undefined ? `${browser}/${branch}` : `${browser}`;
 
     return {
       label: scenarioName,
-      baseline: `${url}${params.browser}/baseline/${params.scenario}`,
-      latest: `${url}${dir}/latest/${params.scenario}`,
-      generatedDiff: `${url}${dir}/generatedDiffs/${params.scenario}`
+      baseline: `${url}${browser}/baseline/${scenario}`,
+      latest: `${url}${dir}/latest/${scenario}`,
+      generatedDiff: `${url}${dir}/generatedDiffs/${scenario}`
     };
   });
 
