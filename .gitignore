@@ -29,3 +29,6 @@ e2eTests/generic/compare/reports/*
 
 e2eTests/chrome/removeElements/latest/*
 e2eTests/firefox/removeElements/latest/*
+
+e2eTests/chrome/zeroOpacityElements/latest/*
+e2eTests/firefox/zeroOpacityElements/latest/*

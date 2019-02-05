@@ -1,0 +1,15 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/chrome/zeroOpacityElements/baseline",
+  "latest": "./e2eTests/chrome/zeroOpacityElements/latest",
+  "generatedDiffs": "./e2eTests/chrome/zeroOpacityElements/generatedDiffs",
+  "report": "./e2eTests/chrome/zeroOpacityElements/reports",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:4000",
+      "label": "zero-opacity-element",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "zeroOpacityElements": [".screenshot"]
+    }
+  ]
+}
