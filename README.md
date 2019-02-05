@@ -126,6 +126,8 @@ For scenarios where you need to use a mobile emulator, pass in the device name t
 
 ## Running
 
+### Supported Browsers: Firefox | Chrome
+
 Take the latest screenshots for comparison:
 
 `ayespy snap --browser chrome --config config.json --remote`
