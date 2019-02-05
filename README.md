@@ -147,10 +147,24 @@ Run a single scenario based on label name:
 
 To make your visual regression tests as robust as possible there are a few points to consider.
 
-  - Data: Wherever you run Aye Spy you need to have complete ownership of data. Along with the ability to refresh the data back to a consistent state. With the parameter `--branch` you can easily create a subfolder for each run of the tests without overwriting the latest data and reports. Note that this action creates extra folders with data on the S3 bucket so it is recommended to set up a policy for deleting unnecessary data.
+  - Data: Wherever you run Aye Spy you need to have complete ownership of data. Along with the ability to refresh the data back to a consistent state.
   - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeElements` array. You want your page under test to be static.
   - The application under test: Aye Spy is really effective when loading a page and screenshotting. You start to loose that value when you perform complicated setup journeys such as going through a checkout. Although possible with `onReadyScript` this should only be used for cases such as closing a cookie message.
   - The selenium grid: We recommend using the container versions of selenium available from dockerhub. This ensures repeatable consistent state across test runs.
+
+## Running AyeSpy on specific branch
+
+For running AyeSpy on different braches can be usefull during CI process when results data need to be saved for each Branch/PR there is another parameter `--branch` You can easily create a subfolder for each run of the tests without overwriting the latest data and reports. Note that this action creates extra folders with data on the S3 bucket so it is recommended to set up a policy for deleting unnecessary data.
+
+Take the latest screenshots for comparison on specific branch:
+
+`ayespy snap --browser chrome --config config.json --remote --branch branchName`
+
+Run the comparison between baseline and latest on specific branch:
+
+`ayespy compare --browser chrome --config config.json --remote --branch branchName`
+
+In this case `snap` will create latest folder in specific `branch` on S3 bucket and `compare` will compare results on this branch and compare it will baseline. Report will be saved in branch folder.
 
 
 ## Limitations 

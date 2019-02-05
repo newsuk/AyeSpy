@@ -115,7 +115,11 @@ const deleteRemoteBucket = config => {
 const fetchRemoteKeys = (config, key, imageName) =>
   new Promise(async (resolve, reject) => {
     const imageDir = await resolveImagePath(key, config);
-    const remoteFileName = `${config.browser}/${key}/${imageName}`;
+    const dir =
+      key === 'baseline'
+        ? `${config.browser}/default`
+        : `${config.browser}/${config.branch}`;
+    const remoteFileName = `${dir}/${key}/${imageName}`;
     const fileName = `${imageDir}/${imageName}`;
     const s3 = new AWS.S3();
     AWS.config.update({ region: config.remoteRegion });
@@ -132,9 +136,10 @@ const listRemoteKeys = (key, config) => {
   AWS.config.update({ region: config.remoteRegion });
   const s3 = new AWS.S3();
   const params = { Bucket: config.remoteBucketName };
-  let dir = `${config.browser}`;
-  if (key !== 'baseline' && config.branch !== undefined)
-    dir += `/${config.branch}`;
+  const dir =
+    key === 'baseline'
+      ? `${config.browser}/default`
+      : `${config.browser}/${config.branch}`;
 
   return s3
     .listObjectsV2(params)
@@ -170,9 +175,10 @@ const uploadRemoteKeys = async (key, config) => {
 
       const contentType = key === 'report' ? 'text/html' : 'image/png';
 
-      let dir = `${config.browser}`;
-      if (key !== 'baseline' && config.branch !== undefined)
-        dir += `/${config.branch}`;
+      const dir =
+        key === 'baseline'
+          ? `${config.browser}/default`
+          : `${config.browser}/${config.branch}`;
 
       logger.info(
         'remote-actions',
