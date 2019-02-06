@@ -1,0 +1,15 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/firefox/hideElements/baseline",
+  "latest": "./e2eTests/firefox/hideElements/latest",
+  "generatedDiffs": "./e2eTests/firefox/hideElements/generatedDiffs",
+  "report": "./e2eTests/firefox/hideElements/reports",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:4000",
+      "label": "hide-element",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "hideElements": [".screenshot"]
+    }
+  ]
+}
