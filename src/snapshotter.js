@@ -18,7 +18,7 @@ export default class SnapShotter {
       cookies,
       cropToSelector,
       removeElements,
-      zeroOpacityElements,
+      hideElements,
       waitForElement,
       wait,
       url = 'http://localhost:80',
@@ -39,7 +39,7 @@ export default class SnapShotter {
     this._cookies = cookies;
     this._cropToSelector = cropToSelector;
     this._removeElements = removeElements;
-    this._zeroOpacityElements = zeroOpacityElements;
+    this._hideElements = hideElements;
     this._waitForElement = waitForElement;
     this._url = url;
     this.wait = wait;
@@ -96,10 +96,10 @@ export default class SnapShotter {
     }
   }
 
-  async zeroOpacityTheSelectros() {
-    for (let i = 0; i < this._zeroOpacityElements.length; i++) {
+  async hideTheSelectors() {
+    for (let i = 0; i < this._hideElements.length; i++) {
       const script = `document.querySelectorAll('${
-        this._zeroOpacityElements[i]
+        this._hideElements[i]
       }').forEach(element => element.style.opacity = '0')`;
 
       await this.driver.executeScript(script);
@@ -200,7 +200,7 @@ export default class SnapShotter {
 
       if (this._onReadyScript) await this.executeScript(this._onReadyScript);
 
-      if (this._zeroOpacityElements) await this.zeroOpacityTheSelectros();
+      if (this._hideElements) await this.hideTheSelectors();
 
       if (this._removeElements) await this.removeTheSelectors();
 

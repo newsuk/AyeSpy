@@ -23,7 +23,7 @@ const generateSnapShotPromises = (SnapShotter, config) =>
             cookies: scenario.cookies,
             cropToSelector: scenario.cropToSelector,
             removeElements: scenario.removeElements,
-            zeroOpacityElements: scenario.zeroOpacityElements,
+            hideElements: scenario.hideElements,
             waitForElement: scenario.waitForElement,
             url: scenario.url,
             onBeforeScript: scenario.onBeforeScript,

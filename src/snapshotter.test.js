@@ -149,12 +149,12 @@ describe('The snapshotter', () => {
     expect(mockSnapshot.driver.executeScript.mock.calls.length).toBe(2);
   });
 
-  it('Zero Opacity Selectors', async () => {
+  it('Hides Selectors', async () => {
     const config = {
       gridUrl: 'https://lol.com',
-      url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
+      url: 'http://test.com/',
       label: '1homepage',
-      zeroOpacityElements: ['selector1', 'selector2']
+      hideElements: ['selector1', 'selector2']
     };
 
     const mockSnapshot = new SnapShotter(
