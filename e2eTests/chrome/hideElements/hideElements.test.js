@@ -18,6 +18,8 @@ describe('e2e Tests hide elements', () => {
 
   beforeEach(() => {
     latestMockImagesPath = path.resolve(config.latest);
+
+    cleanState(latestMockImagesPath);
   });
 
   it('hides elements using zero opacity', () => {
