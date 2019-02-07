@@ -49,18 +49,13 @@ export default class SnapShotter {
     this._webdriver = selenium.webdriver;
     this._onComplete = onComplete;
 
-    const browserCapability = browser.includes('chrome')
+    const browserCapability = this._browser.includes('chrome')
       ? this._webdriver.Capabilities.chrome
       : this._webdriver.Capabilities.firefox;
 
-    const capability = mobileDeviceName
+    this._capability = mobileDeviceName
       ? this.getMobileBrowserCapability()
       : browserCapability();
-
-    this._driver = new this._webdriver.Builder()
-      .usingServer(gridUrl)
-      .withCapabilities(capability)
-      .build();
   }
 
   get driver() {
@@ -170,6 +165,12 @@ export default class SnapShotter {
         'Snapshotting',
         `${this._label}-${this._viewportLabel} : Url: ${this._url}`
       );
+
+      this._driver = await new this._webdriver.Builder()
+        .usingServer(this._gridUrl)
+        .withCapabilities(this._capability)
+        .build();
+
       await this.driver.get(this._url);
 
       await this._driver
