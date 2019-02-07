@@ -148,22 +148,21 @@ Run a single scenario based on label name:
 
 To make your visual regression tests as robust as possible there are a few points to consider.
 
-<<<<<<< HEAD
-  - Data: Wherever you run Aye Spy you need to have complete ownership of data. Along with the ability to refresh the data back to a consistent state.
-  - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeElements` array. You want your page under test to be static.
-=======
   - Data: Wherever you run Aye Spy you need to have complete ownership of data. Along with the ability to refresh the data back to a consistent state
   - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeElements` or `hideElements` array.
     - `hideElements` - sets the opacity of the element to 0 and will not affect the positioning of other elements on the page.
     - `removeElements` - hard deletes the element from the Dom and may affect the positioning of other elements.
-  You want your page under test to be static.
->>>>>>> master
+    
+    You want your page under test to be static.
   - The application under test: Aye Spy is really effective when loading a page and screenshotting. You start to loose that value when you perform complicated setup journeys such as going through a checkout. Although possible with `onReadyScript` this should only be used for cases such as closing a cookie message.
   - The selenium grid: We recommend using the container versions of selenium available from dockerhub. This ensures repeatable consistent state across test runs.
 
 ## Running AyeSpy on specific branch
 
-For running AyeSpy on different braches can be usefull during CI process when results data need to be saved for each Branch/PR there is another parameter `--branch` You can easily create a subfolder for each run of the tests without overwriting the latest data and reports. Note that this action creates extra folders with data on the S3 bucket so it is recommended to set up a policy for deleting unnecessary data.
+Running AyeSpy on branches will enable you to catch issues sooner. To do this you can specify the `--branch` parameter, which will create a subdirectory for your branch, allowing you to test independently of other branches.
+
+*Note: this option creates extra directories containing screenshots on your S3 bucket, so it is recommended to set up a lifecycle policy to delete these when you are done with them.*
+
 
 Take the latest screenshots for comparison on specific branch:
 
