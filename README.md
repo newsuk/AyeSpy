@@ -130,7 +130,7 @@ For scenarios where you need to use a mobile emulator, pass in the device name t
 
 Take the latest screenshots for comparison:
 
-`ayespy snap --browser chrome --config config.json --remote`
+`ayespy snap --browser chrome --config config.json --remote --branch branchName`
 
 Set your latest screenshots as the baselines for future comparisons:
 
@@ -138,7 +138,7 @@ Set your latest screenshots as the baselines for future comparisons:
 
 Run the comparison between baseline and latest:
 
-`ayespy compare --browser chrome --config config.json --remote`
+`ayespy compare --browser chrome --config config.json --remote --branch branchName`
 
 Run a single scenario based on label name:
 
@@ -152,9 +152,27 @@ To make your visual regression tests as robust as possible there are a few point
   - Dynamic elements: elements such as ads, videos, anything that moves should removed using the `removeElements` or `hideElements` array.
     - `hideElements` - sets the opacity of the element to 0 and will not affect the positioning of other elements on the page.
     - `removeElements` - hard deletes the element from the Dom and may affect the positioning of other elements.
-  You want your page under test to be static.
+    
+    You want your page under test to be static.
   - The application under test: Aye Spy is really effective when loading a page and screenshotting. You start to loose that value when you perform complicated setup journeys such as going through a checkout. Although possible with `onReadyScript` this should only be used for cases such as closing a cookie message.
   - The selenium grid: We recommend using the container versions of selenium available from dockerhub. This ensures repeatable consistent state across test runs.
+
+## Running AyeSpy on specific branch
+
+Running AyeSpy on branches will enable you to catch issues sooner. To do this you can specify the `--branch` parameter, which will create a subdirectory for your branch, allowing you to test independently of other branches.
+
+*Note: this option creates extra directories containing screenshots on your S3 bucket, so it is recommended to set up a lifecycle policy to delete these when you are done with them.*
+
+
+Take the latest screenshots for comparison on specific branch:
+
+`ayespy snap --browser chrome --config config.json --remote --branch branchName`
+
+Run the comparison between baseline and latest on specific branch:
+
+`ayespy compare --browser chrome --config config.json --remote --branch branchName`
+
+In this case `snap` will create latest folder in specific `branch` on S3 bucket and `compare` will compare results on this branch and compare it will baseline. Report will be saved in branch folder.
 
 
 ## Limitations 

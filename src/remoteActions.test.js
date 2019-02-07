@@ -49,11 +49,51 @@ describe('Remote interactions', () => {
     expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
   });
 
+  it('lists and filters remote objects with branch folder', async () => {
+    const key = 'latest';
+    const data = await listRemoteKeys(key, {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      branch: 'branch'
+    });
+    expect.assertions(data.length * 2);
+    data.forEach(obj => {
+      expect(obj.Key.includes(key)).toBe(true);
+      expect(!obj.Key.includes('baseline')).toBe(true);
+    });
+  });
+
+  it('lists and filters remote objects on baseline with branch param', async () => {
+    const key = 'baseline';
+    const data = await listRemoteKeys(key, {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      branch: 'branch'
+    });
+    expect.assertions(data.length * 2);
+    data.forEach(obj => {
+      expect(obj.Key.includes(key)).toBe(true);
+      expect(!obj.Key.includes('branch')).toBe(true);
+    });
+  });
+
   it('deletes filtered remote objects', async () => {
     const key = 'latest';
     const data = await deleteRemoteKeys(key, {
       remoteRegion: 'region',
-      browser: 'chrome'
+      browser: 'chrome',
+      branch: 'default'
+    });
+    expect(data.every(obj => obj.Key.includes(key))).toBe(true);
+    expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
+  });
+
+  it('deletes filtered remote objects with branch folder', async () => {
+    const key = 'latest';
+    const data = await deleteRemoteKeys(key, {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      branch: 'branch'
     });
     expect(data.every(obj => obj.Key.includes(key))).toBe(true);
     expect(data.every(obj => !obj.Key.includes('baseline'))).toBe(true);
@@ -74,25 +114,63 @@ describe('Remote interactions', () => {
     ]);
   });
 
-  it('uploads to the remote', async () => {
-    const key = 'baseline';
+  it('uploads to the remote Keys with branch', async () => {
+    const keyValue = {
+      baseline: 'chrome/default/baseline/mock/resolved/path/file1',
+      latest: 'chrome/branch/latest/mock/resolved/path/file1',
+      generatedDiffs: 'chrome/branch/generatedDiffs/mock/resolved/path/file1',
+      report: 'chrome/branch/report/mock/resolved/path/file1'
+    };
     const config = {
       remoteRegion: 'region',
       browser: 'chrome',
-      baseline: './e2eTests/baseline'
+      baseline: './e2eTests/baseline',
+      latest: './e2eTests/latest',
+      generatedDiffs: './e2eTests/generatedDiffs',
+      branch: 'branch'
     };
     const file = ['file1'];
-
     fs.readdirSync.mockReturnValue(file);
     fs.createReadStream.mockReturnValue({
       on: () => {}
     });
+    for (const [key, value] of Object.entries(keyValue)) {
+      await uploadRemoteKeys(key, config)
+        .then(promises => promises[0])
+        .then(obj => obj.Key)
+        .then(name => {
+          expect(name).toEqual(value);
+        });
+    }
+  });
 
-    await uploadRemoteKeys(key, config)
-      .then(promises => promises[0])
-      .then(obj => obj.Key)
-      .then(name => {
-        expect(name).toEqual('chrome/baseline/mock/resolved/path/file1');
-      });
+  it('uploads to the remote Keys without branch', async () => {
+    const keyValue = {
+      baseline: 'chrome/default/baseline/mock/resolved/path/file1',
+      latest: 'chrome/default/latest/mock/resolved/path/file1',
+      generatedDiffs: 'chrome/default/generatedDiffs/mock/resolved/path/file1',
+      report: 'chrome/default/report/mock/resolved/path/file1'
+    };
+    const config = {
+      remoteRegion: 'region',
+      browser: 'chrome',
+      baseline: './e2eTests/baseline',
+      latest: './e2eTests/latest',
+      generatedDiffs: './e2eTests/generatedDiffs',
+      branch: 'default'
+    };
+    const file = ['file1'];
+    fs.readdirSync.mockReturnValue(file);
+    fs.createReadStream.mockReturnValue({
+      on: () => {}
+    });
+    for (const [key, value] of Object.entries(keyValue)) {
+      await uploadRemoteKeys(key, config)
+        .then(promises => promises[0])
+        .then(obj => obj.Key)
+        .then(name => {
+          expect(name).toEqual(value);
+        });
+    }
   });
 });
