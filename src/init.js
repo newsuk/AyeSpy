@@ -40,8 +40,7 @@ function init() {
   return inquirer.prompt(questions).then(answers => {
     const dir = `${process.cwd()}/ayespy-config.json`;
 
-    const config = {
-      ...answers,
+    const config = Object.assign(answers, {
       scenarios: [
         {
           url: 'http://YOURSITE/',
@@ -49,7 +48,7 @@ function init() {
           viewports: [{ height: 1500, width: 1024, label: 'large' }]
         }
       ]
-    };
+    });
 
     return fs.writeFile(dir, JSON.stringify(config, null, 4), 'utf8', err => {
       if (err) new Error(err);
