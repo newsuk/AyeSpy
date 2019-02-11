@@ -11,25 +11,25 @@ const questions = [
   },
   {
     type: 'input',
-    name: 'baselineDir',
+    name: 'baseline',
     message:
       'Where would you like your baseline image directory? \n  Example: ./baseline\n'
   },
   {
     type: 'input',
-    name: 'latestDir',
+    name: 'latest',
     message:
       'Where would you like your latest image directory? \n  Example: ./latest\n'
   },
   {
     type: 'input',
-    name: 'generatedDir',
+    name: 'generatedDiffs',
     message:
       'Where would you like your generated differences image directory? \n  Example: ./generatedDiffs\n'
   },
   {
     type: 'input',
-    name: 'reportdDir',
+    name: 'report',
     message:
       'Where would you like your report directory? \n  Example: ./report\n'
   }
