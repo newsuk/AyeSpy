@@ -11,25 +11,25 @@ const questions = [
   },
   {
     type: 'input',
-    name: 'baselineDir',
+    name: 'baseline',
     message:
       'Where would you like your baseline image directory? \n  Example: ./baseline\n'
   },
   {
     type: 'input',
-    name: 'latestDir',
+    name: 'latest',
     message:
       'Where would you like your latest image directory? \n  Example: ./latest\n'
   },
   {
     type: 'input',
-    name: 'generatedDir',
+    name: 'generatedDiffs',
     message:
       'Where would you like your generated differences image directory? \n  Example: ./generatedDiffs\n'
   },
   {
     type: 'input',
-    name: 'reportdDir',
+    name: 'report',
     message:
       'Where would you like your report directory? \n  Example: ./report\n'
   }
@@ -40,7 +40,8 @@ function init() {
   return inquirer.prompt(questions).then(answers => {
     const dir = `${process.cwd()}/ayespy-config.json`;
 
-    const config = Object.assign(answers, {
+    const config = {
+      ...answers,
       scenarios: [
         {
           url: 'http://YOURSITE/',
@@ -48,7 +49,7 @@ function init() {
           viewports: [{ height: 1500, width: 1024, label: 'large' }]
         }
       ]
-    });
+    };
 
     return fs.writeFile(dir, JSON.stringify(config, null, 4), 'utf8', err => {
       if (err) new Error(err);
