@@ -3,6 +3,7 @@ import scenarioValidator from './scenarioValidator';
 import ProgressBar from './progressBar';
 
 const onComplete = () => ProgressBar.tick();
+const onError = () => ProgressBar.stop();
 
 const generateSnapShotPromises = (SnapShotter, config) =>
   config.scenarios.reduce((accum, scenario) => {
@@ -31,7 +32,8 @@ const generateSnapShotPromises = (SnapShotter, config) =>
             wait: scenario.wait
           },
           { webdriver, By, until },
-          onComplete
+          onComplete,
+          onError
         )
       );
     });

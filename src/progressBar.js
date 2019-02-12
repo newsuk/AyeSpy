@@ -29,6 +29,11 @@ class ProgressBar {
     this._tick++;
     this._cliProgress.update(this._tick);
   }
+
+  stop() {
+    this._cliProgress.stop();
+    console.log(''); // eslint-disable-line no-console // space for progress bar
+  }
 }
 
 export default new ProgressBar();
