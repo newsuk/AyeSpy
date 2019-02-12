@@ -125,6 +125,7 @@ export default class SnapShotter {
     try {
       await this.driver.wait(this._until.elementIsVisible(element), timeout);
     } catch (error) {
+      console.log('');
       logger.error(
         'snapshotter',
         `❌  Unable to find the specified waitForElement element on the page! ❌ ${error}`
@@ -175,15 +176,25 @@ export default class SnapShotter {
 
   async takeSnap() {
     try {
-      logger.verbose(
-        'Snapshotting',
-        `${this._label}-${this._viewportLabel} : Url: ${this._url}`
-      );
-
       this._driver = await new this._webdriver.Builder()
         .usingServer(this._gridUrl)
         .withCapabilities(this._capability)
         .build();
+    } catch (err) {
+      this._onError();
+      logger.error(
+        'snapshotter',
+        `❌  Unable to connect to the grid at ${this._gridUrl}`
+      );
+      process.exitCode = 1;
+      return;
+    }
+
+    try {
+      logger.verbose(
+        'Snapshotting',
+        `${this._label}-${this._viewportLabel} : Url: ${this._url}`
+      );
 
       await this.driver.get(this._url);
 
@@ -223,6 +234,7 @@ export default class SnapShotter {
       } else {
         this.writeScreenshot(filename, screenshot);
       }
+
       this._onComplete();
     } catch (err) {
       this._onError();
