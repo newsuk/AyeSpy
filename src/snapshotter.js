@@ -27,7 +27,8 @@ export default class SnapShotter {
       onReadyScript
     },
     selenium,
-    onComplete
+    onComplete,
+    onError
   ) {
     this._label = label;
     this._latest = latest;
@@ -50,6 +51,7 @@ export default class SnapShotter {
     this._until = selenium.until;
     this._webdriver = selenium.webdriver;
     this._onComplete = onComplete;
+    this._onError = onError;
 
     const browserCapability = this._browser.includes('chrome')
       ? this._webdriver.Capabilities.chrome
@@ -221,7 +223,9 @@ export default class SnapShotter {
       } else {
         this.writeScreenshot(filename, screenshot);
       }
+      this._onComplete();
     } catch (err) {
+      this._onError();
       logger.error(
         'snapshotter',
         `❌  Unable to take snapshot for ${this._label}-${
@@ -232,7 +236,6 @@ export default class SnapShotter {
       process.exitCode = 1;
     } finally {
       await this.driver.quit();
-      this._onComplete();
     }
   }
 }
