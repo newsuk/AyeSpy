@@ -346,4 +346,34 @@ describe('The snapshotter', () => {
       expect(mockOnComplete.mock.calls.length).toBe(1);
     }
   });
+
+  it('quits gracefully if connecting to the grid fails', async () => {
+    const mockOnError = jest.fn();
+    class Builder {
+      build() {
+        const wrap = {
+          get: jest
+            .fn()
+            .mockImplementation(() => new Error('failed requesting grid'))
+        };
+        return wrap;
+      }
+    }
+    webdriver.Builder = Builder;
+
+    try {
+      await new SnapShotter(
+        {
+          gridUrl: 'https://ERRRORURL.com',
+          browser: 'chrome'
+        },
+        { webdriver, By, until },
+        onComplete,
+        mockOnError
+      ).takeSnap();
+    } finally {
+      expect(mockOnError).toBeCalled();
+      expect(process.exitCode).toBe(1);
+    }
+  });
 });
