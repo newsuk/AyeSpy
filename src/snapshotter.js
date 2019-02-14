@@ -125,7 +125,7 @@ export default class SnapShotter {
     try {
       await this.driver.wait(this._until.elementIsVisible(element), timeout);
     } catch (error) {
-      console.log('');
+      console.log(''); // eslint-disable-line no-console // space for progress bar
       logger.error(
         'snapshotter',
         `❌  Unable to find the specified waitForElement element on the page! ❌ ${error}`
