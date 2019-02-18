@@ -1,9 +1,9 @@
 /* eslint-disable import/no-dynamic-require*/
 
 import fs from 'fs';
-import path from 'path';
 import jimp from 'jimp';
 import logger from './logger';
+import executeScript from './executeScript';
 
 export default class SnapShotter {
   constructor(
@@ -133,20 +133,6 @@ export default class SnapShotter {
     }
   }
 
-  async executeScript(script) {
-    try {
-      const scriptToExecute = require(path.resolve(script));
-      await scriptToExecute(this._driver, this._By);
-    } catch (error) {
-      logger.error(
-        'snapshotter',
-        `❌  Unable to run script for scenario: ${
-          this.label
-        } \n  due to: ${error}`
-      );
-    }
-  }
-
   getElementDimensions(selector) {
     return this._driver
       .findElement(this._By.css(selector))
@@ -172,6 +158,15 @@ export default class SnapShotter {
 
   writeScreenshot(filename, screenshot) {
     fs.writeFileSync(filename, screenshot, 'base64');
+  }
+
+  handleScriptError(error) {
+    logger.error(
+      'snapshotter',
+      `❌  Unable to run script for scenario: ${
+        this._label
+      } \n  due to: ${error}`
+    );
   }
 
   async takeSnap() {
@@ -206,13 +201,19 @@ export default class SnapShotter {
           height: this._height
         });
 
-      if (this._onBeforeScript) await this.executeScript(this._onBeforeScript);
+      if (this._onBeforeScript)
+        await executeScript(this._driver, this._onBeforeScript).catch(
+          this.handleScriptError
+        );
 
       if (this._cookies) await this.applyCookies();
 
       if (this._waitForElement) await this.waitForElement();
 
-      if (this._onReadyScript) await this.executeScript(this._onReadyScript);
+      if (this._onReadyScript)
+        await executeScript(this._driver, this._onReadyScript).catch(
+          this.handleScriptError
+        );
 
       if (this._hideElements) await this.hideTheSelectors();
 

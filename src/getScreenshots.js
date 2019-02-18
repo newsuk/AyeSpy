@@ -5,8 +5,10 @@ import ProgressBar from './progressBar';
 const onComplete = () => ProgressBar.tick();
 const onError = () => ProgressBar.stop();
 
-const generateSnapShotPromises = (SnapShotter, config) =>
-  config.scenarios.reduce((accum, scenario) => {
+const generateSnapShotPromises = (SnapShotter, config) => {
+  //config.onBeforeSuiteScript();
+
+  return config.scenarios.reduce((accum, scenario) => {
     scenarioValidator(scenario);
 
     scenario.viewports.forEach(viewport => {
@@ -39,6 +41,7 @@ const generateSnapShotPromises = (SnapShotter, config) =>
     });
     return accum;
   }, []);
+};
 
 async function getScreenshots(SnapShotter, config) {
   return new Promise(async resolve => {
