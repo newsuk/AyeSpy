@@ -3,7 +3,7 @@
 import fs from 'fs';
 import jimp from 'jimp';
 import logger from './logger';
-import executeScript from './executeScript';
+import { executeScriptWithDriver } from './executeScript';
 
 export default class SnapShotter {
   constructor(
@@ -202,7 +202,7 @@ export default class SnapShotter {
         });
 
       if (this._onBeforeScript)
-        await executeScript(this._driver, this._onBeforeScript).catch(
+        await executeScriptWithDriver(this._driver, this._onBeforeScript).catch(
           this.handleScriptError
         );
 
@@ -211,7 +211,7 @@ export default class SnapShotter {
       if (this._waitForElement) await this.waitForElement();
 
       if (this._onReadyScript)
-        await executeScript(this._driver, this._onReadyScript).catch(
+        await executeScriptWithDriver(this._driver, this._onReadyScript).catch(
           this.handleScriptError
         );
 

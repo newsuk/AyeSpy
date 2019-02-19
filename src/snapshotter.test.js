@@ -2,7 +2,7 @@
 import jimp from 'jimp';
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
-import executeScript from './executeScript';
+import { executeScriptWithDriver } from './executeScript';
 import logger from './logger';
 
 jest.mock('fs');
@@ -225,7 +225,7 @@ describe('The snapshotter', () => {
 
   it('Executes the onBefore script', async () => {
     const executeScriptMock = jest.fn();
-    executeScript.mockImplementation(executeScriptMock);
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
 
     const config = {
       gridUrl: 'https://lol.com',
@@ -249,7 +249,7 @@ describe('The snapshotter', () => {
 
   it('Executes the onReady script', async () => {
     const executeScriptMock = jest.fn();
-    executeScript.mockImplementation(executeScriptMock);
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
 
     const config = {
       gridUrl: 'https://lol.com',
@@ -275,7 +275,7 @@ describe('The snapshotter', () => {
     const executeScriptMock = () => {
       throw new Error('file not found');
     };
-    executeScript.mockImplementation(executeScriptMock);
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
@@ -330,7 +330,7 @@ describe('The snapshotter', () => {
     const executeScriptMock = () => {
       throw new Error('sad');
     };
-    executeScript.mockImplementation(executeScriptMock);
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
 
     try {
       await new SnapShotter(

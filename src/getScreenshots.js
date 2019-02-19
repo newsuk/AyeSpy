@@ -1,12 +1,13 @@
 import webdriver, { By, until } from 'selenium-webdriver';
 import scenarioValidator from './scenarioValidator';
 import ProgressBar from './progressBar';
+import { executeScript } from './executeScript';
 
 const onComplete = () => ProgressBar.tick();
 const onError = () => ProgressBar.stop();
 
 const generateSnapShotPromises = (SnapShotter, config) => {
-  //config.onBeforeSuiteScript();
+  if (config.onBeforeSuiteScript) executeScript(config.onBeforeSuiteScript);
 
   return config.scenarios.reduce((accum, scenario) => {
     scenarioValidator(scenario);

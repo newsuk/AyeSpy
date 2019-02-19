@@ -1,5 +1,5 @@
 /* globals jest expect */
-import executeScript from './executeScript';
+import { executeScriptWithDriver } from './executeScript';
 import onBeforeSuiteMock from './__mocks__/onBeforeSuiteMock.js';
 import { By } from './__mocks__/selenium-webdriver';
 
@@ -10,11 +10,11 @@ describe('executeScript', () => {
     jest.clearAllMocks();
   });
 
-  it('should execute a custom script', () => {
+  it('should execute a custom script with a driver', () => {
     const pathToScript = './src/__mocks__/onBeforeSuiteMock.js';
     const driverStub = {};
 
-    executeScript(driverStub, pathToScript);
+    executeScriptWithDriver(driverStub, pathToScript);
 
     expect(onBeforeSuiteMock).toHaveBeenCalledTimes(1);
     expect(onBeforeSuiteMock).toHaveBeenCalledWith(driverStub, By);
