@@ -1,5 +1,9 @@
 /* globals expect jest */
 import getScreenshots from './getScreenshots';
+import { executeScript } from './executeScript';
+import logger from './logger';
+
+jest.mock('./executeScript');
 
 const scenarioBuilder = scenariosToGenerate =>
   new Array(scenariosToGenerate).fill(null).map((_, index) => ({
@@ -64,6 +68,61 @@ describe('gets Screenshots', () => {
       return expect(Promise.all.mock.calls[0]).toEqual([
         [assertString, assertString]
       ]);
+    });
+  });
+
+  it('Runs the onBeforeSuiteScript once before all scenarios', () => {
+    class MockSnapshotter {
+      takeSnap() {
+        return jest.fn().mockImplementation(() => Promise.resolve());
+      }
+    }
+    const executeScriptMock = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve());
+    executeScript.mockImplementation(executeScriptMock);
+
+    const scenarioCount = 5;
+    const config = {
+      gridUrl: 'http://selenium-grid:4444/wd/hub',
+      baseline: './baseline',
+      latest: './latest',
+      generatedDiffs: './generatedDiffs',
+      report: './reports',
+      scenarios: scenarioBuilder(scenarioCount),
+      onBeforeSuiteScript: './src/__mocks__/onBeforeSuiteMock.js'
+    };
+
+    return getScreenshots(MockSnapshotter, config).then(() => {
+      return expect(executeScriptMock).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('logs an error if the On BeforeSuiteScript fails to run', () => {
+    class MockSnapshotter {
+      takeSnap() {
+        return jest.fn().mockImplementation(() => Promise.resolve());
+      }
+    }
+    const executeScriptMock = jest
+      .fn()
+      .mockImplementation(() => Promise.reject());
+    executeScript.mockImplementation(executeScriptMock);
+    logger.error = jest.fn();
+
+    const scenarioCount = 5;
+    const config = {
+      gridUrl: 'http://selenium-grid:4444/wd/hub',
+      baseline: './baseline',
+      latest: './latest',
+      generatedDiffs: './generatedDiffs',
+      report: './reports',
+      scenarios: scenarioBuilder(scenarioCount),
+      onBeforeSuiteScript: './src/__mocks__/onBeforeSuiteMock.js'
+    };
+
+    return getScreenshots(MockSnapshotter, config).then(() => {
+      return expect(logger.error).toHaveBeenCalled();
     });
   });
 });

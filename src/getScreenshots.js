@@ -1,14 +1,13 @@
 import webdriver, { By, until } from 'selenium-webdriver';
 import scenarioValidator from './scenarioValidator';
 import ProgressBar from './progressBar';
+import logger from './logger';
 import { executeScript } from './executeScript';
 
 const onComplete = () => ProgressBar.tick();
 const onError = () => ProgressBar.stop();
 
 const generateSnapShotPromises = (SnapShotter, config) => {
-  if (config.onBeforeSuiteScript) executeScript(config.onBeforeSuiteScript);
-
   return config.scenarios.reduce((accum, scenario) => {
     scenarioValidator(scenario);
 
@@ -44,8 +43,21 @@ const generateSnapShotPromises = (SnapShotter, config) => {
   }, []);
 };
 
+async function executeOnBeforeSuiteScript(scriptPath) {
+  if (scriptPath) {
+    await executeScript(scriptPath).catch(error => {
+      logger.error(
+        'getSnappshots',
+        `❌  Unable to run onBeforeSuite script:\n  due to: ${error}`
+      );
+    });
+  }
+}
+
 async function getScreenshots(SnapShotter, config) {
   return new Promise(async resolve => {
+    await executeOnBeforeSuiteScript(config.onBeforeSuiteScript);
+
     const promises = generateSnapShotPromises(SnapShotter, config);
 
     ProgressBar.setLength(promises.length);
