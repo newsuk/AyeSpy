@@ -234,8 +234,6 @@ describe('The snapshotter', () => {
       onBeforeScript: './src/__mocks__/onReadyScriptMock.js'
     };
 
-    const driver = new webdriver.Builder().build();
-
     const mockSnapshot = new SnapShotter(
       config,
       { webdriver, By, until },
@@ -245,16 +243,13 @@ describe('The snapshotter', () => {
     await mockSnapshot.takeSnap();
 
     expect(executeScriptMock).toBeCalledTimes(1);
-    expect(executeScriptMock).toHaveBeenCalledWith(
-      expect.objectContaining(driver),
-      config.onBeforeScript
-    );
+    expect(executeScriptMock.mock.calls[0][0]).toBeInstanceOf(Object);
+    expect(executeScriptMock.mock.calls[0][1]).toEqual(config.onBeforeScript);
   });
 
   it('Executes the onReady script', async () => {
     const executeScriptMock = jest.fn();
     executeScript.mockImplementation(executeScriptMock);
-    const driver = new webdriver.Builder().build();
 
     const config = {
       gridUrl: 'https://lol.com',
@@ -272,10 +267,8 @@ describe('The snapshotter', () => {
     await mockSnapshot.takeSnap();
 
     expect(executeScriptMock).toBeCalledTimes(1);
-    expect(executeScriptMock).toHaveBeenCalledWith(
-      expect.objectContaining(driver),
-      config.onReadyScript
-    );
+    expect(executeScriptMock.mock.calls[0][0]).toBeInstanceOf(Object);
+    expect(executeScriptMock.mock.calls[0][1]).toEqual(config.onReadyScript);
   });
 
   it('Throws an error if incorrect script file is provided', async () => {
