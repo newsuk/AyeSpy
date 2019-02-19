@@ -84,6 +84,7 @@ Example config to run Aye Spy:
         ],
         "waitForElement": "#section-news", // explicitly wait for a selector to be visible before snap
         "onReadyScript": "./scripts/clickSelector.js", // run a script before snap
+        "onBeforeSuiteScript": "./scripts/login.js" // run a script before the entire suite (this script takes no parameters)
         "wait": 2000 // implicitly wait before taking a snap
       }
     ]
