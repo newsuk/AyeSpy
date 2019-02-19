@@ -1,20 +1,22 @@
 /* globals jest expect */
 import executeScript from './executeScript';
+import onBeforeSuiteMock from './__mocks__/onBeforeSuiteMock.js';
+import { By } from './__mocks__/selenium-webdriver';
 
-jest.mock('require');
+jest.mock('onBeforeSuiteMock');
 
 describe('executeScript', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should execute a custom script', async () => {
-    const pathToScript = '../__mocks__/onReadyScriptMock.js';
+  it('should execute a custom script', () => {
+    const pathToScript = './src/__mocks__/onBeforeSuiteMock.js';
     const driverStub = {};
-    const scriptStub = jest.fn();
-    require.mockImplementation(() => scriptStub);
 
-    await executeScript(driverStub, pathToScript);
-    expect(scriptStub).toHaveBeenCalledTimes(1);
+    executeScript(driverStub, pathToScript);
+
+    expect(onBeforeSuiteMock).toHaveBeenCalledTimes(1);
+    expect(onBeforeSuiteMock).toHaveBeenCalledWith(driverStub, By);
   });
 });
