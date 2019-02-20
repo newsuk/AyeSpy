@@ -76,10 +76,8 @@ describe('gets Screenshots', () => {
         return jest.fn().mockImplementation(() => Promise.resolve());
       }
     }
-    const executeScriptMock = jest
-      .fn()
-      .mockImplementation(() => Promise.resolve());
-    executeScript.mockImplementation(executeScriptMock);
+
+    executeScript.mockImplementation(() => Promise.resolve());
 
     const scenarioCount = 5;
     const config = {
@@ -93,11 +91,14 @@ describe('gets Screenshots', () => {
     };
 
     return getScreenshots(MockSnapshotter, config).then(() => {
-      return expect(executeScriptMock).toHaveBeenCalledTimes(1);
+      expect(executeScript).toHaveBeenCalledTimes(1);
+      expect(executeScript).toHaveBeenCalledWith(
+        './src/__mocks__/onBeforeSuiteMock.js'
+      );
     });
   });
 
-  it.only('throws an error if the On BeforeSuiteScript fails to run', () => {
+  it('throws an error if the On BeforeSuiteScript fails to run', () => {
     class MockSnapshotter {
       takeSnap() {
         return jest.fn().mockImplementation(() => Promise.resolve());
