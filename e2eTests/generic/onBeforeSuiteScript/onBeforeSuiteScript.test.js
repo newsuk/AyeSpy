@@ -33,8 +33,6 @@ describe('e2e Tests running onBeforeSuiteScript', () => {
 
     expect(stdout).toEqual(expect.stringContaining('Script has Run!'));
     expect(exitCode).toEqual(0);
-    const latestDirFiles = fs.readdirSync(dirPath);
-    expect(latestDirFiles).toEqual(['image-large.png']);
   });
 
 });
