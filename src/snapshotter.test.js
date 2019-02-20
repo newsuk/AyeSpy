@@ -2,11 +2,12 @@
 import jimp from 'jimp';
 import webdriver, { By, until } from './__mocks__/selenium-webdriver';
 import SnapShotter from './snapshotter';
-import seleniumMock from './__mocks__/onReadyScriptMock';
+import { executeScriptWithDriver } from './executeScript';
 import logger from './logger';
 
 jest.mock('fs');
 jest.mock('jimp');
+jest.mock('./executeScript');
 
 const onComplete = () => {};
 const onError = () => {};
@@ -223,6 +224,9 @@ describe('The snapshotter', () => {
   });
 
   it('Executes the onBefore script', async () => {
+    const executeScriptMock = jest.fn();
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
+
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
@@ -237,10 +241,18 @@ describe('The snapshotter', () => {
       onError
     );
     await mockSnapshot.takeSnap();
-    expect(seleniumMock).toBeCalledWith(mockSnapshot.driver, By);
+
+    expect(executeScriptMock).toBeCalledTimes(1);
+    expect(executeScriptMock).toBeCalledWith(
+      mockSnapshot.driver,
+      config.onBeforeScript
+    );
   });
 
   it('Executes the onReady script', async () => {
+    const executeScriptMock = jest.fn();
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
+
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
@@ -255,10 +267,19 @@ describe('The snapshotter', () => {
       onError
     );
     await mockSnapshot.takeSnap();
-    expect(seleniumMock).toBeCalledWith(mockSnapshot.driver, By);
+
+    expect(executeScriptMock).toBeCalledTimes(1);
+    expect(executeScriptMock).toBeCalledWith(
+      mockSnapshot.driver,
+      config.onReadyScript
+    );
   });
 
   it('Throws an error if incorrect script file is provided', async () => {
+    const executeScriptMock = () => {
+      throw new Error('file not found');
+    };
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
     const config = {
       gridUrl: 'https://lol.com',
       url: 'http://cps-render-ci.elb.tnl-dev.ntch.co.uk/',
@@ -310,9 +331,10 @@ describe('The snapshotter', () => {
   it('runs the onError callback after an error screenshot', async () => {
     const mockOnError = jest.fn();
 
-    SnapShotter.prototype.executeScript = () => {
+    const executeScriptMock = () => {
       throw new Error('sad');
     };
+    executeScriptWithDriver.mockImplementation(executeScriptMock);
 
     try {
       await new SnapShotter(

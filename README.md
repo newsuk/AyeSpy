@@ -84,6 +84,7 @@ Example config to run Aye Spy:
         ],
         "waitForElement": "#section-news", // explicitly wait for a selector to be visible before snap
         "onReadyScript": "./scripts/clickSelector.js", // run a script before snap
+        "onBeforeSuiteScript": "./scripts/login.js" // run a script before the entire suite (this script takes no parameters)
         "wait": 2000 // implicitly wait before taking a snap
       }
     ]
@@ -119,6 +120,12 @@ async function clickElement (browser, By) {
 
 module.exports = clickElement;
 ```
+
+## on Before Suite Script
+
+In cases where you need to run a script once, before the entire suite is launched (e.g. setting up global objects or setting up external services), pass the path of the script into `onBeforeSuiteScript` in the config file.
+
+Unlike the onReady and onBefore script options, onBeforeSuite script does not have a driver passed to it as an argument. Any external dependencies will need to be set up independantly inside the script.
 
 ## Mobile Emulator
 

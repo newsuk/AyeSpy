@@ -1,5 +1,8 @@
 /* globals expect jest */
 import getScreenshots from './getScreenshots';
+import { executeScript } from './executeScript';
+
+jest.mock('./executeScript');
 
 const scenarioBuilder = scenariosToGenerate =>
   new Array(scenariosToGenerate).fill(null).map((_, index) => ({
@@ -65,5 +68,56 @@ describe('gets Screenshots', () => {
         [assertString, assertString]
       ]);
     });
+  });
+
+  it('Runs the onBeforeSuiteScript once before all scenarios', () => {
+    class MockSnapshotter {
+      takeSnap() {
+        return jest.fn().mockImplementation(() => Promise.resolve());
+      }
+    }
+
+    executeScript.mockImplementation(() => Promise.resolve());
+
+    const scenarioCount = 5;
+    const config = {
+      gridUrl: 'http://selenium-grid:4444/wd/hub',
+      baseline: './baseline',
+      latest: './latest',
+      generatedDiffs: './generatedDiffs',
+      report: './reports',
+      scenarios: scenarioBuilder(scenarioCount),
+      onBeforeSuiteScript: './src/__mocks__/onBeforeSuiteMock.js'
+    };
+
+    return getScreenshots(MockSnapshotter, config).then(() => {
+      expect(executeScript).toHaveBeenCalledTimes(1);
+      expect(executeScript).toHaveBeenCalledWith(
+        './src/__mocks__/onBeforeSuiteMock.js'
+      );
+    });
+  });
+
+  it('throws an error if the On BeforeSuiteScript fails to run', () => {
+    class MockSnapshotter {
+      takeSnap() {
+        return jest.fn().mockImplementation(() => Promise.resolve());
+      }
+    }
+
+    executeScript.mockImplementation(() => Promise.reject());
+
+    const scenarioCount = 5;
+    const config = {
+      gridUrl: 'http://selenium-grid:4444/wd/hub',
+      baseline: './baseline',
+      latest: './latest',
+      generatedDiffs: './generatedDiffs',
+      report: './reports',
+      scenarios: scenarioBuilder(scenarioCount),
+      onBeforeSuiteScript: './src/__mocks__/onBeforeSuiteMock.js'
+    };
+
+    return expect(getScreenshots(MockSnapshotter, config)).rejects.toThrow();
   });
 });
