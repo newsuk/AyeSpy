@@ -243,8 +243,10 @@ describe('The snapshotter', () => {
     await mockSnapshot.takeSnap();
 
     expect(executeScriptMock).toBeCalledTimes(1);
-    expect(executeScriptMock.mock.calls[0][0]).toBeInstanceOf(Object);
-    expect(executeScriptMock.mock.calls[0][1]).toEqual(config.onBeforeScript);
+    expect(executeScriptMock).toBeCalledWith(
+      mockSnapshot.driver,
+      config.onBeforeScript
+    );
   });
 
   it('Executes the onReady script', async () => {
@@ -267,8 +269,10 @@ describe('The snapshotter', () => {
     await mockSnapshot.takeSnap();
 
     expect(executeScriptMock).toBeCalledTimes(1);
-    expect(executeScriptMock.mock.calls[0][0]).toBeInstanceOf(Object);
-    expect(executeScriptMock.mock.calls[0][1]).toEqual(config.onReadyScript);
+    expect(executeScriptMock).toBeCalledWith(
+      mockSnapshot.driver,
+      config.onReadyScript
+    );
   });
 
   it('Throws an error if incorrect script file is provided', async () => {

@@ -1,7 +1,6 @@
 /* globals expect jest */
 import getScreenshots from './getScreenshots';
 import { executeScript } from './executeScript';
-import logger from './logger';
 
 jest.mock('./executeScript');
 
@@ -98,17 +97,14 @@ describe('gets Screenshots', () => {
     });
   });
 
-  it('logs an error if the On BeforeSuiteScript fails to run', () => {
+  it.only('throws an error if the On BeforeSuiteScript fails to run', () => {
     class MockSnapshotter {
       takeSnap() {
         return jest.fn().mockImplementation(() => Promise.resolve());
       }
     }
-    const executeScriptMock = jest
-      .fn()
-      .mockImplementation(() => Promise.reject());
-    executeScript.mockImplementation(executeScriptMock);
-    logger.error = jest.fn();
+
+    executeScript.mockImplementation(() => Promise.reject());
 
     const scenarioCount = 5;
     const config = {
@@ -121,8 +117,6 @@ describe('gets Screenshots', () => {
       onBeforeSuiteScript: './src/__mocks__/onBeforeSuiteMock.js'
     };
 
-    return getScreenshots(MockSnapshotter, config).then(() => {
-      return expect(logger.error).toHaveBeenCalled();
-    });
+    return expect(getScreenshots(MockSnapshotter, config)).rejects.toThrow();
   });
 });
