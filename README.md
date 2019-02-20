@@ -125,7 +125,7 @@ module.exports = clickElement;
 
 In cases where you need to run a script once, before the entire suite is launched (e.g. setting up global objects or setting up external services), pass the path of the script into `onBeforeSuiteScript` in the config file.
 
-Unlike the onReady and onBefore script options onBeforeSuite scripts do not have any driver exposed and take no arguments. Any external dependancys will need to be set up independantly inside the script.
+Unlike the onReady and onBefore script options, onBeforeSuite script does not have a driver passed to it as an argument. Any external dependencies will need to be set up independantly inside the script.
 
 ## Mobile Emulator
 
