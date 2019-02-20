@@ -15,7 +15,7 @@ export function executeScript(script) {
   });
 }
 
-export async function executeScriptWithDriver(driver, script) {
+export function executeScriptWithDriver(driver, script) {
   const scriptToExecute = loadFile(script);
   return scriptToExecute(driver, By);
 }

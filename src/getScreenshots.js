@@ -43,20 +43,19 @@ const generateSnapShotPromises = (SnapShotter, config) => {
   }, []);
 };
 
-async function executeOnBeforeSuiteScript(scriptPath) {
-  if (scriptPath) {
-    await executeScript(scriptPath).catch(error => {
-      logger.error(
-        'getSnappshots',
-        `❌  Unable to run onBeforeSuite script:\n  due to: ${error}`
-      );
-    });
-  }
+function executeOnBeforeSuiteScript(scriptPath) {
+  executeScript(scriptPath).catch(error => {
+    logger.error(
+      'getScreenshots',
+      `❌  Unable to run onBeforeSuite script:\n  due to: ${error}`
+    );
+  });
 }
 
 async function getScreenshots(SnapShotter, config) {
   return new Promise(async resolve => {
-    await executeOnBeforeSuiteScript(config.onBeforeSuiteScript);
+    if (config.onBeforeSuiteScript)
+      await executeOnBeforeSuiteScript(config.onBeforeSuiteScript);
 
     const promises = generateSnapShotPromises(SnapShotter, config);
 
