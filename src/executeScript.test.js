@@ -10,21 +10,62 @@ describe('executeScript', () => {
     jest.clearAllMocks();
   });
 
-  it('should execute a custom script with a driver', () => {
-    const pathToScript = './src/__mocks__/onBeforeSuiteMock.js';
-    const driverStub = {};
+  describe('withDriver', () => {
+    let pathToScript;
+    let driverStub;
 
-    executeScriptWithDriver(driverStub, pathToScript);
+    beforeEach(() => {
+      pathToScript = './src/__mocks__/onBeforeSuiteMock.js';
+      driverStub = {};
+    });
 
-    expect(onBeforeSuiteMock).toHaveBeenCalledTimes(1);
-    expect(onBeforeSuiteMock).toHaveBeenCalledWith(driverStub, By);
+    it('should execute a custom script', async () => {
+      await executeScriptWithDriver(driverStub, pathToScript);
+
+      expect(onBeforeSuiteMock).toHaveBeenCalledTimes(1);
+      expect(onBeforeSuiteMock).toHaveBeenCalledWith(driverStub, By);
+    });
+
+    it('should throw an error if the given script does not exist', () => {
+      pathToScript = './nonExistantScript.js';
+
+      return expect(
+        executeScriptWithDriver(driverStub, pathToScript)
+      ).rejects.toThrow(
+        'Error: Could not find the file: ./nonExistantScript.js'
+      );
+    });
+
+    it('should throw an error if the script fails', () => {
+      pathToScript = './src/__mocks__/failingOnBeforeSuiteMock.js';
+
+      return expect(
+        executeScriptWithDriver(driverStub, pathToScript)
+      ).rejects.toThrow('Boom!');
+    });
   });
 
-  it('should execute a custom script without a driver', () => {
-    const pathToScript = './src/__mocks__/onBeforeSuiteMock.js';
+  describe('withoutDriver', () => {
+    let pathToScript = './src/__mocks__/onBeforeSuiteMock.js';
 
-    executeScript(pathToScript);
+    it('should execute a custom script', () => {
+      executeScript(pathToScript);
 
-    expect(onBeforeSuiteMock).toHaveBeenCalledTimes(1);
+      return expect(onBeforeSuiteMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw an error if the given script does not exist', () => {
+      pathToScript = './nonExistantScript.js';
+
+      return expect(executeScript(pathToScript)).rejects.toThrow(
+        'Error: Could not find the file: ./nonExistantScript.js'
+      );
+    });
+
+    it('should throw an error if the given script fails', () => {
+      pathToScript = './src/__mocks__/failingOnBeforeSuiteMock.js';
+
+      return expect(executeScript(pathToScript)).rejects.toThrow('Boom!');
+    });
   });
 });
