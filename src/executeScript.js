@@ -7,23 +7,20 @@ const loadFile = script => {
     throw new Error(`Error: Could not find the file: ${script}`);
   return require(path.resolve(script)); // eslint-disable-line
 };
+
 export function executeScript(script) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const scriptToExecute = loadFile(script);
-      await scriptToExecute();
-      resolve();
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return execute(script);
 }
 
 export function executeScriptWithDriver(driver, script) {
+  return execute(script, driver, By);
+}
+
+function execute(script, ...params) {
   return new Promise(async (resolve, reject) => {
     try {
       const scriptToExecute = loadFile(script);
-      await scriptToExecute(driver, By);
+      await scriptToExecute(...params);
       resolve();
     } catch (error) {
       reject(error);
