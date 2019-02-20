@@ -121,6 +121,12 @@ async function clickElement (browser, By) {
 module.exports = clickElement;
 ```
 
+## on Before Suite Script
+
+In cases where you need to run a script once, before the entire suite is launched (e.g. setting up global objects or setting up external services), pass the path of the script into `onBeforeSuiteScript` in the config file.
+
+Unlike the onReady and onBefore script options onBeforeSuite scripts do not have any driver exposed and take no arguments. Any external dependancys will need to be set up independantly inside the script.
+
 ## Mobile Emulator
 
 For scenarios where you need to use a mobile emulator, pass in the device name to the property `mobileDeviceName` on your config. Note that at the moment, this will only work with the chrome browser.
