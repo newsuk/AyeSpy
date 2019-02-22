@@ -93,7 +93,8 @@ describe('gets Screenshots', () => {
     return getScreenshots(MockSnapshotter, config).then(() => {
       expect(executeScript).toHaveBeenCalledTimes(1);
       expect(executeScript).toHaveBeenCalledWith(
-        './src/__mocks__/onBeforeSuiteMock.js'
+        './src/__mocks__/onBeforeSuiteMock.js',
+        config
       );
     });
   });

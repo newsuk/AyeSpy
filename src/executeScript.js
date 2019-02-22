@@ -8,15 +8,11 @@ const loadFile = script => {
   return require(path.resolve(script)); // eslint-disable-line
 };
 
-export function executeScript(script) {
-  return execute(script);
-}
-
 export function executeScriptWithDriver(driver, script) {
-  return execute(script, driver, By);
+  return executeScript(script, driver, By);
 }
 
-function execute(script, ...params) {
+export function executeScript(script, ...params) {
   return new Promise(async (resolve, reject) => {
     try {
       const scriptToExecute = loadFile(script);
