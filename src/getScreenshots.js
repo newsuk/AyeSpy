@@ -42,8 +42,8 @@ const generateSnapShotPromises = (SnapShotter, config) => {
   }, []);
 };
 
-function executeOnBeforeSuiteScript(scriptPath) {
-  return executeScript(scriptPath).catch(error => {
+function executeOnBeforeSuiteScript(config) {
+  return executeScript(config.onBeforeSuiteScript, config).catch(error => {
     throw new Error(
       `❌  Unable to run onBeforeSuite script:\n  due to: ${error}`
     );
@@ -54,7 +54,7 @@ async function getScreenshots(SnapShotter, config) {
   return new Promise(async (resolve, reject) => {
     if (config.onBeforeSuiteScript) {
       try {
-        await executeOnBeforeSuiteScript(config.onBeforeSuiteScript);
+        await executeOnBeforeSuiteScript(config);
       } catch (error) {
         onError();
         return reject(error);
