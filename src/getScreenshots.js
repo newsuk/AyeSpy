@@ -27,6 +27,7 @@ const generateSnapShotPromises = (SnapShotter, config) => {
             removeElements: scenario.removeElements,
             hideElements: scenario.hideElements,
             waitForElement: scenario.waitForElement,
+            waitForIFrameElement: scenario.waitForIFrameElement,
             url: scenario.url,
             onBeforeScript: scenario.onBeforeScript,
             onReadyScript: scenario.onReadyScript,

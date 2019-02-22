@@ -34,5 +34,4 @@ describe('e2e Tests running onBeforeSuiteScript', () => {
     expect(stdout).toEqual(expect.stringContaining('Script has Run!'));
     expect(exitCode).toEqual(0);
   });
-
 });

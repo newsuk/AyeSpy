@@ -20,6 +20,7 @@ export default class SnapShotter {
       removeElements,
       hideElements,
       waitForElement,
+      waitForIFrameElement,
       wait,
       url = 'http://localhost:80',
       viewportLabel = 'viewportLabel',
@@ -42,6 +43,7 @@ export default class SnapShotter {
     this._removeElements = removeElements;
     this._hideElements = hideElements;
     this._waitForElement = waitForElement;
+    this._waitForIFrameElement = waitForIFrameElement;
     this._url = url;
     this.wait = wait;
     this._onBeforeScript = onBeforeScript;
@@ -133,6 +135,31 @@ export default class SnapShotter {
     }
   }
 
+  async waitForIFrameElement() {
+    const timeout = 10000;
+    const frame = await this.driver.findElement(
+      this._By.css(this._waitForIFrameElement.frame)
+    );
+
+    try {
+      await this.driver.wait(this._until.ableToSwitchToFrame(frame), timeout);
+      await this.driver.wait(
+        this._until.elementLocated(
+          this._By.css(this._waitForIFrameElement.element)
+        ),
+        timeout
+      );
+    } catch (error) {
+      console.log(''); // eslint-disable-line no-console // space for progress bar
+      logger.error(
+        'snapshotter',
+        `❌  Unable to find the specified waitForIFrameElement element on the page! ❌ ${error}`
+      );
+    } finally {
+      await this.driver.switchTo().defaultContent();
+    }
+  }
+
   getElementDimensions(selector) {
     return this._driver
       .findElement(this._By.css(selector))
@@ -209,6 +236,8 @@ export default class SnapShotter {
       if (this._cookies) await this.applyCookies();
 
       if (this._waitForElement) await this.waitForElement();
+
+      if (this._waitForIFrameElement) await this.waitForIFrameElement();
 
       if (this._onReadyScript)
         await executeScriptWithDriver(this._driver, this._onReadyScript).catch(
