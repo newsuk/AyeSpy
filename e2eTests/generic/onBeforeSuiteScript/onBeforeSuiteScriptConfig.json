@@ -6,7 +6,7 @@
   "report": "./e2eTests/generic/onBeforeSuiteScript/reports",
   "remoteBucketName": "aye-spy",
   "remoteRegion": "eu-west-1",
-  "onBeforeSuiteScript": "./e2eTests/generic/onBeforeSuiteScript/script.js",
+  "onBeforeSuiteScript": "./e2eTests/generic/onBeforeSuiteScript/onBeforeSuiteScript.js",
   "scenarios": [
     {
       "url": "http://ayespy_report:4000",
