@@ -37,6 +37,7 @@ class Builder {
         return wrap;
       },
       findElement: element => new Element(element),
+      switchTo: jest.fn().mockReturnValue({ defaultContent: jest.fn() }),
       setRect: jest.fn(),
       getRect: jest.fn(),
       get: jest.fn(),
@@ -55,7 +56,9 @@ const By = {
 };
 
 const until = {
-  elementIsVisible: selector => selector
+  elementIsVisible: selector => selector,
+  elementLocated: jest.fn(),
+  ableToSwitchToFrame: () => true
 };
 
 export default {

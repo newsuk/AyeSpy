@@ -137,11 +137,11 @@ export default class SnapShotter {
 
   async waitForIFrameElement() {
     const timeout = 10000;
-    const frame = await this.driver.findElement(
-      this._By.css(this._waitForIFrameElement.frame)
-    );
 
     try {
+      const frame = await this.driver.findElement(
+        this._By.css(this._waitForIFrameElement.frame)
+      );
       await this.driver.wait(this._until.ableToSwitchToFrame(frame), timeout);
       await this.driver.wait(
         this._until.elementLocated(
