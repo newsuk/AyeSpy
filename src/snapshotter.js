@@ -135,20 +135,28 @@ export default class SnapShotter {
     }
   }
 
+  switchToIFrame(selector, timeout) {
+    return this.driver.wait(
+      this._until.ableToSwitchToFrame(this._By.css(selector)),
+      timeout
+    );
+  }
+
+  waitToLocateElement(selector, timeout) {
+    return this.driver.wait(
+      this._until.elementLocated(this._By.css(selector)),
+      timeout
+    );
+  }
+
   async waitForIFrameElement() {
     const timeout = 10000;
 
+    const { frame, element } = this._waitForIFrameElement;
+
     try {
-      const frame = await this.driver.findElement(
-        this._By.css(this._waitForIFrameElement.frame)
-      );
-      await this.driver.wait(this._until.ableToSwitchToFrame(frame), timeout);
-      await this.driver.wait(
-        this._until.elementLocated(
-          this._By.css(this._waitForIFrameElement.element)
-        ),
-        timeout
-      );
+      await this.switchToIFrame(frame, timeout);
+      await this.waitToLocateElement(element, timeout);
     } catch (error) {
       console.log(''); // eslint-disable-line no-console // space for progress bar
       logger.error(
