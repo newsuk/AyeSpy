@@ -10,10 +10,17 @@ jest.mock('jimp');
 jest.mock('./executeScript');
 
 const onComplete = jest.fn();
+const onInfo = jest.fn();
 const onError = jest.fn();
 
 function createMockSnapshotter(config) {
-  return new SnapShotter(config, { webdriver, By, until }, onComplete, onError);
+  return new SnapShotter(
+    config,
+    { webdriver, By, until },
+    onComplete,
+    onInfo,
+    onError
+  );
 }
 
 describe('The snapshotter', () => {
@@ -276,11 +283,12 @@ describe('The snapshotter', () => {
       onReadyScript: '/brokenfile.js'
     };
 
-    logger.error = jest.fn();
+    logger.info = jest.fn();
     const mockSnapshot = createMockSnapshotter(config);
     await mockSnapshot.takeSnap();
 
-    expect(logger.error.mock.calls.length).toBe(1);
+    expect(logger.error.mock.calls.length).toBe(0);
+    expect(logger.info.mock.calls.length).toBe(1);
   });
 
   it('Returns the mobile browser capabilities when called with a mobile emulator', async () => {
@@ -318,7 +326,9 @@ describe('The snapshotter', () => {
         onBeforeScript: 'willthrow'
       }).takeSnap();
     } finally {
-      expect(onError.mock.calls.length).toBe(1);
+      expect(onError.mock.calls.length).toBe(0);
+      expect(onInfo.mock.calls.length).toBe(1);
+      expect(onComplete.mock.calls.length).toBe(1);
     }
   });
 
