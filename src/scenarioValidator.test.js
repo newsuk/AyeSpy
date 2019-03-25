@@ -5,11 +5,11 @@ describe('Validate Scenario', () => {
   it('Valid Scenario', () => {
     const scenario = {
       url: 'http://lol.co.uk/',
-      label: 'scenario-height-missing',
+      label: 'scenario-valid-viewport',
       viewports: [{ width: 1024, height: 800, label: 'large' }]
     };
 
-    expect(scenarioValidator(scenario));
+    expect(() => scenarioValidator(scenario)).not.toThrow();
   });
   it('Scenario missing height', () => {
     const scenario = {
