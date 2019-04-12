@@ -43,12 +43,15 @@ function isMobileConfigValid(config) {
   let isMobileConfigCorrect = true;
 
   config.scenarios.forEach(scenario => {
-    if (config.browser !== 'chrome' && scenario.mobileDeviceName) {
+    if (
+      config.browser !== 'chrome' &&
+      (scenario.mobileDeviceName || scenario.chromeCustomCapabilites)
+    ) {
       logger.info(
         'configValidator',
         `❗️  ${
           config.browser
-        } not supported on the mobile emulator. Please change your browser to chrome.`
+        } not supported on the mobile emulator / custom capabilities. Please change your browser to chrome.`
       );
       isMobileConfigCorrect = false;
     }

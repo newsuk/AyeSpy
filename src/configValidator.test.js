@@ -114,6 +114,20 @@ describe('The Config Validator', () => {
     expect(isMobileConfigValid(config)).toBe(true);
   });
 
+  it('config returns true for valid chrome custom capabilities', () => {
+    const config = {
+      browser: 'chrome',
+      scenarios: [
+        {
+          url: 'http:/google.com/',
+          label: 'homepage',
+          chromeCustomCapabilites: '{args:["incognito"]}}'
+        }
+      ]
+    };
+    expect(isMobileConfigValid(config)).toBe(true);
+  });
+
   it('config returns false for invalid mobile configs', () => {
     const config = {
       browser: 'firefox',
@@ -122,6 +136,20 @@ describe('The Config Validator', () => {
           url: 'http:/google.com/',
           label: 'homepage',
           mobileDeviceName: 'iPhone 7 Plus'
+        }
+      ]
+    };
+    expect(isMobileConfigValid(config)).toBe(false);
+  });
+
+  it('config returns false for invalid custom google capabilities', () => {
+    const config = {
+      browser: 'firefox',
+      scenarios: [
+        {
+          url: 'http:/google.com/',
+          label: 'homepage',
+          chromeCustomCapabilites: '{args:["incognito"]}}'
         }
       ]
     };

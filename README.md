@@ -135,6 +135,18 @@ Unlike the onReady and onBefore script options, onBeforeSuite script does not ha
 
 For scenarios where you need to use a mobile emulator, pass in the device name to the property `mobileDeviceName` on your config. Note that at the moment, this will only work with the chrome browser.
 
+## Chrome Custom Options
+
+For scenarios where you would like to add chrome custom options for example like different user-agent etc. pass the whole json configuration to the property `chromeCustomCapabilites` on your config. Note this will only work with the chrome browser.
+```
+  "chromeCustomCapabilites": {
+    "mobileEmulation": {
+      "deviceMetrics": { "width": 360, "height": 1600, "pixelRatio": 3.0 },
+      "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"
+    },
+    "args": ["incognito"]
+  }
+```
 ## Running
 
 ### Supported Browsers: Firefox | Chrome
