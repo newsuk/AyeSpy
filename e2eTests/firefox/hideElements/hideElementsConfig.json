@@ -8,7 +8,7 @@
     {
       "url": "http://ayespy_report:4000",
       "label": "hide-element",
-      "viewports": [{"height": 2400, "width": 1024, "label": "large"}],
+      "viewports": [{"height": 635, "width": 1024, "label": "large"}],
       "hideElements": [".screenshot"]
     }
   ]
