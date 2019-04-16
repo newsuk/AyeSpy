@@ -48,6 +48,8 @@ services:
       - chrome
     networks:
       - selenium-grid
+    volumes:
+      - ./:/home/node/app/e2eTests/
 
   ayespy_report:
     image: nginx
