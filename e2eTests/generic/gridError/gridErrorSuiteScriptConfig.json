@@ -1,0 +1,15 @@
+{
+  "gridUrl": "",
+  "baseline": "./e2eTests/generic/gridError/baseline",
+  "latest": "./e2eTests/generic/gridError/latest",
+  "generatedDiffs": "./e2eTests/generic/gridError/generatedDiffs",
+  "report": "./e2eTests/generic/gridError/reports",
+  "remoteBucketName": "aye-spy",
+  "remoteRegion": "eu-west-1",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:4000",
+      "label": "image",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
+    }]
+}
