@@ -1,0 +1,16 @@
+{
+  "gridUrl": "http://hub:4444/wd/hub",
+  "baseline": "./e2eTests/generic/nonExistScript/baseline",
+  "latest": "./e2eTests/generic/nonExistScript/latest",
+  "generatedDiffs": "./e2eTests/generic/nonExistScript/generatedDiffs",
+  "report": "./e2eTests/generic/nonExistScript/reports",
+  "remoteBucketName": "aye-spy",
+  "remoteRegion": "eu-west-1",
+  "scenarios": [
+    {
+      "url": "http://ayespy_report:4000",
+      "label": "image",
+      "onReadyScript": "./nonExistScript.js",
+      "viewports": [{"height": 2400, "width": 1024, "label": "large"}]
+    }]
+}

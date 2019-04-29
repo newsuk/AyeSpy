@@ -10,12 +10,6 @@ describe('e2e Tests taking snaps locally', () => {
 
   beforeEach(() => {
     dirPath = path.resolve(config.latest);
-
-    if (fs.existsSync(dirPath)) {
-      const files = fs.readdirSync(dirPath);
-      files.forEach(file => fs.unlinkSync(`${dirPath}/${file}`));
-      fs.rmdirSync(dirPath);
-    }
   });
 
   it('should successfully take a snapshot', async () => {
