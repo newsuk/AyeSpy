@@ -20,16 +20,27 @@ coverage/*
 
 # e2eTest folders 
 e2eTests/generic/updateBaseline/baseline/*
+e2eTests/generic/gridError/baseline/*
+e2eTests/generic/nonExistScript/baseline/*
 e2eTests/chrome/snap/latest/*
 e2eTests/firefox/snap/latest/*
 
 e2eTests/generic/compare/generatedDiffs/*
 e2eTests/generic/compare/reports/*
-
+e2eTests/generic/onBeforeSuiteScript/latest/*
+e2eTests/generic/gridError/latest/*
+e2eTests/generic/nonExistScript/latest/*
 
 e2eTests/chrome/removeElements/latest/*
 e2eTests/firefox/removeElements/latest/*
-
+e2eTests/chrome/removeElements/generatedDiffs/*
+e2eTests/firefox/removeElements/generatedDiffs/*
+e2eTests/chrome/removeElements/reports/*
+e2eTests/firefox/removeElements/reports/*
 
 e2eTests/chrome/hideElements/latest/*
 e2eTests/firefox/hideElements/latest/*
+e2eTests/chrome/hideElements/generatedDiffs/*
+e2eTests/firefox/hideElements/generatedDiffs/*
+e2eTests/chrome/hideElements/reports/*
+e2eTests/firefox/hideElements/reports/*

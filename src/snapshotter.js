@@ -30,6 +30,7 @@ export default class SnapShotter {
     },
     selenium,
     onComplete,
+    onInfo,
     onError
   ) {
     this._label = label;
@@ -55,6 +56,7 @@ export default class SnapShotter {
     this._until = selenium.until;
     this._webdriver = selenium.webdriver;
     this._onComplete = onComplete;
+    this._onInfo = onInfo;
     this._onError = onError;
 
     const browserCapability = this._browser.includes('chrome')
@@ -215,38 +217,28 @@ export default class SnapShotter {
     );
   }
 
-  async takeSnap() {
+  async driverSetup() {
+    this._driver = await new this._webdriver.Builder()
+      .usingServer(this._gridUrl)
+      .withCapabilities(this._capability)
+      .build();
+    logger.verbose(
+      'Snapshotting',
+      `${this._label}-${this._viewportLabel} : Url: ${this._url}`
+    );
+    await this.driver.get(this._url);
+
+    await this._driver
+      .manage()
+      .window()
+      .setRect({
+        width: this._width,
+        height: this._height
+      });
+  }
+
+  async preSnapshootSetup() {
     try {
-      this._driver = await new this._webdriver.Builder()
-        .usingServer(this._gridUrl)
-        .withCapabilities(this._capability)
-        .build();
-    } catch (err) {
-      this._onError();
-      logger.error(
-        'snapshotter',
-        `❌  Unable to connect to the grid at ${this._gridUrl}`
-      );
-      process.exitCode = 1;
-      return;
-    }
-
-    try {
-      logger.verbose(
-        'Snapshotting',
-        `${this._label}-${this._viewportLabel} : Url: ${this._url}`
-      );
-
-      await this.driver.get(this._url);
-
-      await this._driver
-        .manage()
-        .window()
-        .setRect({
-          width: this._width,
-          height: this._height
-        });
-
       if (this._onBeforeScript)
         await executeScriptWithDriver(this._driver, this._onBeforeScript).catch(
           this.handleScriptError
@@ -268,10 +260,32 @@ export default class SnapShotter {
       if (this._removeElements) await this.removeTheSelectors();
 
       if (this.wait) await this.snooze(this.wait);
+    } catch (err) {
+      this._onInfo();
+      logger.info(`Pre-snapshoot error: ${err}`);
+    }
+  }
 
-      const filename = `${this._latest}/${this._label}-${
-        this._viewportLabel
-      }.png`;
+  async takeSnap() {
+    const filename = `${this._latest}/${this._label}-${
+      this._viewportLabel
+    }.png`;
+
+    try {
+      await this.driverSetup();
+    } catch (err) {
+      this._onError();
+      logger.error(
+        'snapshotter',
+        `❌  Unable to connect to the grid at ${this._gridUrl}`
+      );
+      process.exitCode = 1;
+      return;
+    }
+
+    await this.preSnapshootSetup();
+
+    try {
       const screenshot = await this.driver.takeScreenshot();
 
       if (this._cropToSelector) {
@@ -283,8 +297,6 @@ export default class SnapShotter {
       } else {
         this.writeScreenshot(filename, screenshot);
       }
-
-      this._onComplete();
     } catch (err) {
       this._onError();
       logger.error(
@@ -293,10 +305,10 @@ export default class SnapShotter {
           this._viewportLabel
         }! ❌   : ${err}`
       );
-
       process.exitCode = 1;
     } finally {
-      await this.driver.quit();
+      if (this.driver) await this.driver.quit();
     }
+    this._onComplete();
   }
 }
