@@ -17,6 +17,7 @@ const generateSnapShotPromises = (SnapShotter, config) => {
             label: scenario.label,
             latest: config.latest,
             browser: config.browser,
+            chromeCustomCapabilites: scenario.chromeCustomCapabilites,
             mobileDeviceName: scenario.mobileDeviceName,
             gridUrl: config.gridUrl,
             height: viewport.height,

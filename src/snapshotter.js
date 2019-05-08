@@ -14,6 +14,7 @@ export default class SnapShotter {
       width = 700,
       height = 1024,
       browser = 'chrome',
+      chromeCustomCapabilites,
       mobileDeviceName,
       cookies,
       cropToSelector,
@@ -38,6 +39,7 @@ export default class SnapShotter {
     this._width = width;
     this._height = height;
     this._browser = browser;
+    this._chromeCustomCapabilites = chromeCustomCapabilites;
     this._mobileDeviceName = mobileDeviceName;
     this._cookies = cookies;
     this._cropToSelector = cropToSelector;
@@ -61,9 +63,10 @@ export default class SnapShotter {
       ? this._webdriver.Capabilities.chrome
       : this._webdriver.Capabilities.firefox;
 
-    this._capability = mobileDeviceName
-      ? this.getMobileBrowserCapability()
-      : browserCapability();
+    if (mobileDeviceName) this._capability = this.getMobileBrowserCapability();
+    else if (chromeCustomCapabilites)
+      this._capability = this.getCustomGoogleCapability();
+    else this._capability = browserCapability();
   }
 
   get driver() {
@@ -80,6 +83,14 @@ export default class SnapShotter {
         },
         args: ['incognito']
       }
+    };
+  }
+
+  getCustomGoogleCapability() {
+    return {
+      browserName: 'chrome',
+      version: '*',
+      'goog:chromeOptions': this._chromeCustomCapabilites
     };
   }
 
