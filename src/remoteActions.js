@@ -197,6 +197,49 @@ const uploadRemoteKeys = async (key, config) => {
   ).catch(err => logger.error('remote-actions', err));
 };
 
+const archiveRemoteKeys = async (key, config) => {
+  const imageDir = await resolveImagePath(key, config);
+  AWS.config.update({
+    region: config.remoteRegion
+  });
+  const s3 = new AWS.S3();
+  const files = fs.readdirSync(imageDir).map(file => `${imageDir}/${file}`);
+  const date = new Date();
+
+  if (files.length !== 0) {
+    logger.info(
+      'remote-actions',
+      `${files.length} images to be archived to bucket: archive/${date}/${key}`
+    );
+  }
+
+  return Promise.all(
+    files.map(file => {
+      const fileStream = fs.createReadStream(file);
+
+      fileStream.on('error', err => {
+        logger.error('remote-actions', err);
+      });
+
+      const dir = `${config.browser}/default/archive/${date}`;
+
+      logger.info(
+        'remote-actions',
+        `Uploading to S3: ${dir}/${key}/${path.basename(file)}`
+      );
+
+      const uploadParams = {
+        Bucket: config.remoteBucketName,
+        Key: `${dir}/${key}/${path.basename(file)}`,
+        Body: fileStream,
+        ContentType: 'image/png'
+      };
+
+      return s3.putObject(uploadParams).promise();
+    })
+  ).catch(err => logger.error('remote-actions', err));
+};
+
 export {
   createRemote,
   deleteRemoteKeys,
@@ -205,5 +248,6 @@ export {
   listRemoteKeys,
   resolveImagePath,
   uploadRemoteKeys,
+  archiveRemoteKeys,
   updateRemotePolicy
 };
