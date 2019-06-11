@@ -97,7 +97,7 @@ program
         logger.error('run', error);
       });
       if (options.remote) await uploadRemoteKeys('baseline', config);
-      if (options.archive) await archiveRemoteKeys('basleine', config);
+      if (options.archive) await archiveRemoteKeys('baseline', config);
     } catch (err) {
       handleError(err);
     }
