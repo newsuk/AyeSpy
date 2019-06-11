@@ -45,6 +45,7 @@ program
   .option('br, --branch [branch]', 'Specific branch for generating reports')
   .action(async options => {
     try {
+      console.log('I AM LNKED');
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
@@ -83,6 +84,7 @@ program
   .option('a, --archive', 'add updated baseline images to an archive folder')
   .action(async options => {
     try {
+      console.log('I AM LNKED');
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
 
       if (options.browser) config.browser = options.browser;
@@ -115,6 +117,7 @@ program
   .option('br, --branch [branch]', 'Specific branch for generating reports')
   .action(async options => {
     try {
+      console.log('I AM LNKED');
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
       const reporter = new Reporter();
 
