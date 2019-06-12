@@ -204,7 +204,7 @@ const archiveRemoteKeys = async (key, config) => {
   });
   const s3 = new AWS.S3();
   const files = fs.readdirSync(imageDir).map(file => `${imageDir}/${file}`);
-  const date = new Date().toLocaleString();
+  const date = new Date();
 
   if (files.length !== 0) {
     logger.info(
