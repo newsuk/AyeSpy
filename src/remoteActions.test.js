@@ -180,9 +180,10 @@ describe('Remote interactions', () => {
       'Sun Dec 10 2017 00:00:00 GMT+0000 (Greenwich Mean Time)'
     );
     global.Date = jest.fn(() => mockedDate);
+
     const keyValue = {
       baseline:
-        'chrome/default/archive/Sun Dec 10 2017 00:00:00 GMT+0000 (Greenwich Mean Time)/baseline/mock/resolved/path/file1'
+        'chrome/default/archive/Sunday, December 10, 2017, 12:00 AM/baseline/mock/resolved/path/file1'
     };
 
     const config = {
