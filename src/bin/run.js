@@ -8,7 +8,7 @@ import SnapShotter from '../snapshotter';
 import getScreenshots from '../getScreenshots';
 import updateBaselineShots from '../updateBaselineShots';
 import { generateLocalReport, generateRemoteReport } from '../generateReport';
-import { uploadRemoteKeys } from '../remoteActions';
+import { uploadRemoteKeys, archiveRemoteKeys } from '../remoteActions';
 import {
   createBucket,
   createComparisons,
@@ -80,6 +80,7 @@ program
   .option('c, --config [config]', 'Path to your config')
   .option('--run [optional]', 'Filter scenarios based on label name')
   .option('r, --remote', 'Upload new baseline to remote storage')
+  .option('a, --archive', 'add updated baseline images to an archive folder')
   .action(async options => {
     try {
       const config = require(path.resolve(options.config)); // eslint-disable-line import/no-dynamic-require
@@ -96,6 +97,7 @@ program
         logger.error('run', error);
       });
       if (options.remote) await uploadRemoteKeys('baseline', config);
+      if (options.archive) await archiveRemoteKeys('baseline', config);
     } catch (err) {
       handleError(err);
     }
