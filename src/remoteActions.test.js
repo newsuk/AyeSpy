@@ -176,7 +176,9 @@ describe('Remote interactions', () => {
   });
 
   it('archives the remote Keys', async () => {
-    const mockedDate = new Date(2017, 11, 10);
+    const mockedDate = new Date(
+      'Sun Dec 10 2017 00:00:00 GMT+0000 (Greenwich Mean Time)'
+    );
     global.Date = jest.fn(() => mockedDate);
     const keyValue = {
       baseline:
