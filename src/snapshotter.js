@@ -174,7 +174,9 @@ export default class SnapShotter {
       console.log(''); // eslint-disable-line no-console // space for progress bar
       logger.error(
         'snapshotter',
-        `❌  Unable to find the specified waitForIFrameElement element on the page! ❌ ${error}`
+        `❌  Unable to find the specified waitForIFrameElement element on the page for ${
+          this._label
+        } ❌ ${error}`
       );
     } finally {
       await this.driver.switchTo().defaultContent();
