@@ -5,8 +5,7 @@ import {
   listRemoteKeys,
   deleteRemoteKeys,
   fetchRemoteKeys,
-  uploadRemoteKeys,
-  archiveRemoteKeys
+  uploadRemoteKeys
 } from './remoteActions';
 
 jest.mock('fs');
@@ -167,39 +166,6 @@ describe('Remote interactions', () => {
     });
     for (const [key, value] of Object.entries(keyValue)) {
       await uploadRemoteKeys(key, config)
-        .then(promises => promises[0])
-        .then(obj => obj.Key)
-        .then(name => {
-          expect(name).toEqual(value);
-        });
-    }
-  });
-
-  it('archives the remote Keys', async () => {
-    const mockedDate = new Date(
-      'Sun Dec 10 2017 00:00:00 GMT+0000 (Greenwich Mean Time)'
-    );
-    global.Date = jest.fn(() => mockedDate);
-    const keyValue = {
-      baseline:
-        'chrome/default/archive/Sun Dec 10 2017 00:00:00 GMT+0000 (Greenwich Mean Time)/baseline/mock/resolved/path/file1'
-    };
-
-    const config = {
-      remoteRegion: 'region',
-      browser: 'chrome',
-      baseline: './e2eTests/baseline',
-      latest: './e2eTests/latest',
-      generatedDiffs: './e2eTests/generatedDiffs',
-      branch: 'default'
-    };
-    const file = ['file1'];
-    fs.readdirSync.mockReturnValue(file);
-    fs.createReadStream.mockReturnValue({
-      on: () => {}
-    });
-    for (const [key, value] of Object.entries(keyValue)) {
-      await archiveRemoteKeys(key, config)
         .then(promises => promises[0])
         .then(obj => obj.Key)
         .then(name => {
