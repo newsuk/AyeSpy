@@ -18,7 +18,8 @@ const createRemote = config => {
 
   const params = {
     Bucket: config.remoteBucketName,
-    ACL: 'public-read-write',
+    ACL:
+      config.remoteBucketAccess === 'public' ? 'public-read-write' : 'private',
     CreateBucketConfiguration: {
       LocationConstraint: config.remoteRegion
     }
@@ -37,30 +38,32 @@ const createRemote = config => {
 };
 
 const updateRemotePolicy = config => {
-  AWS.config.update({ region: config.remoteRegion });
-  const s3 = new AWS.S3();
-  const Policy = `{
-    "Version": "2008-10-17",
-    "Id": "AyeSpyPolicy",
-    "Statement": [
-        {
-            "Sid": "Stmt1397633323327",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::${config.remoteBucketName}/*"
-        }
-    ]
-  }`;
+  if (config.remote && config.remoteBucketAccess === 'public') {
+    AWS.config.update({ region: config.remoteRegion });
+    const s3 = new AWS.S3();
+    const Policy = `{
+      "Version": "2008-10-17",
+      "Id": "AyeSpyPolicy",
+      "Statement": [
+          {
+              "Sid": "Stmt1397633323327",
+              "Effect": "Allow",
+              "Principal": {
+                  "AWS": "*"
+              },
+              "Action": "s3:GetObject",
+              "Resource": "arn:aws:s3:::${config.remoteBucketName}/*"
+          }
+      ]
+    }`;
 
-  const params = {
-    Bucket: config.remoteBucketName,
-    Policy
-  };
+    const params = {
+      Bucket: config.remoteBucketName,
+      Policy
+    };
 
-  s3.putBucketPolicy(params).promise();
+    return s3.putBucketPolicy(params).promise();
+  }
 };
 
 function createDeletionParams(filteredResults, config) {

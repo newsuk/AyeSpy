@@ -55,6 +55,7 @@ describe('The Config Validator', () => {
   it('remote config returns true for valid configs', () => {
     const config = {
       remoteBucketName: 'aye-spy',
+      remoteBucketAccess: 'private',
       remoteRegion: 'eu-west-1'
     };
     expect(isRemoteConfigValid(config)).toBe(true);
@@ -83,6 +84,7 @@ describe('The Config Validator', () => {
   it('resolves a correct config', done => {
     const config = {
       remoteBucketName: 'test',
+      remoteBucketAccess: 'public',
       remoteRegion: 'test',
       gridUrl: 'http://selenium.com:4444/wd/hub',
       baseline: './e2eTests/generateHtmlReport/baseline',
@@ -90,12 +92,7 @@ describe('The Config Validator', () => {
       generatedDiffs: './e2eTests/generateHtmlReport/generatedDiffs',
       report: './e2eTests/generateHtmlReport/reports',
       browser: 'chrome',
-      scenarios: [
-        {
-          url: 'http:/google.com/',
-          label: 'homepage'
-        }
-      ]
+      scenarios: [{ url: 'http:/google.com/', label: 'homepage' }]
     };
     validateConfig(config, true).then(done);
   });
