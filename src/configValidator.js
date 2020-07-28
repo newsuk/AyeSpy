@@ -9,7 +9,11 @@ const mandatoryLocalFields = [
   'scenarios',
   'browser'
 ];
-const mandatoryRemoteFields = ['remoteBucketName', 'remoteRegion'];
+const mandatoryRemoteFields = [
+  'remoteBucketName',
+  'remoteRegion',
+  'remoteBucketAccess'
+];
 
 function isValid(missingConfigFields) {
   if (missingConfigFields.length > 0) {

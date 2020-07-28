@@ -52,6 +52,8 @@ program
         ? (config.branch = options.branch)
         : (config.branch = 'default');
 
+      config.remoteBucketAccess = config.remoteBucketAccess || 'public';
+
       validateConfig(config, options.remote);
 
       if (options.run) config.scenarios = filterToScenario(config, options.run);
@@ -87,6 +89,8 @@ program
 
       if (options.browser) config.browser = options.browser;
       config.branch = 'default';
+
+      config.remoteBucketAccess = config.remoteBucketAccess || 'public';
 
       validateConfig(config, options.remote);
 
@@ -124,6 +128,8 @@ program
         : (config.branch = 'default');
 
       config.remote = options.remote;
+      config.remoteBucketAccess = config.remoteBucketAccess || 'public';
+
       validateConfig(config, config.remote);
 
       if (options.run) config.scenarios = filterToScenario(config, options.run);
