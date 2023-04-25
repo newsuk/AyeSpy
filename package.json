@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/newsuk/AyeSpy#readme",
   "dependencies": {
-    "aws-sdk": "^2.252.1",
+    "aws-sdk": "^2.1354.0",
     "cli-progress": "2.1.1",
     "commander": "^2.15.1",
     "inquirer": "6.2.0",
@@ -54,7 +54,7 @@
     "looks-same": "^3.3.0",
     "npmlog": "^4.1.2",
     "pug": "^2.0.3",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^4.0.0"
   },
   "devDependencies": {
     "coveralls": "3.0.2",
