@@ -4,6 +4,7 @@ import ProgressBar from './progressBar';
 import { executeScript } from './executeScript';
 
 const onComplete = () => ProgressBar.tick();
+const onInfo = () => {};
 const onError = () => ProgressBar.stop();
 
 const generateSnapShotPromises = (SnapShotter, config) => {
@@ -36,6 +37,7 @@ const generateSnapShotPromises = (SnapShotter, config) => {
           },
           { webdriver, By, until },
           onComplete,
+          onInfo,
           onError
         )
       );
