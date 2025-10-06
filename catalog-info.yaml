@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: AyeSpy
+  description:
+  annotations:
+    circleci.com/project-slug: github/newsuk/AyeSpy
+    backstage.io/source-location: url:https://github.com/newsuk/AyeSpy/
+    github.com/team-slug: newsuk/AyeSpy
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/productivity-hub-metrics-enabled: 'true'
+  tags:
+    - bu:newsuk
+spec:
+  type: service
+  lifecycle: production
+  
